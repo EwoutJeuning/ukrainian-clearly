@@ -26,6 +26,11 @@ pnpm-debug.log*
 # Private working files (kept local, never published)
 01_claude-code-website-prompt
 02_website-house-style
+# any further numbered prompt files (03_..., 04_..., ...)
+[0-9][0-9]_*
 plan.md
 log.md
 docs/conventions.md
+
+# Claude Code local state and agent worktrees
+.claude/
