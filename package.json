@@ -12,7 +12,10 @@
     "astro": "astro",
     "check": "astro check",
     "check:links": "node scripts/check-links.mjs",
-    "check:fonts": "node scripts/check-font-glyphs.mjs"
+    "check:fonts": "node scripts/check-font-glyphs.mjs",
+    "lint:content": "node scripts/lint-content.mjs",
+    "lint:content:self-test": "node scripts/lint-content.mjs --self-test",
+    "verify": "npm run build && npm run check && npm run check:links && npm run check:fonts && npm run lint:content:self-test && npm run lint:content"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",

@@ -1,15 +1,36 @@
-/* Grammar and vocabulary tables: <div class="grammar-table" role="region"> wrapping a <table>. */
+/*
+ * Grammar and vocabulary tables.
+ *
+ * <GrammarTable> renders:
+ *   <div class="grammar-table grammar-table--captioned">
+ *     <div class="grammar-table__caption" id="…">caption</div>
+ *     <div class="grammar-table__scroll" role="region" aria-labelledby="…">
+ *       <table aria-labelledby="…">…</table>
+ * so the caption stays in view when the table scrolls sideways.
+ * A bare <div class="grammar-table" role="region"> wrapping a <table> (e.g. the
+ * vocabulary pages, with a visually hidden <caption>) is the scroller itself.
+ */
 .grammar-table {
   max-width: 100%;
-  overflow-x: auto;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
+}
+
+.grammar-table[role='region'],
+.grammar-table__scroll {
+  overflow-x: auto;
+  border-radius: calc(var(--radius-md) - 1px);
   /* Hint that more content is off to the side. */
   background:
     linear-gradient(to right, var(--color-bg) 30%, transparent) left / 2rem 100% no-repeat local,
     linear-gradient(to left, var(--color-bg) 30%, transparent) right / 2rem 100% no-repeat local,
     radial-gradient(farthest-side at 0 50%, rgb(20 34 56 / 0.14), transparent) left / 0.75rem 100% no-repeat scroll,
     radial-gradient(farthest-side at 100% 50%, rgb(20 34 56 / 0.14), transparent) right / 0.75rem 100% no-repeat scroll;
+}
+
+.grammar-table--captioned > .grammar-table__scroll {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
 }
 
 .grammar-table table {
@@ -24,7 +45,7 @@
   text-align: left;
 }
 
-.grammar-table .grammar-table__caption {
+.grammar-table__caption {
   padding: var(--space-3) var(--space-4);
   font-weight: var(--weight-semibold);
   color: var(--color-text);

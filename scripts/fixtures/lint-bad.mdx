@@ -1,0 +1,39 @@
+---
+title: Мо́ва, a lint fixture  # expect: stress-in-heading
+description: Seeded faults for `node scripts/lint-content.mjs --self-test`. Each faulty line names the rules it must trigger in an "expect" comment; every other line must stay clean.
+---
+
+{/* Not content: this file lives outside src/content and is never built. */}
+
+Latin look-alike letter: <Uk>мовa</Uk> (the last letter is Latin a). {/* expect: latin-in-cyrillic */}
+
+Latin look-alike in a capitalised word: <Uk>Kиїв</Uk>. {/* expect: latin-in-cyrillic */}
+
+Precomposed stress copied from the PDF: <Uk>мóва</Uk>. {/* expect: precomposed-stress */}
+
+Stress mark after a consonant: <Uk>м́ова</Uk>. {/* expect: stress-position */}
+
+Two stress marks in one word: <Uk>мо́ва́</Uk>. {/* expect: double-stress */}
+
+ASCII apostrophe: <Uk>м'ясо</Uk>. {/* expect: apostrophe */}
+
+Modifier-letter apostrophe: <Uk>пʼять</Uk>. {/* expect: apostrophe */}
+
+Russian-only letter: <Uk>мыло</Uk>. {/* expect: russian-letter */}
+
+## Украї́на {/* expect: stress-in-heading, unmarked-ukrainian */}
+
+Ukrainian in plain prose without a language mark: мова. {/* expect: unmarked-ukrainian */}
+
+A deliberate mention is allowed with a marker: <Uk>ы</Uk> is not Ukrainian. {/* lint-ignore-line russian-letter */}
+
+{/* lint-ignore-next-line */}
+Everything on this line is ignored: м'ясо, ёж, мовa.
+
+The marker can be limited to one rule; other rules still fire: <Uk>ёж</Uk> and <Uk>м'ясо</Uk>. {/* lint-ignore-line russian-letter */} {/* expect: apostrophe */}
+
+Inline code is not checked: `м'ясо`, `ы`.
+
+<Example uk="м’я́со" en="it's meat, isn't it" />
+
+<GrammarTable caption="Fixture" headers={['Word', 'Meaning']} rows={[['п’ять', 'five'], ['мо́ва', "language's"]]} ukColumns={[0]} />
