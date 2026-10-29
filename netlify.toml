@@ -1,0 +1,8 @@
+# Netlify build settings (host chosen by the user, 2026-10-29; plan.md A17).
+# Nothing is deployed until the user connects a Netlify site and approves.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"
