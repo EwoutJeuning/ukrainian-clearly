@@ -24,9 +24,14 @@ export function articleSlug(article: Article): string {
   return article.id.split('/').pop() ?? article.id;
 }
 
-/** An article whose file is named `index` is its section's landing page. */
+/**
+ * An article whose file is named `index` is its section's landing page.
+ * The glob loader drops a trailing `/index` from ids (`grammar/index.mdx` gets
+ * the id `grammar`), so check the file path, not the id.
+ */
 export function isSectionIndex(article: Article): boolean {
-  return articleSlug(article) === 'index';
+  if (article.filePath) return /(^|\/)index\.mdx?$/.test(article.filePath);
+  return article.id === article.data.section || articleSlug(article) === 'index';
 }
 
 export function articleUrl(article: Article): string {
