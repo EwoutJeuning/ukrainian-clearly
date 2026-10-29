@@ -16,8 +16,12 @@
  *   | …    | …      |
  *
  *   </GrammarTable>
- *   The caption is inserted into the slotted <table> as a real <caption>.
  *   Mark Ukrainian cells yourself (<Uk>…</Uk>) in the slot form.
+ *
+ * The visible caption sits above the scroll region, so it stays in view when
+ * a wide table scrolls sideways on a phone. The region and the <table> both
+ * take their accessible name from it via aria-labelledby. With hideCaption,
+ * a visually hidden <caption> inside the table is used instead.
  *
  * Styles: src/styles/tables.css (global, shared with vocabulary tables).
  */
@@ -38,15 +42,15 @@ let hash = 5381;
 for (const ch of caption) hash = ((hash * 33) ^ ch.codePointAt(0)!) >>> 0;
 const id = `grammar-table-${hash.toString(36)}`;
 const captionId = `${id}-caption`;
-const captionClass = hideCaption ? 'visually-hidden' : 'grammar-table__caption';
 const escape = (s: string) =>
   s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
 
 let slotHtml: string | undefined;
 if (!rows && Astro.slots.has('default')) {
   const html = await Astro.slots.render('default');
-  const captionHtml = `<caption id="${captionId}" class="${captionClass}">${escape(caption)}</caption>`;
-  slotHtml = html.replace(/<table(\s[^>]*)?>/, (m) => `${m}${captionHtml}`);
+  const captionHtml = hideCaption ? `<caption id="${captionId}" class="visually-hidden">${escape(caption)}</caption>` : '';
+  const labelAttr = hideCaption ? '' : ` aria-labelledby="${captionId}"`;
+  slotHtml = html.replace(/<table(\s[^>]*)?>/, (m) => `${m.slice(0, -1)}${labelAttr}>${captionHtml}`);
   if (slotHtml === html) {
     throw new Error(`<GrammarTable caption="${caption}">: the slot must contain a <table>.`);
   }
@@ -54,40 +58,51 @@ if (!rows && Astro.slots.has('default')) {
 const lang = (col: number) => (ukColumns.includes(col) ? 'uk' : undefined);
 ---
 
-<div class="grammar-table" role="region" aria-labelledby={captionId} tabindex="0">
+<div class:list={['grammar-table', { 'grammar-table--captioned': !hideCaption }]}>
   {
-    slotHtml ? (
-      <Fragment set:html={slotHtml} />
-    ) : (
-      <table>
-        <caption id={captionId} class={captionClass}>
-          {caption}
-        </caption>
-        {headers && (
-          <thead>
-            <tr>
-              {headers.map((h) => (
-                <th scope="col">{h}</th>
-              ))}
-            </tr>
-          </thead>
-        )}
-        <tbody>
-          {(rows ?? []).map((row) => (
-            <tr>
-              {row.map((cell, col) =>
-                col === 0 && rowHeaders ? (
-                  <th scope="row" lang={lang(col)}>
-                    {cell}
-                  </th>
-                ) : (
-                  <td lang={lang(col)}>{cell}</td>
-                ),
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
+    !hideCaption && (
+      <div id={captionId} class="grammar-table__caption">
+        {caption}
+      </div>
     )
   }
+  <div class="grammar-table__scroll" role="region" aria-labelledby={captionId} tabindex="0">
+    {
+      slotHtml ? (
+        <Fragment set:html={slotHtml} />
+      ) : (
+        <table aria-labelledby={hideCaption ? undefined : captionId}>
+          {hideCaption && (
+            <caption id={captionId} class="visually-hidden">
+              {caption}
+            </caption>
+          )}
+          {headers && (
+            <thead>
+              <tr>
+                {headers.map((h) => (
+                  <th scope="col">{h}</th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {(rows ?? []).map((row) => (
+              <tr>
+                {row.map((cell, col) =>
+                  col === 0 && rowHeaders ? (
+                    <th scope="row" lang={lang(col)}>
+                      {cell}
+                    </th>
+                  ) : (
+                    <td lang={lang(col)}>{cell}</td>
+                  ),
+                )}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )
+    }
+  </div>
 </div>

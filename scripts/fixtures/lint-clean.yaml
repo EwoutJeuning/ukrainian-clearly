@@ -1,0 +1,6 @@
+# A clean glossary-style YAML fixture.
+term: Stress mark
+short: The acute accent (U+0301) placed after a vowel, as in мо́ва.
+ukTerm: на́голос
+# A plain (unquoted, single-line) scalar, so the trailing marker is a YAML comment.
+explanation: Russian writes ы; Ukrainian does not.  # lint-ignore-line russian-letter

@@ -1,0 +1,43 @@
+---
+title: A clean lint fixture
+description: Must produce no errors and no warnings in `node scripts/lint-content.mjs --self-test`.
+---
+
+English prose with a marked word: <Uk>мо́ва</Uk>, an apostrophe in <Uk>м’я́со</Uk> and <Uk>п’ять</Uk>, and ordinary English quotes: it's "fine", 'quoted', café.
+
+Transliteration may carry a stress mark on Latin letters: móva.
+
+## Examples
+
+<Example uk="Це украї́нська мо́ва." en="This is the Ukrainian language." translit="tse ukrainska mova" />
+
+<Example en="the Ukrainian language">
+  украї́нська <strong>мо́ва</strong>
+</Example>
+
+<ExampleList title="Words with an apostrophe">
+  <Example uk="м’я́со" en="meat" />
+  <Example uk="сім’я́" en="family" note="Not сі́м’я (seed)." />
+</ExampleList>
+
+<Note type="remember">
+  Mark stress with U+0301 after the vowel, as in <Uk>вода́</Uk>, and write <span lang="uk">п’ять</span> with ’.
+</Note>
+
+<GrammarTable
+  caption="Nominative and plural"
+  headers={['Singular', 'Plural']}
+  rows={[
+    ['вода́', 'во́ди'],
+    ['ха́та', 'ха́ти'],
+  ]}
+  ukColumns={[0, 1]}
+/>
+
+| Word | Meaning |
+| ---- | ------- |
+| мо́ва | language |
+
+```text
+Code is not checked: м'ясо, ы.
+```

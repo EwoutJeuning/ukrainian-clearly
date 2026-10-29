@@ -55,6 +55,11 @@ const hasNote = Boolean(note) || Astro.slots.has('note');
     color: var(--color-text);
   }
 
+  /* The example text is already semibold; `bolder` would jump to 900. */
+  .example :global(:is(strong, b)) {
+    font-weight: var(--weight-bold);
+  }
+
   .example__translit {
     margin-top: var(--space-1);
     font-size: var(--text-sm);

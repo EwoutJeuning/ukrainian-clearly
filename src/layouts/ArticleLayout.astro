@@ -78,7 +78,7 @@ const updatedText = data.updated.toLocaleDateString('en-GB', {
   </div>
   {hasAfter && <slot name="after" />}
 
-  <Fragment slot="end">
+  <div slot="end" class="end-matter">
     {
       sources.length > 0 && (
         <section class="end-section" aria-labelledby="sources">
@@ -108,13 +108,24 @@ const updatedText = data.updated.toLocaleDateString('en-GB', {
     <p class="updated">
       Last updated <time datetime={updated}>{updatedText}</time>
     </p>
-  </Fragment>
+  </div>
 </PageLayout>
 
 <style>
+  /* End matter (sources, related topics, date) is set apart from the article
+     body by a rule; its headings stay h2 at the same size as body h2s. */
+  .end-matter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+    padding-top: var(--space-12);
+    border-top: 2px solid var(--color-border);
+  }
+
   .end-section h2 {
     margin-bottom: var(--space-4);
-    font-size: var(--text-h3);
+    font-size: var(--text-h2);
   }
 
   .related-list > :global(:last-child) {
