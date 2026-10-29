@@ -1,0 +1,11 @@
+{
+  "title": "The Unicode Standard, Version 18.0.0, Chapter 6: Writing Systems and Punctuation (6.2 General Punctuation, Apostrophes)",
+  "author": "The Unicode Consortium",
+  "publisher": "The Unicode Consortium",
+  "url": "https://www.unicode.org/versions/Unicode18.0.0/core-spec/chapter-6/",
+  "language": "en",
+  "type": "other",
+  "accessed": "2026-10-29",
+  "usedFor": "The difference between U+2019 RIGHT SINGLE QUOTATION MARK (preferred for a punctuation apostrophe) and U+02BC MODIFIER LETTER APOSTROPHE (preferred where the apostrophe is a modifier letter), and the note that U+2019 between letters does not separate words.",
+  "notes": "Does not discuss Ukrainian specifically."
+}
