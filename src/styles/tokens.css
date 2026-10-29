@@ -28,10 +28,10 @@
   /* Focus ring: dark blue, never yellow on white. */
   --color-focus: #004494;
 
-  /* Typography. --font-inter and --font-manrope come from the Astro fonts API
+  /* Typography. --font-noto-sans and --font-manrope come from the Astro fonts API
      (astro.config.mjs) and already end in a system sans-serif stack.
-     Headings list Inter after Manrope: Manrope lacks U+0301 (stress mark). */
-  --font-body: var(--font-inter, system-ui, 'Segoe UI', Roboto, Arial, sans-serif);
+     Headings list the body font after Manrope: Manrope lacks U+0301 (stress mark). */
+  --font-body: var(--font-noto-sans, system-ui, 'Segoe UI', Roboto, Arial, sans-serif);
   --font-heading: var(--font-manrope), var(--font-body);
   --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
 

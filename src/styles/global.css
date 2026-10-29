@@ -129,8 +129,8 @@ pre {
   font-size: 0.9em;
 }
 
-/* Ukrainian text: same family as surrounding text. Stress marks need Inter
-   (Manrope lacks U+0301), which the font stacks already provide. */
+/* Ukrainian text: same family as surrounding text. Stress marks need the body
+   font, Noto Sans (Manrope lacks U+0301), which the font stacks already provide. */
 :lang(uk) {
   font-variant-ligatures: common-ligatures;
 }

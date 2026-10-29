@@ -28,7 +28,7 @@ export const getStaticPaths = (() => {
 const glyphLines = ['Ґґ Єє Іі Її', 'м’ясо, п’ять', 'мо́ва, украї́нська'];
 const fonts = [
   { name: 'Manrope (headings)', family: 'var(--font-heading)', weights: [600, 700, 800] },
-  { name: 'Inter (body)', family: 'var(--font-body)', weights: [400, 500, 600, 700] },
+  { name: 'Noto Sans (body)', family: 'var(--font-body)', weights: [400, 500, 600, 700] },
 ];
 const swatches = [
   ['--color-bg', '#FFFFFF'],
@@ -64,7 +64,7 @@ const tocDemo = [
       <h2 id="glyphs">Font glyph test</h2>
       <p>
         Every line should render in the named font. The stress mark (U+0301) is not in Manrope; in headings it falls
-        back to Inter by design (see astro.config.mjs).
+        back to Noto Sans by design (see astro.config.mjs).
       </p>
       {
         fonts.map((f) => (

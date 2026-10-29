@@ -22,7 +22,7 @@ const SUBSETS = ['latin', 'latin-ext', 'cyrillic', 'cyrillic-ext'];
  * file:// URLs that the font fetcher then passes to fetch(), which fails
  * (CannotFetchFontFile). The local provider reads files from disk instead.
  *
- * @param {string} cssEntry  e.g. '@fontsource-variable/inter/wght.css'
+ * @param {string} cssEntry  e.g. '@fontsource-variable/noto-sans/wght.css'
  * @param {'normal' | 'italic'} style
  */
 function fontsourceVariants(cssEntry, style) {
@@ -75,16 +75,21 @@ export default defineConfig({
   fonts: [
     {
       provider: fontProviders.local(),
-      name: 'Inter',
-      cssVariable: '--font-inter',
+      // Body and Ukrainian examples. Noto Sans, not Inter: Inter (both the
+      // Fontsource subset and the full rsms release) positions the combining
+      // acute U+0301 after Cyrillic vowels instead of over them (HarfBuzz and
+      // Chromium both confirm), which breaks stress marks. `npm run check:fonts`
+      // tests mark placement.
+      name: 'Noto Sans',
+      cssVariable: '--font-noto-sans',
       fallbacks: systemSans,
       options: {
         variants: nonEmpty(
           [
-            ...fontsourceVariants('@fontsource-variable/inter/wght.css', 'normal'),
-            ...fontsourceVariants('@fontsource-variable/inter/wght-italic.css', 'italic'),
+            ...fontsourceVariants('@fontsource-variable/noto-sans/wght.css', 'normal'),
+            ...fontsourceVariants('@fontsource-variable/noto-sans/wght-italic.css', 'italic'),
           ],
-          'Inter',
+          'Noto Sans',
         ),
       },
     },
@@ -93,9 +98,9 @@ export default defineConfig({
       name: 'Manrope',
       cssVariable: '--font-manrope',
       // No fallbacks here on purpose: --font-heading in src/styles/tokens.css
-      // is "var(--font-manrope), var(--font-inter)", so anything Manrope lacks
+      // is "var(--font-manrope), var(--font-body)", so anything Manrope lacks
       // (notably the combining acute U+0301 used for stress marks) falls back
-      // to Inter and then the system stack, not straight to a system font.
+      // to Noto Sans and then the system stack. Keep stress marks out of headings.
       fallbacks: [],
       options: {
         variants: fontsourceVariants('@fontsource-variable/manrope/wght.css', 'normal'),

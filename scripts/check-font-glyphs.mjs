@@ -1,13 +1,24 @@
-// Verifies that the self-hosted Manrope and Inter WOFF2 files actually contain
-// the glyphs Ukrainian text needs. Only the subsets configured in
+// Verifies that the self-hosted Manrope and Noto Sans WOFF2 files actually
+// contain the glyphs Ukrainian text needs, and that stress marks are placed
+// correctly.
+
+// Part 1, glyph presence: Only the subsets configured in
 // astro.config.mjs are considered. For each character, the @font-face rules
 // whose unicode-range covers it are tried (last defined first, as browsers do),
 // and the character passes if one of those files has the glyph in its cmap.
+//
+// Part 2, stress-mark placement: shapes every Ukrainian vowel + U+0301 with
+// HarfBuzz (the shaper Chromium, Firefox and Android use) and checks that the
+// mark's centre falls within the vowel's advance box. Glyph presence alone is
+// not enough: Inter has U+0301 but draws it after the vowel (мо́ва put the accent
+// on в), which is why the body font is Noto Sans.
 // Usage: npm run check:fonts
 import { readFileSync } from 'node:fs';
 import { dirname, join, basename } from 'node:path';
 import { createRequire } from 'node:module';
 import * as fontkit from 'fontkit';
+import * as hb from 'harfbuzzjs';
+import wawoff2 from 'wawoff2';
 
 const require = createRequire(import.meta.url);
 
@@ -58,11 +69,11 @@ function covers(list, cp) {
 
 // [name, css entry, fallback font name used by the CSS font stack]
 const fonts = [
-  ['Inter', '@fontsource-variable/inter/wght.css'],
-  ['Inter italic', '@fontsource-variable/inter/wght-italic.css'],
-  // --font-heading is "Manrope, Inter, system": a glyph Manrope lacks is drawn
-  // by Inter, which is acceptable but reported.
-  ['Manrope', '@fontsource-variable/manrope/wght.css', 'Inter'],
+  ['Noto Sans', '@fontsource-variable/noto-sans/wght.css'],
+  ['Noto Sans italic', '@fontsource-variable/noto-sans/wght-italic.css'],
+  // --font-heading is "Manrope, Noto Sans, system": a glyph Manrope lacks is
+  // drawn by Noto Sans, which is acceptable but reported.
+  ['Manrope', '@fontsource-variable/manrope/wght.css', 'Noto Sans'],
 ];
 const loaded = {};
 
@@ -93,4 +104,50 @@ for (const [name, entry, fallback] of fonts) {
     console.log(`  MISSING: ${missing.join('; ')}`);
   }
 }
-process.exit(failures ? 1 : 0);
+// Part 2: stress-mark placement.
+const VOWELS = 'аеиіоуюяєїАЕИІОУЮЯЄЇ';
+const ACUTE = 0x0301;
+for (const [name] of fonts) {
+  const list = loaded[name];
+  const face = covers(list, ACUTE);
+  if (!face.ok) {
+    console.log(`${name}: stress placement not tested (U+0301 not in this font; keep stress marks out of text set in it)`);
+    continue;
+  }
+  const entry = [...list].reverse().find((f) => f.subset === face.subset);
+  const file = entry.file;
+  // Italic marks sit over the slanted top of the letter: shift the expected
+  // span right by the mark's height times the slant (post.italicAngle).
+  const slant = Math.tan((-(entry.font.italicAngle || 0) * Math.PI) / 180);
+  const ttf = await wawoff2.decompress(new Uint8Array(readFileSync(file)));
+  const font = new hb.Font(new hb.Face(new hb.Blob(ttf)));
+  const bad = [];
+  for (const v of VOWELS) {
+    const buf = new hb.Buffer();
+    buf.addText(v + '́');
+    buf.guessSegmentProperties();
+    buf.setLanguage('uk');
+    hb.shape(font, buf);
+    const info = buf.getGlyphInfos();
+    const pos = buf.getGlyphPositions();
+    if (info.length === 1) continue; // composed into one glyph: placed by design
+    const mark = font.glyphExtents(info[1].codepoint);
+    const centre = pos[0].xAdvance + pos[1].xOffset + mark.xBearing + mark.width / 2;
+    const shift = Math.max(0, mark.yBearing + mark.height) * slant;
+    const lo = pos[0].xOffset + shift;
+    const hi = pos[0].xAdvance + shift;
+    if (centre < lo || centre > hi) {
+      bad.push(`${v} (mark centre ${Math.round(centre)}, vowel spans ${Math.round(lo)}..${Math.round(hi)})`);
+    }
+  }
+  if (bad.length) {
+    failures += bad.length;
+    console.log(`${name}: stress placement FAILED for ${bad.length}/${VOWELS.length} vowels: ${bad.join('; ')}`);
+  } else {
+    console.log(`${name}: stress mark placed over all ${VOWELS.length} vowels (${face.subset} subset)`);
+  }
+}
+
+// exitCode, not process.exit(): exiting while the wasm decoder's handles close
+// crashes Node on Windows (libuv assertion in async.c).
+process.exitCode = failures ? 1 : 0;

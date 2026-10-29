@@ -162,6 +162,19 @@ function current(item: NavItem): 'page' | 'true' | undefined {
     display: none;
   }
 
+  /* At 360px the wordmark, the toggle and the default gap don't fit on one row
+     (194 + 109 + 24 > 320px), so the toggle wrapped. Tighten both. flex-wrap
+     stays on for 200% zoom. */
+  @media (max-width: 29.9375rem) {
+    .site-header__inner {
+      column-gap: var(--space-3);
+    }
+
+    .menu-toggle {
+      padding-inline: var(--space-3);
+    }
+  }
+
   /* html.js is set by an inline script in BaseLayout, so there is no flash of
      the open menu before this component's script runs. */
   :global(.js) .menu-toggle[hidden] {
