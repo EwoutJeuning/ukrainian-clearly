@@ -1,0 +1,93 @@
+---
+/**
+ * A semantic grammar table in a contained horizontal-scroll region.
+ *
+ * Data form:
+ *   <GrammarTable caption="…" headers={['Case', 'Ending']} rows={[['…', '…']]} ukColumns={[1]} />
+ *   The first cell of each row is a row header (<th scope="row">) unless
+ *   rowHeaders={false}. `ukColumns` lists column indexes holding Ukrainian
+ *   text, which get lang="uk".
+ *
+ * Slot form (e.g. a Markdown table in MDX, with blank lines around it):
+ *   <GrammarTable caption="…">
+ *
+ *   | Case | Ending |
+ *   | ---- | ------ |
+ *   | …    | …      |
+ *
+ *   </GrammarTable>
+ *   The caption is inserted into the slotted <table> as a real <caption>.
+ *   Mark Ukrainian cells yourself (<Uk>…</Uk>) in the slot form.
+ *
+ * Styles: src/styles/tables.css (global, shared with vocabulary tables).
+ */
+interface Props {
+  caption: string;
+  headers?: string[];
+  rows?: string[][];
+  rowHeaders?: boolean;
+  ukColumns?: number[];
+  /** Hide the caption visually (it stays available to assistive tech). */
+  hideCaption?: boolean;
+}
+
+const { caption, headers, rows, rowHeaders = true, ukColumns = [], hideCaption = false } = Astro.props;
+
+// Deterministic id from the caption (captions should be unique on a page).
+let hash = 5381;
+for (const ch of caption) hash = ((hash * 33) ^ ch.codePointAt(0)!) >>> 0;
+const id = `grammar-table-${hash.toString(36)}`;
+const captionId = `${id}-caption`;
+const captionClass = hideCaption ? 'visually-hidden' : 'grammar-table__caption';
+const escape = (s: string) =>
+  s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+
+let slotHtml: string | undefined;
+if (!rows && Astro.slots.has('default')) {
+  const html = await Astro.slots.render('default');
+  const captionHtml = `<caption id="${captionId}" class="${captionClass}">${escape(caption)}</caption>`;
+  slotHtml = html.replace(/<table(\s[^>]*)?>/, (m) => `${m}${captionHtml}`);
+  if (slotHtml === html) {
+    throw new Error(`<GrammarTable caption="${caption}">: the slot must contain a <table>.`);
+  }
+}
+const lang = (col: number) => (ukColumns.includes(col) ? 'uk' : undefined);
+---
+
+<div class="grammar-table" role="region" aria-labelledby={captionId} tabindex="0">
+  {
+    slotHtml ? (
+      <Fragment set:html={slotHtml} />
+    ) : (
+      <table>
+        <caption id={captionId} class={captionClass}>
+          {caption}
+        </caption>
+        {headers && (
+          <thead>
+            <tr>
+              {headers.map((h) => (
+                <th scope="col">{h}</th>
+              ))}
+            </tr>
+          </thead>
+        )}
+        <tbody>
+          {(rows ?? []).map((row) => (
+            <tr>
+              {row.map((cell, col) =>
+                col === 0 && rowHeaders ? (
+                  <th scope="row" lang={lang(col)}>
+                    {cell}
+                  </th>
+                ) : (
+                  <td lang={lang(col)}>{cell}</td>
+                ),
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    )
+  }
+</div>

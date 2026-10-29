@@ -1,0 +1,89 @@
+---
+/**
+ * Section index pages: /start-here/, /grammar/, ... Generated only for
+ * sections that have content, so no empty pages exist.
+ *
+ * If the section has an article named `index` (e.g.
+ * src/content/articles/about/index.mdx), it is rendered as the page body and
+ * the remaining pages are listed below it. Otherwise the page lists the
+ * section's pages under the section title and description.
+ */
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import TopicPreview from '../../components/TopicPreview.astro';
+import { mdxComponents } from '../../components/mdx';
+import {
+  articleUrl,
+  getAvailableSections,
+  getSectionArticles,
+  getSectionNav,
+  getVocabularyThemes,
+  isSectionIndex,
+  vocabularyUrl,
+} from '../../lib/content';
+import { SECTION_INFO, type SectionId } from '../../lib/sections';
+
+export const getStaticPaths = (async () => {
+  return (await getAvailableSections()).map((section) => ({ params: { section }, props: { section } }));
+}) satisfies GetStaticPaths;
+
+const { section } = Astro.props as { section: SectionId };
+const info = SECTION_INFO[section];
+const articles = await getSectionArticles(section);
+const indexArticle = articles.find(isSectionIndex);
+const pages = articles
+  .filter((a) => !isSectionIndex(a))
+  .map((a) => ({ title: a.data.title, description: a.data.description, href: articleUrl(a) }));
+if (section === 'vocabulary') {
+  for (const theme of await getVocabularyThemes()) {
+    pages.push({ title: theme.data.title, description: theme.data.description, href: vocabularyUrl(theme) });
+  }
+}
+const rendered = indexArticle ? await render(indexArticle) : undefined;
+const listHeading = indexArticle ? `Pages in ${info.label}` : undefined;
+---
+
+{
+  indexArticle && rendered ? (
+    <ArticleLayout article={indexArticle} headings={rendered.headings}>
+      <rendered.Content components={mdxComponents} />
+      {pages.length > 0 && (
+        <section slot="after" class="section-pages" aria-labelledby="section-pages">
+          <h2 id="section-pages">{listHeading}</h2>
+          <div>
+            {pages.map((p) => (
+              <TopicPreview variant="row" title={p.title} description={p.description} href={p.href} />
+            ))}
+          </div>
+        </section>
+      )}
+    </ArticleLayout>
+  ) : (
+    <PageLayout
+      title={info.title}
+      description={info.description}
+      crumbs={[{ label: 'Home', href: '/' }, { label: info.label }]}
+      currentKey={section}
+      sectionNav={await getSectionNav(section)}
+    >
+      <div class="section-pages">
+        {pages.map((p) => (
+          <TopicPreview variant="row" headingLevel={2} title={p.title} description={p.description} href={p.href} />
+        ))}
+      </div>
+    </PageLayout>
+  )
+}
+
+<style>
+  .section-pages h2 {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-h3);
+  }
+
+  .section-pages :global(.topic-preview:last-child) {
+    border-bottom: 1px solid var(--color-border);
+  }
+</style>

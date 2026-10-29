@@ -1,0 +1,8 @@
+term: Second fixture term
+short: A YAML glossary entry, using the plain-text explanation field.
+explanation: |
+  First paragraph of a plain-text explanation.
+
+  Second paragraph.
+seeAlso: [_fixture-term]
+draft: true

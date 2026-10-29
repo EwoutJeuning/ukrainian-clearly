@@ -1,0 +1,110 @@
+/*
+ * Design tokens for Ukrainian, Clearly (02_website-house-style).
+ * Use these custom properties instead of literal values in components.
+ *
+ * Contrast against #FFFFFF (WCAG 2.x, computed):
+ *   --color-text      #142238  15.9:1
+ *   --color-text-muted #526176  6.3:1 (5.8:1 on blue-pale, 6.0:1 on yellow-pale)
+ *   --color-blue      #0057B7   6.9:1  (6.3:1 on --color-blue-pale)
+ *   --color-blue-hover #004494  9.3:1
+ *   White on --color-blue      6.9:1  (primary buttons)
+ *   --color-text on --color-yellow 11.4:1 / on --color-yellow-pale 15.0:1
+ * --color-yellow is never used for text on white, or behind white text.
+ * --color-border is decorative only; control boundaries use --color-border-strong.
+ */
+:root {
+  /* Colour */
+  --color-bg: #ffffff;
+  --color-text: #142238;
+  --color-text-muted: #526176;
+  --color-blue: #0057b7;
+  --color-blue-hover: #004494;
+  --color-yellow: #ffd700;
+  --color-blue-pale: #eff6ff;
+  --color-yellow-pale: #fff9d9;
+  --color-border: #dce4ee;
+  /* Non-text UI boundary with >= 3:1 against white (4.4:1). */
+  --color-border-strong: #6b7a8f;
+  /* Focus ring: dark blue, never yellow on white. */
+  --color-focus: #004494;
+
+  /* Typography. --font-inter and --font-manrope come from the Astro fonts API
+     (astro.config.mjs) and already end in a system sans-serif stack.
+     Headings list Inter after Manrope: Manrope lacks U+0301 (stress mark). */
+  --font-body: var(--font-inter, system-ui, 'Segoe UI', Roboto, Arial, sans-serif);
+  --font-heading: var(--font-manrope), var(--font-body);
+  --font-mono: ui-monospace, 'Cascadia Code', 'Segoe UI Mono', Consolas, monospace;
+
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+  --weight-heading: 700;
+  --weight-display: 800;
+
+  /* Type scale (rem; 1rem = 16px). Body ~17px on small screens, 18px wide. */
+  --text-xs: 0.8125rem; /* 13px */
+  --text-sm: 0.9375rem; /* 15px */
+  --text-base: clamp(1.0625rem, 1rem + 0.25vw, 1.125rem); /* 17-18px */
+  --text-lg: clamp(1.1875rem, 1.1rem + 0.35vw, 1.3125rem); /* 19-21px: Ukrainian examples, lead */
+  --text-h4: 1.125rem;
+  --text-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.4375rem);
+  --text-h2: clamp(1.5rem, 1.3rem + 0.8vw, 1.9375rem);
+  --text-h1: clamp(2rem, 1.5rem + 2vw, 3rem); /* 32-48px */
+
+  --leading-body: 1.7;
+  --leading-snug: 1.4;
+  --leading-heading: 1.2;
+
+  /* Spacing (4px scale) */
+  --space-1: 0.25rem; /* 4 */
+  --space-2: 0.5rem; /* 8 */
+  --space-3: 0.75rem; /* 12 */
+  --space-4: 1rem; /* 16 */
+  --space-6: 1.5rem; /* 24 */
+  --space-8: 2rem; /* 32 */
+  --space-12: 3rem; /* 48 */
+  --space-16: 4rem; /* 64 */
+  --space-24: 6rem; /* 96 */
+
+  /* Radii */
+  --radius-sm: 6px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  /* Layout */
+  --layout-max: 1200px;
+  --gutter: 20px;
+  --measure: 68ch; /* reading column, ~65-75 characters */
+  --sidebar-nav: 13.5rem;
+  --sidebar-toc: 12.5rem;
+  --touch-target: 44px;
+
+  /* Motion */
+  --duration-fast: 120ms;
+  --duration: 160ms;
+  --ease: cubic-bezier(0.2, 0, 0, 1);
+
+  /* Breakpoints (reference only; custom properties cannot be used in media
+     queries): 640px small, 960px medium (left nav), 1200px wide (right TOC). */
+}
+
+@media (min-width: 640px) {
+  :root {
+    --gutter: 32px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --gutter: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --duration-fast: 0ms;
+    --duration: 0ms;
+  }
+}

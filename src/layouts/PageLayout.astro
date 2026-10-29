@@ -1,0 +1,213 @@
+---
+/**
+ * Shared reference-page frame: breadcrumbs, compact left topic nav on wide
+ * screens (a "In this section" disclosure on small screens), page header, a
+ * readable central column, a slim right "On this page" list (>= 1200px) or an
+ * "On this page" disclosure under the intro, and an end-matter slot.
+ *
+ * Used by ArticleLayout, section index pages, vocabulary themes and the
+ * glossary.
+ */
+import BaseLayout from './BaseLayout.astro';
+import ArticleHeader from '../components/ArticleHeader.astro';
+import Breadcrumbs, { type Crumb } from '../components/Breadcrumbs.astro';
+import TopicNav, { type TopicLink } from '../components/TopicNav.astro';
+import TableOfContents, { type TocHeading } from '../components/TableOfContents.astro';
+import PrevNext, { type PageLink } from '../components/PrevNext.astro';
+
+export interface SectionNav {
+  heading: string;
+  headingHref: string;
+  links: TopicLink[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  crumbs: Crumb[];
+  /** Header aria-current section key. */
+  currentKey?: string;
+  /** Small label above the title. */
+  sectionLabel?: string;
+  sectionHref?: string;
+  prerequisites?: PageLink[];
+  /** Left topic navigation; omitted when there is nothing to navigate. */
+  sectionNav?: SectionNav | undefined;
+  headings?: TocHeading[];
+  prev?: PageLink | undefined;
+  next?: PageLink | undefined;
+  /** Allow the main column to exceed the reading measure (wide tables). */
+  wide?: boolean;
+  noindex?: boolean;
+}
+
+const {
+  title,
+  description,
+  crumbs,
+  currentKey,
+  sectionLabel,
+  sectionHref,
+  prerequisites = [],
+  sectionNav,
+  headings = [],
+  prev,
+  next,
+  wide = false,
+  noindex = false,
+} = Astro.props;
+
+const currentHref = Astro.url.pathname.replace(/\/?$/, '/');
+---
+
+<BaseLayout title={title} description={description} currentKey={currentKey} noindex={noindex}>
+  <div class="container page">
+    <Breadcrumbs items={crumbs} />
+
+    <div class:list={['page-grid', { 'page-grid--no-nav': !sectionNav, 'page-grid--wide': wide }]}>
+      {
+        sectionNav && (
+          <div class="page-grid__nav">
+            <TopicNav
+              heading={sectionNav.heading}
+              headingHref={sectionNav.headingHref}
+              links={sectionNav.links}
+              currentHref={currentHref}
+            />
+          </div>
+        )
+      }
+
+      <article class="page-grid__main">
+        {
+          sectionNav && (
+            <TopicNav
+              class="page-grid__nav-mobile"
+              variant="disclosure"
+              heading={sectionNav.heading}
+              headingHref={sectionNav.headingHref}
+              links={sectionNav.links}
+              currentHref={currentHref}
+            />
+          )
+        }
+
+        <ArticleHeader
+          title={title}
+          description={description}
+          sectionLabel={sectionLabel}
+          sectionHref={sectionHref}
+          prerequisites={prerequisites}
+        />
+
+        <TableOfContents class="page-grid__toc-mobile" headings={headings} variant="disclosure" />
+
+        <div class="page-body">
+          <slot />
+        </div>
+
+        <slot name="end" />
+
+        <PrevNext prev={prev} next={next} />
+      </article>
+
+      <div class="page-grid__toc">
+        <TableOfContents headings={headings} />
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  .page {
+    padding-top: var(--space-4);
+  }
+
+  .page-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-8);
+    margin-top: var(--space-6);
+  }
+
+  .page-grid__main {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+  }
+
+  .page-grid__main > :global(*) {
+    max-width: var(--measure);
+  }
+
+  .page-grid--wide .page-grid__main > :global(.page-body) {
+    max-width: none;
+  }
+
+  .page-grid__main > :global(.prev-next) {
+    width: 100%;
+  }
+
+  .page-grid__nav,
+  .page-grid__toc {
+    display: none;
+  }
+
+  /* MDX components need a little more room than paragraphs. */
+  .page-body > :global(.prose) > :global(:is(.example, .example-list, .note, .grammar-table)) {
+    margin-top: var(--space-6);
+    margin-bottom: var(--space-2);
+  }
+
+  @media (min-width: 960px) {
+    .page-grid {
+      grid-template-columns: var(--sidebar-nav) minmax(0, 1fr);
+      gap: var(--space-12);
+    }
+
+    .page-grid--no-nav {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .page-grid__nav {
+      display: block;
+    }
+
+    .page-grid__main > :global(.page-grid__nav-mobile) {
+      display: none;
+    }
+
+    .page-grid__nav :global(.topic-nav) {
+      position: sticky;
+      top: var(--space-6);
+      max-height: calc(100vh - var(--space-12));
+      overflow-y: auto;
+    }
+  }
+
+  @media (min-width: 1200px) {
+    .page-grid {
+      grid-template-columns: var(--sidebar-nav) minmax(0, 1fr) var(--sidebar-toc);
+    }
+
+    .page-grid--no-nav {
+      grid-template-columns: minmax(0, 1fr) var(--sidebar-toc);
+    }
+
+    .page-grid__toc {
+      display: block;
+    }
+
+    .page-grid__toc :global(.toc) {
+      position: sticky;
+      top: var(--space-6);
+      max-height: calc(100vh - var(--space-12));
+      overflow-y: auto;
+    }
+
+    .page-grid__main > :global(.page-grid__toc-mobile) {
+      display: none;
+    }
+  }
+</style>

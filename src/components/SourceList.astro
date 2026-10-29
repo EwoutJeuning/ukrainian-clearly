@@ -1,0 +1,66 @@
+---
+/**
+ * Lists references from the `sources` collection.
+ * <SourceList />            all sources (for the About and sources page)
+ * <SourceList ids={[…]} />  selected sources
+ */
+import { getSources, type Source } from '../lib/content';
+
+interface Props {
+  ids?: string[];
+  sources?: Source[];
+}
+
+const { ids } = Astro.props;
+const all = Astro.props.sources ?? (await getSources());
+const list = ids ? all.filter((s) => ids.includes(s.id)) : all;
+const LANGUAGE = { uk: 'In Ukrainian', en: 'In English', mixed: 'Ukrainian and English' } as const;
+const formatDate = (iso: string) =>
+  new Date(`${iso}T00:00:00Z`).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
+---
+
+{
+  list.length > 0 && (
+    <ul class="source-list">
+      {list.map((s) => (
+        <li id={`source-${s.id}`}>
+          <a href={s.data.url} lang={s.data.language === 'uk' ? 'uk' : undefined}>
+            {s.data.title}
+          </a>
+          {(s.data.author || s.data.publisher) && (
+            <span class="source-list__by">
+              {' '}
+              ({[s.data.author, s.data.publisher].filter(Boolean).join(', ')})
+            </span>
+          )}
+          <p class="source-list__meta">
+            {LANGUAGE[s.data.language]}. Used for: {s.data.usedFor}. Accessed {formatDate(s.data.accessed)}.
+          </p>
+          {s.data.notes && <p class="source-list__meta">{s.data.notes}</p>}
+        </li>
+      ))}
+    </ul>
+  )
+}
+
+<style>
+  .source-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .source-list li + li {
+    margin-top: var(--space-4);
+  }
+
+  .source-list__by,
+  .source-list__meta {
+    color: var(--color-text-muted);
+  }
+
+  .source-list__meta {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-sm);
+  }
+</style>

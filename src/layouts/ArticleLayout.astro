@@ -1,0 +1,129 @@
+---
+/**
+ * Layout for entries of the `articles` collection. Adds article data
+ * (prerequisites, sources, related topics, previous/next by section order,
+ * last-updated date) to the shared PageLayout frame.
+ */
+import PageLayout from './PageLayout.astro';
+import type { Crumb } from '../components/Breadcrumbs.astro';
+import type { TocHeading } from '../components/TableOfContents.astro';
+import TopicPreview from '../components/TopicPreview.astro';
+import SourceList from '../components/SourceList.astro';
+import {
+  articleUrl,
+  getPrevNext,
+  getSectionNav,
+  isSectionIndex,
+  resolveArticles,
+  resolveSources,
+  type Article,
+} from '../lib/content';
+import { SECTION_INFO, sectionPath } from '../lib/sections';
+
+interface Props {
+  article: Article;
+  /** From render(entry). */
+  headings: TocHeading[];
+}
+
+const { article, headings } = Astro.props;
+const { data } = article;
+const section = SECTION_INFO[data.section];
+const isIndex = isSectionIndex(article);
+const sectionHref = sectionPath(data.section);
+
+const prerequisites = (await resolveArticles(data.prerequisites)).map((a) => ({
+  title: a.data.title,
+  href: articleUrl(a),
+}));
+const related = await resolveArticles(data.related);
+const sources = await resolveSources(data.sources);
+const { prev, next } = await getPrevNext(article);
+const link = (a?: Article) => (a ? { title: a.data.title, href: articleUrl(a) } : undefined);
+
+const crumbs: Crumb[] = isIndex
+  ? [{ label: 'Home', href: '/' }, { label: section.label }]
+  : [{ label: 'Home', href: '/' }, { label: section.label, href: sectionHref }, { label: data.title }];
+
+const hasAfter = Astro.slots.has('after');
+const tocHeadings: TocHeading[] = [
+  ...headings,
+  ...(sources.length ? [{ depth: 2, slug: 'sources', text: 'Sources' }] : []),
+  ...(related.length ? [{ depth: 2, slug: 'related-topics', text: 'Related topics' }] : []),
+];
+const updated = data.updated.toISOString().slice(0, 10);
+const updatedText = data.updated.toLocaleDateString('en-GB', {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+});
+---
+
+<PageLayout
+  title={data.title}
+  description={data.description}
+  crumbs={crumbs}
+  currentKey={data.section}
+  sectionLabel={isIndex ? undefined : section.label}
+  sectionHref={sectionHref}
+  prerequisites={prerequisites}
+  sectionNav={await getSectionNav(data.section)}
+  headings={tocHeadings}
+  prev={link(prev)}
+  next={link(next)}
+>
+  <div class="prose">
+    <slot />
+  </div>
+  {hasAfter && <slot name="after" />}
+
+  <Fragment slot="end">
+    {
+      sources.length > 0 && (
+        <section class="end-section" aria-labelledby="sources">
+          <h2 id="sources">Sources</h2>
+          <SourceList sources={sources} />
+        </section>
+      )
+    }
+    {
+      related.length > 0 && (
+        <section class="end-section" aria-labelledby="related-topics">
+          <h2 id="related-topics">Related topics</h2>
+          <div class="related-list">
+            {related.map((a) => (
+              <TopicPreview
+                variant="row"
+                title={a.data.title}
+                description={a.data.description}
+                href={articleUrl(a)}
+                label={SECTION_INFO[a.data.section].label}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+    <p class="updated">
+      Last updated <time datetime={updated}>{updatedText}</time>
+    </p>
+  </Fragment>
+</PageLayout>
+
+<style>
+  .end-section h2 {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-h3);
+  }
+
+  .related-list > :global(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .updated {
+    margin: 0;
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

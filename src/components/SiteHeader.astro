@@ -1,0 +1,265 @@
+---
+import { getNavigation, type NavItem } from '../lib/content';
+
+interface Props {
+  /** Current section key ('grammar', 'glossary', ...) for aria-current="true". */
+  currentKey?: string;
+}
+
+const { currentKey } = Astro.props;
+const path = Astro.url.pathname.replace(/\/?$/, '/');
+const { primary, secondary } = await getNavigation();
+
+function current(item: NavItem): 'page' | 'true' | undefined {
+  if (path === item.href) return 'page';
+  if (currentKey === item.key) return 'true';
+  return undefined;
+}
+---
+
+<header class="site-header" data-site-header>
+  <div class="container site-header__inner">
+    <a class="wordmark" href="/" aria-current={path === '/' ? 'page' : undefined}>
+      <svg class="wordmark__mark" viewBox="0 0 16 20" width="16" height="20" aria-hidden="true" focusable="false">
+        <rect x="0" y="0" width="16" height="9" rx="3" fill="var(--color-blue)"></rect>
+        <rect x="0" y="11" width="16" height="9" rx="3" fill="var(--color-yellow)"></rect>
+      </svg>
+      <span>Ukrainian, Clearly</span>
+    </a>
+
+    {
+      (primary.length > 0 || secondary.length > 0) && (
+        <>
+          <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-menu" hidden>
+            <svg class="menu-toggle__icon" viewBox="0 0 20 20" width="20" height="20" aria-hidden="true" focusable="false">
+              <path d="M3 5h14M3 10h14M3 15h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            <span>Menu</span>
+          </button>
+          <div class="site-menu" id="site-menu">
+            {primary.length > 0 && (
+              <nav class="nav nav--primary" aria-label="Main">
+                <ul>
+                  {primary.map((item) => (
+                    <li>
+                      <a href={item.href} aria-current={current(item)}>{item.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
+            {secondary.length > 0 && (
+              <nav class="nav nav--secondary" aria-label="Reference">
+                <ul>
+                  {secondary.map((item) => (
+                    <li>
+                      <a href={item.href} aria-current={current(item)}>{item.label}</a>
+                    </li>
+                  ))}
+                </ul>
+              </nav>
+            )}
+          </div>
+        </>
+      )
+    }
+  </div>
+</header>
+
+<script>
+  // Progressive enhancement: without JS the menu is always visible and the
+  // toggle button stays hidden.
+  const header = document.querySelector<HTMLElement>('[data-site-header]');
+  const button = header?.querySelector<HTMLButtonElement>('.menu-toggle');
+  const menu = header?.querySelector<HTMLElement>('#site-menu');
+
+  if (header && button && menu) {
+    const wide = window.matchMedia('(min-width: 1024px)');
+
+    const setOpen = (open: boolean) => {
+      button.setAttribute('aria-expanded', String(open));
+      header.dataset.menu = open ? 'open' : 'closed';
+    };
+
+    button.hidden = false;
+    setOpen(false);
+
+    button.addEventListener('click', () => {
+      const open = button.getAttribute('aria-expanded') !== 'true';
+      setOpen(open);
+      if (open) menu.querySelector<HTMLAnchorElement>('a')?.focus();
+    });
+
+    header.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && button.getAttribute('aria-expanded') === 'true' && !wide.matches) {
+        setOpen(false);
+        button.focus();
+      }
+    });
+
+    // Close when focus leaves the header (e.g. tabbing past the last link).
+    header.addEventListener('focusout', (event) => {
+      const next = event.relatedTarget as Node | null;
+      if (!wide.matches && next && !header.contains(next)) setOpen(false);
+    });
+
+    wide.addEventListener('change', () => setOpen(false));
+  }
+</script>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--color-border);
+    background: var(--color-bg);
+  }
+
+  .site-header__inner {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2) var(--space-6);
+    padding-block: var(--space-3);
+  }
+
+  .wordmark {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3);
+    min-height: var(--touch-target);
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-display);
+    font-size: 1.1875rem;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .wordmark:hover {
+    color: var(--color-blue-hover);
+  }
+
+  .wordmark__mark {
+    flex: none;
+  }
+
+  .menu-toggle {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-pill);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font: inherit;
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+  }
+
+  .menu-toggle[hidden] {
+    display: none;
+  }
+
+  /* html.js is set by an inline script in BaseLayout, so there is no flash of
+     the open menu before this component's script runs. */
+  :global(.js) .menu-toggle[hidden] {
+    display: inline-flex;
+  }
+
+  .menu-toggle:hover {
+    border-color: var(--color-blue);
+    color: var(--color-blue-hover);
+  }
+
+  .menu-toggle[aria-expanded='true'] {
+    background: var(--color-blue-pale);
+    border-color: var(--color-blue);
+  }
+
+  .site-menu {
+    flex-basis: 100%;
+    padding-bottom: var(--space-3);
+  }
+
+  :global(.js) .site-header:not([data-menu='open']) .site-menu {
+    display: none;
+  }
+
+  .nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nav a {
+    display: flex;
+    align-items: center;
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-sm);
+    color: var(--color-text);
+    font-weight: var(--weight-semibold);
+    text-decoration: none;
+  }
+
+  .nav a:hover {
+    color: var(--color-blue-hover);
+    background: var(--color-blue-pale);
+  }
+
+  /* Current page or section: colour + a bar (shape), not colour alone. */
+  .nav a[aria-current] {
+    color: var(--color-blue);
+    box-shadow: inset 3px 0 0 var(--color-blue);
+  }
+
+  .nav--secondary {
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .nav--secondary a {
+    font-weight: var(--weight-medium);
+    color: var(--color-text-muted);
+  }
+
+  @media (min-width: 1024px) {
+    .menu-toggle,
+    :global(.js) .menu-toggle[hidden] {
+      display: none;
+    }
+
+    .site-menu,
+    :global(.js) .site-header:not([data-menu='open']) .site-menu {
+      display: flex;
+      align-items: center;
+      gap: var(--space-6);
+      flex-basis: auto;
+      padding-bottom: 0;
+    }
+
+    .nav ul {
+      display: flex;
+      gap: var(--space-1);
+    }
+
+    .nav--secondary {
+      margin: 0;
+      padding: 0 0 0 var(--space-6);
+      border-top: 0;
+      border-left: 1px solid var(--color-border);
+    }
+
+    .nav--secondary a {
+      font-size: var(--text-sm);
+    }
+
+    .nav a[aria-current] {
+      box-shadow: inset 0 -3px 0 var(--color-blue);
+      border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+    }
+  }
+</style>

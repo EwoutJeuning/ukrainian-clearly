@@ -1,16 +1,106 @@
 ---
+/**
+ * Home. Temporary structure: an honest introduction plus links to whatever
+ * sections exist in this build. The coordinator/content editor will replace
+ * the copy once content lands (backlog B15).
+ */
+import BaseLayout from '../layouts/BaseLayout.astro';
+import TopicPreview from '../components/TopicPreview.astro';
+import { getAvailableSections, getGlossaryTerms } from '../lib/content';
+import { SECTION_INFO, sectionPath } from '../lib/sections';
+
+const sections = await getAvailableSections();
+const hasStart = sections.includes('start-here');
+const previews = sections
+  .filter((id) => id !== 'start-here' && id !== 'about')
+  .map((id) => ({ title: SECTION_INFO[id].title, description: SECTION_INFO[id].description, href: sectionPath(id) }));
+if ((await getGlossaryTerms()).length > 0) {
+  previews.push({
+    title: 'Glossary',
+    description: 'Plain-English explanations of the grammar terms used on this site.',
+    href: '/glossary/',
+  });
+}
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<BaseLayout description="Clear explanations of Ukrainian for English-speaking beginners: the alphabet, grammar, beginner sentences and vocabulary, with examples and translations.">
+  <div class="container home">
+    <section class="home-intro" aria-labelledby="home-title">
+      <h1 id="home-title">Learn how Ukrainian works, one clear step at a time.</h1>
+      <p class="home-intro__lead">
+        Explanations in English for beginners, with Ukrainian examples and their English translations.
+      </p>
+      {
+        hasStart && (
+          <p>
+            <a class="button" href="/start-here/">
+              Start learning
+            </a>
+          </p>
+        )
+      }
+    </section>
+
+    {
+      previews.length > 0 && (
+        <section class="home-topics" aria-labelledby="home-topics-title">
+          <h2 id="home-topics-title">Find a topic</h2>
+          <div class="home-topics__grid">
+            {previews.map((p) => (
+              <TopicPreview title={p.title} description={p.description} href={p.href} />
+            ))}
+          </div>
+        </section>
+      )
+    }
+  </div>
+</BaseLayout>
+
+<style>
+  .home {
+    padding-top: var(--space-16);
+  }
+
+  .home-intro {
+    max-width: 40rem;
+  }
+
+  .home-intro h1 {
+    font-size: clamp(2.125rem, 1.6rem + 2.4vw, 3.25rem);
+  }
+
+  .home-intro__lead {
+    margin-top: var(--space-6);
+    font-size: var(--text-lg);
+    color: var(--color-text-muted);
+  }
+
+  .home-intro .button {
+    margin-top: var(--space-8);
+  }
+
+  .home-topics {
+    margin-top: var(--space-24);
+  }
+
+  .home-topics h2 {
+    margin-bottom: var(--space-6);
+  }
+
+  .home-topics__grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  @media (min-width: 720px) {
+    .home-topics__grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1100px) {
+    .home-topics__grid {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+</style>

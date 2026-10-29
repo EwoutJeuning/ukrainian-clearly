@@ -1,0 +1,69 @@
+---
+title: Fixture article for layout testing
+description: A development fixture that exercises every article component. It is a draft and is never built for production.
+section: grammar
+order: 9002
+level: beginner
+prerequisites: [_fixtures/fixture-prerequisite]
+related: [_fixtures/fixture-prerequisite]
+updated: 2026-10-29
+draft: true
+---
+
+This page is a development fixture (`draft: true`). It exists to test the article layout, not to teach. The Ukrainian below is limited to a few sample words: <Uk>мо́ва</Uk>, <Uk>украї́нська</Uk>, <Uk>м’ясо</Uk>, <Uk>п’ять</Uk>.
+
+## Examples
+
+<Example uk="мо́ва" en="language" translit="mova" />
+
+<Example en="the Ukrainian language">
+  украї́нська <strong>мо́ва</strong>
+</Example>
+
+<ExampleList title="Words with an apostrophe">
+  <Example uk="м’ясо" en="meat" />
+  <Example uk="п’ять" en="five" note="The apostrophe is U+2019 (’)." />
+</ExampleList>
+
+## Notes
+
+<Note type="remember">
+  A *remember* note. It should feel calm, not alarming.
+</Note>
+
+<Note type="mistake">
+  A *common mistake* note.
+</Note>
+
+<Note>
+  An *info* note with the default label.
+</Note>
+
+## Tables
+
+### Data form
+
+<GrammarTable
+  caption="Fixture table, data form"
+  headers={['Word', 'Meaning', 'A deliberately long column heading to force horizontal scrolling']}
+  rows={[
+    ['мо́ва', 'language', 'Long cell text that keeps going so the table needs more room than a phone screen has.'],
+    ['п’ять', 'five', '—'],
+  ]}
+  ukColumns={[0]}
+/>
+
+### Markdown form
+
+<GrammarTable caption="Fixture table, Markdown form">
+
+| Word | Meaning |
+| ---- | ------- |
+| <Uk>м’ясо</Uk> | meat |
+| <Uk>п’ять</Uk> | five |
+
+</GrammarTable>
+
+## Long words and links
+
+A [link to the prerequisite fixture](/grammar/fixture-prerequisite/) and a [link to a heading](#tables) on this page.

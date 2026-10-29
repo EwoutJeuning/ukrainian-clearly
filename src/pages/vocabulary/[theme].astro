@@ -1,0 +1,103 @@
+---
+/** Vocabulary theme pages: /vocabulary/<theme>/ from the `vocabulary` collection. */
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import SourceList from '../../components/SourceList.astro';
+import { getSectionNav, getVocabularyThemes, resolveSources, vocabularyUrl, type VocabularyTheme } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  return (await getVocabularyThemes()).map((theme) => ({ params: { theme: theme.id }, props: { theme } }));
+}) satisfies GetStaticPaths;
+
+const { theme } = Astro.props as { theme: VocabularyTheme };
+const { data } = theme;
+const themes = await getVocabularyThemes();
+const index = themes.findIndex((t) => t.id === theme.id);
+const link = (t?: VocabularyTheme) => (t ? { title: t.data.title, href: vocabularyUrl(t) } : undefined);
+const sources = await resolveSources(data.sources);
+
+const POS: Record<string, string> = {
+  noun: 'noun',
+  verb: 'verb',
+  adjective: 'adjective',
+  adverb: 'adverb',
+  phrase: 'phrase',
+  other: '',
+};
+const GENDER = { m: 'masculine', f: 'feminine', n: 'neuter' } as const;
+const ASPECT = { impf: 'imperfective', pf: 'perfective' } as const;
+const captionId = `vocab-${theme.id}-caption`;
+---
+
+<PageLayout
+  title={data.title}
+  description={data.description}
+  crumbs={[{ label: 'Home', href: '/' }, { label: 'Vocabulary', href: '/vocabulary/' }, { label: data.title }]}
+  currentKey="vocabulary"
+  sectionLabel="Vocabulary"
+  sectionHref="/vocabulary/"
+  sectionNav={await getSectionNav('vocabulary')}
+  prev={link(themes[index - 1])}
+  next={link(themes[index + 1])}
+  wide
+>
+  <div class="grammar-table" role="region" aria-labelledby={captionId} tabindex="0">
+    <table>
+      <caption id={captionId} class="visually-hidden">{data.title}: words and their grammar</caption>
+      <thead>
+        <tr>
+          <th scope="col">Ukrainian</th>
+          <th scope="col">English</th>
+          <th scope="col">Grammar</th>
+          <th scope="col">Notes</th>
+        </tr>
+      </thead>
+      <tbody>
+        {
+          data.entries.map((e) => (
+            <tr>
+              <th scope="row" lang="uk" data-plain={e.ukPlain}>
+                {e.uk}
+              </th>
+              <td>{e.en}</td>
+              <td>
+                {[POS[e.pos], e.gender && GENDER[e.gender], e.aspect && ASPECT[e.aspect]].filter(Boolean).join(', ')}
+                {e.plural && (
+                  <>
+                    <br />
+                    plural <span lang="uk">{e.plural}</span>
+                  </>
+                )}
+                {e.aspectPair && (
+                  <>
+                    <br />
+                    pair: <span lang="uk">{e.aspectPair}</span>
+                  </>
+                )}
+              </td>
+              <td>{e.notes}</td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
+  </div>
+
+  {
+    sources.length > 0 && (
+      <section slot="end" aria-labelledby="sources">
+        <h2 id="sources" class="end-heading">
+          Sources
+        </h2>
+        <SourceList sources={sources} />
+      </section>
+    )
+  }
+</PageLayout>
+
+<style>
+  .end-heading {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-h3);
+  }
+</style>

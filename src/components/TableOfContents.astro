@@ -1,0 +1,110 @@
+---
+/**
+ * "On this page" links. `variant="sidebar"` is the slim right column on wide
+ * screens; `variant="disclosure"` is a <details> near the article intro on
+ * smaller screens. The layout shows only one of them at a time (display: none
+ * removes the other from the accessibility tree).
+ */
+export interface TocHeading {
+  depth: number;
+  slug: string;
+  text: string;
+}
+
+interface Props {
+  headings: TocHeading[];
+  variant?: 'sidebar' | 'disclosure';
+  class?: string;
+}
+
+const { headings, variant = 'sidebar', class: className } = Astro.props;
+const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
+---
+
+{
+  items.length > 1 &&
+    (variant === 'sidebar' ? (
+      <nav class:list={['toc', className]} aria-label="On this page">
+        <p class="toc__heading" aria-hidden="true">
+          On this page
+        </p>
+        <ul>
+          {items.map((h) => (
+            <li class={`toc__item--h${h.depth}`}>
+              <a href={`#${h.slug}`}>{h.text}</a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ) : (
+      <details class:list={['toc toc--disclosure', className]}>
+        <summary>On this page</summary>
+        <nav aria-label="On this page">
+          <ul>
+            {items.map((h) => (
+              <li class={`toc__item--h${h.depth}`}>
+                <a href={`#${h.slug}`}>{h.text}</a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      </details>
+    ))
+}
+
+<style>
+  .toc {
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+  }
+
+  .toc__heading {
+    margin-bottom: var(--space-2);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  a {
+    display: block;
+    padding: var(--space-1) 0;
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--color-blue-hover);
+    text-decoration: underline;
+  }
+
+  .toc__item--h3 a {
+    padding-left: var(--space-3);
+  }
+
+  .toc--disclosure {
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-4);
+    font-weight: var(--weight-semibold);
+    cursor: pointer;
+  }
+
+  .toc--disclosure nav {
+    padding: 0 var(--space-4) var(--space-3);
+  }
+
+  .toc--disclosure a {
+    padding-block: var(--space-2);
+  }
+</style>

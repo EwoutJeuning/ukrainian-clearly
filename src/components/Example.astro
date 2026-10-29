@@ -1,0 +1,76 @@
+---
+/**
+ * A Ukrainian example with its English translation.
+ *
+ * Prop form:  <Example uk="Це мо́ва." en="This is a language." />
+ * Slot form:  <Example en="…">Ukrainian with <strong>markup</strong></Example>
+ *             (named slots "en", "translit" and "note" also work)
+ *
+ * `translit` is optional, verified pronunciation support (plan.md A8).
+ */
+interface Props {
+  uk?: string;
+  en?: string;
+  translit?: string;
+  note?: string;
+  class?: string;
+}
+
+const { uk, en, translit, note, class: className } = Astro.props;
+const hasTranslit = Boolean(translit) || Astro.slots.has('translit');
+const hasNote = Boolean(note) || Astro.slots.has('note');
+---
+
+<div class:list={['example', className]}>
+  <div class="example__uk" lang="uk">{uk ?? <slot />}</div>
+  {
+    hasTranslit && (
+      <div class="example__translit">
+        <span class="visually-hidden">Transliteration: </span>
+        <span lang="uk-Latn">{translit ?? <slot name="translit" />}</span>
+      </div>
+    )
+  }
+  <div class="example__en">{en ?? <slot name="en" />}</div>
+  {hasNote && <div class="example__note">{note ?? <slot name="note" />}</div>}
+</div>
+
+<style>
+  .example {
+    padding: var(--space-4) var(--space-6);
+    border-left: 4px solid var(--color-blue);
+    border-radius: var(--radius-md);
+    background: var(--color-blue-pale);
+  }
+
+  /* Children may be MDX paragraphs; keep spacing tight. */
+  .example :global(p) {
+    margin: 0;
+  }
+
+  .example__uk {
+    font-size: var(--text-lg);
+    font-weight: var(--weight-semibold);
+    line-height: 1.5;
+    color: var(--color-text);
+  }
+
+  .example__translit {
+    margin-top: var(--space-1);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .example__en {
+    margin-top: var(--space-1);
+    color: var(--color-text-muted);
+  }
+
+  .example__note {
+    margin-top: var(--space-2);
+    padding-top: var(--space-2);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+</style>

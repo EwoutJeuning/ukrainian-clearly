@@ -1,0 +1,100 @@
+---
+/**
+ * A topic preview: a gently rounded bordered card, or an editorial row.
+ * The whole card is clickable, but only the title is a link (one tab stop).
+ */
+interface Props {
+  title: string;
+  description: string;
+  href: string;
+  /** Optional small label, e.g. a section name. */
+  label?: string;
+  variant?: 'card' | 'row';
+  headingLevel?: 2 | 3 | 4;
+}
+
+const { title, description, href, label, variant = 'card', headingLevel = 3 } = Astro.props;
+const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
+---
+
+<div class:list={['topic-preview', `topic-preview--${variant}`]}>
+  {label && <p class="topic-preview__label">{label}</p>}
+  <Heading class="topic-preview__title">
+    <a href={href}>{title}</a>
+  </Heading>
+  <p class="topic-preview__description">{description}</p>
+</div>
+
+<style>
+  .topic-preview {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .topic-preview--card {
+    padding: var(--space-6);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    transition:
+      border-color var(--duration-fast) var(--ease),
+      background-color var(--duration-fast) var(--ease);
+  }
+
+  .topic-preview--card:hover {
+    border-color: var(--color-blue);
+    background: var(--color-blue-pale);
+  }
+
+  .topic-preview--row {
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .topic-preview__label {
+    margin: 0;
+    font-size: var(--text-xs);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+  }
+
+  .topic-preview__title {
+    font-size: var(--text-h4);
+  }
+
+  .topic-preview__title a {
+    color: var(--color-blue);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  .topic-preview__title a:hover {
+    color: var(--color-blue-hover);
+    text-decoration-thickness: 2px;
+  }
+
+  /* Stretch the link over the card. */
+  .topic-preview--card .topic-preview__title a::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: var(--radius-lg);
+  }
+
+  .topic-preview--card:has(a:focus-visible) {
+    outline: 3px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+
+  .topic-preview--card .topic-preview__title a:focus-visible {
+    outline: none;
+  }
+
+  .topic-preview__description {
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+</style>

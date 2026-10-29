@@ -1,0 +1,56 @@
+---
+/**
+ * Groups several <Example> blocks into one panel with dividers.
+ * <ExampleList title="Greeting someone">
+ *   <Example uk="…" en="…" />
+ *   <Example uk="…" en="…" />
+ * </ExampleList>
+ */
+interface Props {
+  /** Optional short label shown above the group (not a heading). */
+  title?: string;
+}
+
+const { title } = Astro.props;
+---
+
+<div class="example-list">
+  {title && <p class="example-list__title">{title}</p>}
+  <div class="example-list__items">
+    <slot />
+  </div>
+</div>
+
+<style>
+  .example-list {
+    border-left: 4px solid var(--color-blue);
+    border-radius: var(--radius-md);
+    background: var(--color-blue-pale);
+    padding-block: var(--space-2);
+  }
+
+  .example-list__title {
+    margin: 0;
+    padding: var(--space-2) var(--space-6) 0;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+
+  /* Child examples become rows of this panel. */
+  .example-list__items > :global(.example) {
+    border-left: 0;
+    border-radius: 0;
+    background: transparent;
+    padding-block: var(--space-3);
+  }
+
+  .example-list__items > :global(.example + .example) {
+    border-top: 1px solid var(--color-border);
+  }
+
+  /* MDX may wrap stray text in paragraphs between examples. */
+  .example-list__items > :global(p:empty) {
+    display: none;
+  }
+</style>

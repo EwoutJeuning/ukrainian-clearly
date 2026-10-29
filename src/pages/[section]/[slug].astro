@@ -1,0 +1,28 @@
+---
+/** Article pages: /<section>/<slug>/ from the `articles` collection. */
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { mdxComponents } from '../../components/mdx';
+import { articleSlug, getArticles, getVocabularyThemes, isSectionIndex, type Article } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  const themeIds = new Set((await getVocabularyThemes()).map((t) => t.id));
+  return (await getArticles())
+    .filter((article) => !isSectionIndex(article))
+    .map((article) => {
+      const slug = articleSlug(article);
+      if (article.data.section === 'vocabulary' && themeIds.has(slug)) {
+        throw new Error(`Article "${article.id}" and vocabulary theme "${slug}" would share /vocabulary/${slug}/`);
+      }
+      return { params: { section: article.data.section, slug }, props: { article } };
+    });
+}) satisfies GetStaticPaths;
+
+const { article } = Astro.props as { article: Article };
+const { Content, headings } = await render(article);
+---
+
+<ArticleLayout article={article} headings={headings}>
+  <Content components={mdxComponents} />
+</ArticleLayout>

@@ -1,0 +1,92 @@
+---
+/**
+ * A pale-yellow learning note. Calm by design: grammar notes are not warnings.
+ * <Note type="mistake">…</Note>
+ */
+type Variant = 'remember' | 'mistake' | 'info';
+
+interface Props {
+  type?: Variant;
+  /** Overrides the default label ("Remember", "Common mistake", "Note"). */
+  title?: string;
+}
+
+const LABELS: Record<Variant, string> = {
+  remember: 'Remember',
+  mistake: 'Common mistake',
+  info: 'Note',
+};
+
+const { type = 'info', title } = Astro.props;
+const label = title ?? LABELS[type];
+---
+
+<aside class:list={['note', `note--${type}`]} aria-label={label}>
+  <p class="note__label">
+    {
+      type === 'remember' && (
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+          <path d="M8 1.5l1.9 4 4.4.5-3.3 3 .9 4.3L8 11.1 4.1 13.3 5 9 1.7 6l4.4-.5z" fill="currentColor" />
+        </svg>
+      )
+    }
+    {
+      type === 'mistake' && (
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+          <path d="M5.5 5.5l5 5M10.5 5.5l-5 5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+        </svg>
+      )
+    }
+    {
+      type === 'info' && (
+        <svg viewBox="0 0 16 16" width="16" height="16" aria-hidden="true" focusable="false">
+          <circle cx="8" cy="8" r="6.5" fill="none" stroke="currentColor" stroke-width="1.6" />
+          <path d="M8 7v4.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+          <circle cx="8" cy="4.75" r="1" fill="currentColor" />
+        </svg>
+      )
+    }
+    <span>{label}</span>
+  </p>
+  <div class="note__body">
+    <slot />
+  </div>
+</aside>
+
+<style>
+  .note {
+    padding: var(--space-4) var(--space-6);
+    border-radius: var(--radius-md);
+    background: var(--color-yellow-pale);
+    border: 1px solid rgb(20 34 56 / 0.08);
+    color: var(--color-text);
+  }
+
+  .note__label {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: 0 0 var(--space-2);
+    font-weight: var(--weight-bold);
+    font-size: var(--text-sm);
+    color: var(--color-text);
+  }
+
+  .note__label svg {
+    flex: none;
+  }
+
+  .note__body > :global(* + *) {
+    margin-top: var(--space-3);
+  }
+
+  .note__body :global(p) {
+    margin-bottom: 0;
+  }
+
+  .note__body :global(ul),
+  .note__body :global(ol) {
+    padding-left: 1.4em;
+  }
+</style>

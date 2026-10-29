@@ -1,0 +1,105 @@
+---
+import { getAvailableSections, getSources } from '../lib/content';
+
+const sections = await getAvailableSections();
+const hasAbout = sections.includes('about');
+
+// Reference links come only from the `sources` collection (real references
+// that were consulted), never hard-coded here.
+// TODO(coordinator): decide which sources the footer should feature; for now,
+// up to four dictionaries / orthography references.
+const references = (await getSources())
+  .filter((s) => s.data.type === 'dictionary' || s.data.type === 'orthography')
+  .slice(0, 4);
+---
+
+<footer class="site-footer">
+  <div class="container site-footer__inner">
+    <div class="site-footer__about">
+      <p class="site-footer__name">Ukrainian, Clearly</p>
+      <p>
+        A reference for English-speaking beginners learning Ukrainian: explanations in English, examples in Ukrainian
+        with English translations.
+      </p>
+      {
+        hasAbout && (
+          <p>
+            <a href="/about/">About and sources</a>
+          </p>
+        )
+      }
+    </div>
+    {
+      references.length > 0 && (
+        <nav class="site-footer__refs" aria-label="Reference works">
+          <h2 class="site-footer__heading">Reference works</h2>
+          <ul>
+            {references.map((s) => (
+              <li>
+                <a href={s.data.url} hreflang={s.data.language === 'mixed' ? undefined : s.data.language} lang={s.data.language === 'uk' ? 'uk' : undefined}>
+                  {s.data.title}
+                </a>
+              </li>
+            ))}
+          </ul>
+        </nav>
+      )
+    }
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    margin-top: var(--space-24);
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .site-footer__inner {
+    display: grid;
+    gap: var(--space-8);
+    padding-block: var(--space-12);
+  }
+
+  .site-footer__about {
+    max-width: 44ch;
+  }
+
+  .site-footer__about > * + * {
+    margin-top: var(--space-3);
+  }
+
+  .site-footer__name {
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: 1rem;
+  }
+
+  .site-footer__heading {
+    margin-bottom: var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+
+  .site-footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .site-footer li + li {
+    margin-top: var(--space-2);
+  }
+
+  @media (min-width: 768px) {
+    .site-footer__inner {
+      grid-template-columns: 1fr auto;
+    }
+  }
+</style>

@@ -1,0 +1,149 @@
+---
+/**
+ * Compact list of the pages in one section. `variant="sidebar"` is the
+ * desktop left column; `variant="disclosure"` is a <details> for small screens.
+ * The layout shows one or the other with CSS (display: none also removes the
+ * hidden one from the accessibility tree), so only one nav is exposed.
+ */
+export interface TopicLink {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  /** Section name, e.g. "Grammar". */
+  heading: string;
+  /** Link to the section index. */
+  headingHref?: string;
+  links: TopicLink[];
+  currentHref?: string;
+  variant?: 'sidebar' | 'disclosure';
+  class?: string;
+}
+
+const { heading, headingHref, links, currentHref, variant = 'sidebar', class: className } = Astro.props;
+const label = `${heading}: pages in this section`;
+const current = (href: string) => (href === currentHref ? 'page' : undefined);
+---
+
+{
+  variant === 'sidebar' ? (
+    <nav class:list={['topic-nav', className]} aria-label={label}>
+      <p class="topic-nav__heading">
+        {headingHref ? (
+          <a href={headingHref} aria-current={current(headingHref)}>
+            {heading}
+          </a>
+        ) : (
+          heading
+        )}
+      </p>
+      <ul>
+        {links.map((link) => (
+          <li>
+            <a href={link.href} aria-current={current(link.href)}>
+              {link.label}
+            </a>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  ) : (
+    <details class:list={['topic-nav topic-nav--disclosure', className]}>
+      <summary>In this section: {heading}</summary>
+      <nav aria-label={label}>
+        <ul>
+          {headingHref && (
+            <li>
+              <a href={headingHref} aria-current={current(headingHref)}>
+                {heading}: overview
+              </a>
+            </li>
+          )}
+          {links.map((link) => (
+            <li>
+              <a href={link.href} aria-current={current(link.href)}>
+                {link.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    </details>
+  )
+}
+
+<style>
+  .topic-nav {
+    font-size: var(--text-sm);
+    line-height: var(--leading-snug);
+  }
+
+  .topic-nav__heading {
+    margin-bottom: var(--space-2);
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    font-size: 1rem;
+  }
+
+  .topic-nav__heading a {
+    color: var(--color-text);
+    text-decoration: none;
+  }
+
+  .topic-nav__heading a:hover {
+    color: var(--color-blue-hover);
+    text-decoration: underline;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  li a {
+    display: block;
+    padding: var(--space-2) var(--space-3);
+    border-left: 2px solid var(--color-border);
+    color: var(--color-text-muted);
+    text-decoration: none;
+  }
+
+  li a:hover {
+    color: var(--color-blue-hover);
+    border-left-color: var(--color-blue);
+    text-decoration: underline;
+  }
+
+  li a[aria-current='page'] {
+    color: var(--color-blue);
+    font-weight: var(--weight-semibold);
+    border-left: 3px solid var(--color-blue);
+    background: var(--color-blue-pale);
+  }
+
+  .topic-nav--disclosure {
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--touch-target);
+    padding: var(--space-2) var(--space-4);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+    cursor: pointer;
+  }
+
+  .topic-nav--disclosure nav {
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  .topic-nav--disclosure li a {
+    padding-block: var(--space-3);
+  }
+</style>

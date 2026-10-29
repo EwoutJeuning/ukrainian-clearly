@@ -1,0 +1,21 @@
+---
+/** Inline Ukrainian text inside English prose: <Uk>мо́ва</Uk>. */
+interface Props {
+  /** Render bold, for a word under discussion. */
+  strong?: boolean;
+}
+
+const { strong = false } = Astro.props;
+---
+
+{
+  strong ? (
+    <strong lang="uk">
+      <slot />
+    </strong>
+  ) : (
+    <span lang="uk">
+      <slot />
+    </span>
+  )
+}

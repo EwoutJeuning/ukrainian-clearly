@@ -1,0 +1,116 @@
+---
+/**
+ * /glossary/ from the `glossary` collection. A rest route so the page is only
+ * generated when at least one term exists. Each term is anchored by its id:
+ * /glossary/#<id>.
+ */
+import type { GetStaticPaths } from 'astro';
+import { render } from 'astro:content';
+import PageLayout from '../../layouts/PageLayout.astro';
+import { articleUrl, getGlossaryTerms, glossaryUrl, resolveArticles } from '../../lib/content';
+
+export const getStaticPaths = (async () => {
+  return (await getGlossaryTerms()).length > 0 ? [{ params: { index: undefined } }] : [];
+}) satisfies GetStaticPaths;
+
+const terms = await getGlossaryTerms();
+const termById = new Map(terms.map((t) => [t.id, t]));
+const entries = await Promise.all(
+  terms.map(async (term) => {
+    const hasBody = Boolean(term.body?.trim());
+    const rendered = hasBody ? await render(term) : undefined;
+    const paragraphs = !hasBody && term.data.explanation ? term.data.explanation.split(/\n\s*\n/).map((p) => p.trim()) : [];
+    const related = (await resolveArticles(term.data.related)).map((a) => ({ title: a.data.title, href: articleUrl(a) }));
+    const seeAlso = term.data.seeAlso
+      .map((ref) => termById.get(ref.id))
+      .filter((t) => t !== undefined)
+      .map((t) => ({ title: t.data.term, href: glossaryUrl(t) }));
+    return { term, Content: rendered?.Content, paragraphs, related, seeAlso };
+  }),
+);
+const headings = terms.map((t) => ({ depth: 2, slug: t.id, text: t.data.term }));
+---
+
+<PageLayout
+  title="Glossary"
+  description="Plain-English explanations of the grammar terms used on this site."
+  crumbs={[{ label: 'Home', href: '/' }, { label: 'Glossary' }]}
+  currentKey="glossary"
+  headings={headings}
+>
+  <div class="glossary">
+    {
+      entries.map(({ term, Content, paragraphs, related, seeAlso }) => (
+        <section class="glossary-term" aria-labelledby={term.id}>
+          <h2 id={term.id}>{term.data.term}</h2>
+          {term.data.ukTerm && (
+            <p class="glossary-term__uk">
+              Ukrainian: <span lang="uk">{term.data.ukTerm}</span>
+            </p>
+          )}
+          <p class="glossary-term__short">{term.data.short}</p>
+          <div class="prose">
+            {Content ? <Content /> : paragraphs.map((p) => <p>{p}</p>)}
+          </div>
+          {related.length > 0 && (
+            <p class="glossary-term__links">
+              <span>Read more: </span>
+              {related.map((r, i) => (
+                <>
+                  {i > 0 && ', '}
+                  <a href={r.href}>{r.title}</a>
+                </>
+              ))}
+            </p>
+          )}
+          {seeAlso.length > 0 && (
+            <p class="glossary-term__links">
+              <span>See also: </span>
+              {seeAlso.map((r, i) => (
+                <>
+                  {i > 0 && ', '}
+                  <a href={r.href}>{r.title}</a>
+                </>
+              ))}
+            </p>
+          )}
+        </section>
+      ))
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .glossary-term {
+    padding-block: var(--space-8);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .glossary-term:first-child {
+    border-top: 0;
+    padding-top: 0;
+  }
+
+  .glossary-term > * + * {
+    margin-top: var(--space-3);
+  }
+
+  .glossary-term h2 {
+    font-size: var(--text-h3);
+  }
+
+  .glossary-term__uk,
+  .glossary-term__links {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .glossary-term__uk span {
+    font-weight: var(--weight-semibold);
+    color: var(--color-text);
+  }
+
+  .glossary-term__short {
+    font-weight: var(--weight-medium);
+  }
+</style>

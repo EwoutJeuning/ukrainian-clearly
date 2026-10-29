@@ -1,0 +1,90 @@
+---
+export interface PageLink {
+  title: string;
+  href: string;
+}
+
+interface Props {
+  prev?: PageLink | undefined;
+  next?: PageLink | undefined;
+}
+
+const { prev, next } = Astro.props;
+---
+
+{
+  (prev || next) && (
+    <nav class="prev-next" aria-label="Reading path">
+      {prev && (
+        <a class="prev-next__link prev-next__link--prev" href={prev.href} rel="prev">
+          <span class="prev-next__label">Previous</span>
+          <span class="prev-next__title">{prev.title}</span>
+        </a>
+      )}
+      {next && (
+        <a class="prev-next__link prev-next__link--next" href={next.href} rel="next">
+          <span class="prev-next__label">Next</span>
+          <span class="prev-next__title">{next.title}</span>
+        </a>
+      )}
+    </nav>
+  )
+}
+
+<style>
+  .prev-next {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .prev-next__link {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    padding: var(--space-4) var(--space-6);
+    border: 1px solid var(--color-border-strong);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    transition:
+      border-color var(--duration-fast) var(--ease),
+      background-color var(--duration-fast) var(--ease);
+  }
+
+  .prev-next__link:hover {
+    border-color: var(--color-blue);
+    background: var(--color-blue-pale);
+  }
+
+  .prev-next__label {
+    font-size: var(--text-sm);
+    color: var(--color-text-muted);
+  }
+
+  .prev-next__link--prev .prev-next__label::before {
+    content: '\2190\00a0';
+  }
+
+  .prev-next__link--next .prev-next__label::after {
+    content: '\00a0\2192';
+  }
+
+  .prev-next__title {
+    font-family: var(--font-heading);
+    font-weight: var(--weight-bold);
+    color: var(--color-blue);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
+  }
+
+  @media (min-width: 640px) {
+    .prev-next {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .prev-next__link--next {
+      grid-column: 2;
+      text-align: right;
+    }
+  }
+</style>

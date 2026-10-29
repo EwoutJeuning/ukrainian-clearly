@@ -1,0 +1,11 @@
+{
+  "title": "Fixture vocabulary theme",
+  "description": "A development fixture for the vocabulary page layout. It is a draft and is never built for production.",
+  "order": 9001,
+  "draft": true,
+  "entries": [
+    { "uk": "мо́ва", "en": "language", "pos": "noun", "gender": "f" },
+    { "uk": "м’ясо", "en": "meat", "pos": "noun", "gender": "n" },
+    { "uk": "п’ять", "en": "five", "pos": "other", "notes": "Fixture row with a note." }
+  ]
+}
