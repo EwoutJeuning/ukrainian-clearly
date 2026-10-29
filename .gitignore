@@ -22,3 +22,10 @@ pnpm-debug.log*
 
 # jetbrains setting folder
 .idea/
+
+# Private working files (kept local, never published)
+01_claude-code-website-prompt
+02_website-house-style
+plan.md
+log.md
+docs/conventions.md
