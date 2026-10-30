@@ -1,0 +1,27 @@
+{
+  "title": "Family",
+  "description": "Words for parents, children, brothers and sisters, grandparents and other relatives, with gender and plural.",
+  "order": 1,
+  "sources": ["goroh-dictionary"],
+  "entries": [
+    { "uk": "сім’я́", "en": "family", "pos": "noun", "gender": "f", "plural": "сі́м’ї", "notes": "Stress matters: сі́м’я, stressed on the first syllable, is a different word meaning “seed”." },
+    { "uk": "роди́на", "en": "family; relatives", "pos": "noun", "gender": "f", "plural": "роди́ни" },
+    { "uk": "ма́ти", "en": "mother", "pos": "noun", "gender": "f", "plural": "матері́", "notes": "Irregular: the plural and the other case forms are built on the longer stem матер-." },
+    { "uk": "ма́ма", "en": "mum", "pos": "noun", "gender": "f", "plural": "мами", "notes": "Dictionaries accept the stress on either syllable of the plural, so it is not marked here." },
+    { "uk": "ба́тько", "en": "father", "pos": "noun", "gender": "m", "plural": "батьки́", "notes": "Masculine, although it ends in -о. The plural батьки́ also means “parents”." },
+    { "uk": "та́то", "en": "dad", "pos": "noun", "gender": "m", "plural": "та́ти", "notes": "Masculine, although it ends in -о." },
+    { "uk": "син", "en": "son", "pos": "noun", "gender": "m", "plural": "сини́" },
+    { "uk": "дочка́", "en": "daughter", "pos": "noun", "gender": "f", "plural": "до́чки", "notes": "The stress moves to the first syllable in the plural. До́нька (plural до́ньки) is a common, warmer synonym." },
+    { "uk": "брат", "en": "brother", "pos": "noun", "gender": "m", "plural": "брати́" },
+    { "uk": "сестра́", "en": "sister", "pos": "noun", "gender": "f", "plural": "се́стри", "notes": "The stress moves to the first syllable in the plural." },
+    { "uk": "дити́на", "en": "child", "pos": "noun", "gender": "f", "plural": "ді́ти", "notes": "Irregular plural. Дити́на is grammatically feminine, whoever it refers to." },
+    { "uk": "чолові́к", "en": "man; husband", "pos": "noun", "gender": "m", "plural": "чолові́ки" },
+    { "uk": "дружи́на", "en": "wife", "pos": "noun", "gender": "f", "plural": "дружи́ни" },
+    { "uk": "бабу́ся", "en": "grandmother, grandma", "pos": "noun", "gender": "f", "plural": "бабу́сі" },
+    { "uk": "діду́сь", "en": "grandfather, grandpa", "pos": "noun", "gender": "m", "plural": "дідусі́" },
+    { "uk": "ону́к", "en": "grandson", "pos": "noun", "gender": "m", "plural": "ону́ки" },
+    { "uk": "ону́ка", "en": "granddaughter", "pos": "noun", "gender": "f", "plural": "ону́ки" },
+    { "uk": "дя́дько", "en": "uncle", "pos": "noun", "gender": "m", "plural": "дядьки́", "notes": "Masculine, although it ends in -о. The stress moves to the ending in the plural." },
+    { "uk": "ті́тка", "en": "aunt", "pos": "noun", "gender": "f", "plural": "тітки́", "notes": "The stress moves to the ending in the plural." }
+  ]
+}

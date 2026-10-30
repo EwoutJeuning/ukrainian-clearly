@@ -1,0 +1,25 @@
+{
+  "title": "Common verbs",
+  "description": "Everyday verbs, each with its aspect partner: the imperfective verb first, the perfective in the pair.",
+  "order": 6,
+  "sources": ["goroh-dictionary"],
+  "entries": [
+    { "uk": "роби́ти", "en": "to do, to make", "pos": "verb", "aspect": "impf", "aspectPair": "зроби́ти" },
+    { "uk": "каза́ти", "en": "to say, to tell", "pos": "verb", "aspect": "impf", "aspectPair": "сказа́ти" },
+    { "uk": "чита́ти", "en": "to read", "pos": "verb", "aspect": "impf", "aspectPair": "прочита́ти" },
+    { "uk": "писа́ти", "en": "to write", "pos": "verb", "aspect": "impf", "aspectPair": "написа́ти" },
+    { "uk": "ба́чити", "en": "to see", "pos": "verb", "aspect": "impf", "aspectPair": "поба́чити" },
+    { "uk": "чу́ти", "en": "to hear", "pos": "verb", "aspect": "impf", "aspectPair": "почу́ти" },
+    { "uk": "ї́сти", "en": "to eat", "pos": "verb", "aspect": "impf", "aspectPair": "з’ї́сти" },
+    { "uk": "пи́ти", "en": "to drink", "pos": "verb", "aspect": "impf", "aspectPair": "ви́пити", "notes": "In ви́пити the prefix ви- takes the stress." },
+    { "uk": "купува́ти", "en": "to buy", "pos": "verb", "aspect": "impf", "aspectPair": "купи́ти" },
+    { "uk": "дава́ти", "en": "to give", "pos": "verb", "aspect": "impf", "aspectPair": "да́ти" },
+    { "uk": "бра́ти", "en": "to take", "pos": "verb", "aspect": "impf", "aspectPair": "взя́ти", "notes": "The two verbs of this pair look quite different." },
+    { "uk": "розумі́ти", "en": "to understand", "pos": "verb", "aspect": "impf", "aspectPair": "зрозумі́ти" },
+    { "uk": "вчи́ти", "en": "to learn; to teach", "pos": "verb", "aspect": "impf", "aspectPair": "ви́вчити", "notes": "In ви́вчити the prefix ви- takes the stress." },
+    { "uk": "почина́ти", "en": "to begin, to start", "pos": "verb", "aspect": "impf", "aspectPair": "поча́ти" },
+    { "uk": "відкрива́ти", "en": "to open", "pos": "verb", "aspect": "impf", "aspectPair": "відкри́ти" },
+    { "uk": "чека́ти", "en": "to wait", "pos": "verb", "aspect": "impf", "aspectPair": "почека́ти" },
+    { "uk": "зна́ти", "en": "to know", "pos": "verb", "aspect": "impf", "notes": "Has no perfective partner." }
+  ]
+}
