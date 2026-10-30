@@ -8,4 +8,4 @@ seeAlso: [inflection, infinitive]
 
 A Ukrainian verb has a different ending for each person in the present tense: <span lang="uk">я чита́ю</span> (I read), <span lang="uk">ти чита́єш</span> (you read, informal), <span lang="uk">він чита́є</span> (he reads), and so on.
 
-Verbs fall into two groups, the first and the second conjugation, with different vowels in their endings. The *you* (informal) form shows which group a verb is in.
+Verbs fall into two groups, the first and the second conjugation, with different vowels in their endings. The *you* (informal) form shows which group a verb is in. A few common verbs, such as <span lang="uk">бу́ти</span>, <span lang="uk">да́ти</span> and <span lang="uk">ї́сти</span>, are irregular and fit neither group.
