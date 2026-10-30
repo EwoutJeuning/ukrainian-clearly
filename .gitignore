@@ -34,3 +34,6 @@ docs/conventions.md
 
 # Claude Code local state and agent worktrees
 .claude/
+
+# Netlify CLI local state (site link)
+.netlify/
