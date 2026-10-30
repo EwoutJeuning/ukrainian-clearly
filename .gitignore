@@ -37,3 +37,6 @@ docs/conventions.md
 
 # Netlify CLI local state (site link)
 .netlify/
+
+# Illustration candidates (only chosen images go into src/assets/illustrations/)
+images/candidates/
