@@ -5,6 +5,6 @@
   "language": "uk",
   "type": "dictionary",
   "accessed": "2026-10-29",
-  "usedFor": "Stress (shown with U+0301) and full paradigms of the sample words in docs/conventions.md (мова, український, дякувати, ласка, привіт, побачення, вода, хата, добрий, ранок, вечір, Україна, бути), and the dictionary definitions of ти and ви.",
+  "usedFor": "Stress (shown with U+0301) and full paradigms of the sample words in docs/conventions.md (мова, український, дякувати, ласка, привіт, побачення, вода, хата, добрий, ранок, вечір, Україна, бути), and the dictionary definitions of ти and ви. Cycle 4: stress of every marked form in grammar/questions, grammar/negation and grammar/prepositions, and the СУМ-11 entries for the case each preposition takes (в/у, на, до, з, від, без, для, біля, після, про, під, над, за, перед), for чи, ні, нема/немає (with the genitive), ніхто, and the meanings of ні́коли and ні́де.",
   "notes": "An aggregator, not a primary dictionary. Its Словозміна pages credit «Словники України» on-line (ULIF). Its definitions are credited to «Тлумачний словник української мови» (СУМ-11). It lists homographs separately: дя́кувати (to thank) is a different verb from дякува́ти (to serve as a дяк)."
 }
