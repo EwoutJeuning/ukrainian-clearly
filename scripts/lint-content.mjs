@@ -25,7 +25,8 @@
 //                       Not warned about: Cyrillic in Markdown `#` headings and in the `title`
 //                       attribute of <ExampleList>; the site marks those lang="uk" itself
 //                       (src/components/Heading.astro via mdxComponents; UkText.astro).
-//   uk-en-dash          Spaced en dash ( – ) between Cyrillic words inside Ukrainian text
+//   uk-en-dash          Spaced en dash ( – ) between Cyrillic words, after ?/!/. etc., or opening
+//                       a dialogue line, inside Ukrainian text
 //                       (<Uk>, <Example>, lang="uk"). House rule: spaced em dash ( — ).
 //
 // Not checked: fenced code blocks and inline `code` spans, JSX/HTML comments, import/export
@@ -70,7 +71,9 @@ const CYR_VOWELS = new Set('аеиіоуюяєїАЕИІОУЮЯЄЇ');
 const RUSSIAN = /[ыэъёЫЭЪЁ]/gu;
 // A word: letters and combining marks, joined by apostrophe variants.
 const WORD = /[\p{L}\p{M}]+(?:['ʼ’][\p{L}\p{M}]+)*/gu;
-const SPACED_EN_DASH = /(?<=\p{Script=Cyrillic}\p{M}*) – (?=\p{Script=Cyrillic})/gu;
+// An en dash before a spaced Cyrillic word, when it follows a Cyrillic word or sentence
+// punctuation and a space, or opens the Ukrainian text (a dialogue line: "– Ти зна́єш?").
+const SPACED_EN_DASH = /(?<=(?:[\p{Script=Cyrillic}\p{M}?!.,…:;»)] )|^|["'>{])–(?= \p{Script=Cyrillic})/gu;
 const BAD_APOSTROPHE = /(?<=\p{Script=Cyrillic}\p{M}*)['ʼ](?=\p{Script=Cyrillic})/gu;
 const hex = (ch) => 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
 const show = (ch) => `${ch} (${hex(ch)})`;
@@ -273,7 +276,7 @@ export function lintText(text, file) {
 
     if (uk) {
       for (const m of line.matchAll(SPACED_EN_DASH)) {
-        if (live(m.index) && uk[lineStart + m.index + 1]) report(m.index + 1, 'uk-en-dash', 'spaced en dash (–) in Ukrainian text; use a spaced em dash (—)');
+        if (live(m.index) && uk[lineStart + m.index]) report(m.index, 'uk-en-dash', 'spaced en dash (–) in Ukrainian text; use a spaced em dash (—)');
       }
     }
 
