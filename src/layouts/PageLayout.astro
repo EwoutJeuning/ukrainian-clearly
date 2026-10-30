@@ -39,6 +39,8 @@ interface Props {
   /** Allow the main column to exceed the reading measure (wide tables). */
   wide?: boolean;
   noindex?: boolean;
+  ogType?: 'website' | 'article';
+  jsonLd?: Record<string, unknown>[];
 }
 
 const {
@@ -55,12 +57,22 @@ const {
   next,
   wide = false,
   noindex = false,
+  ogType,
+  jsonLd,
 } = Astro.props;
 
 const currentHref = Astro.url.pathname.replace(/\/?$/, '/');
 ---
 
-<BaseLayout title={title} description={description} currentKey={currentKey} noindex={noindex}>
+<BaseLayout
+  title={title}
+  description={description}
+  currentKey={currentKey}
+  noindex={noindex}
+  ogType={ogType}
+  jsonLd={jsonLd}
+  breadcrumbs={crumbs.map((c) => ({ name: c.label, href: c.href }))}
+>
   <div class="container page">
     <Breadcrumbs items={crumbs} />
 

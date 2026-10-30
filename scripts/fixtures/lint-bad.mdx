@@ -21,7 +21,7 @@ Modifier-letter apostrophe: <Uk>пʼять</Uk>. {/* expect: apostrophe */}
 
 Russian-only letter: <Uk>мыло</Uk>. {/* expect: russian-letter */}
 
-## Украї́на {/* expect: stress-in-heading, unmarked-ukrainian */}
+## Украї́на {/* expect: stress-in-heading */}
 
 Ukrainian in plain prose without a language mark: мова. {/* expect: unmarked-ukrainian */}
 
@@ -37,3 +37,9 @@ Inline code is not checked: `м'ясо`, `ы`.
 <Example uk="м’я́со" en="it's meat, isn't it" />
 
 <GrammarTable caption="Fixture" headers={['Word', 'Meaning']} rows={[['п’ять', 'five'], ['мо́ва', "language's"]]} ukColumns={[0]} />
+
+Spaced en dash in marked text: <Uk>мама – тато</Uk>. {/* expect: uk-en-dash */}
+
+<Example uk="мама – тато" en="mum - dad" /> {/* expect: uk-en-dash */}
+
+Outside Ukrainian text an en dash is fine: 2020 – 2021 and <Uk>мама — тато</Uk> and <Uk>5–6</Uk>.

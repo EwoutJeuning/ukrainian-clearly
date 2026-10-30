@@ -22,6 +22,11 @@
 //   russian-letter      ы э ъ ё (any case): not in the Ukrainian alphabet.
 //   unmarked-ukrainian  WARNING. MDX body text with Cyrillic outside <Example>, <Uk>,
 //                       <GrammarTable>, a Markdown table, or an element with lang="uk".
+//                       Not warned about: Cyrillic in Markdown `#` headings and in the `title`
+//                       attribute of <ExampleList>; the site marks those lang="uk" itself
+//                       (src/components/Heading.astro via mdxComponents; UkText.astro).
+//   uk-en-dash          Spaced en dash ( – ) between Cyrillic words inside Ukrainian text
+//                       (<Uk>, <Example>, lang="uk"). House rule: spaced em dash ( — ).
 //
 // Not checked: fenced code blocks and inline `code` spans, JSX/HTML comments, import/export
 // lines. In JSON files, \uXXXX escapes are decoded before checking.
@@ -55,6 +60,7 @@ const RULES = {
   'stress-in-heading': 'error',
   'russian-letter': 'error',
   'unmarked-ukrainian': 'warning',
+  'uk-en-dash': 'error',
 };
 
 const ACUTE = '́';
@@ -64,6 +70,7 @@ const CYR_VOWELS = new Set('аеиіоуюяєїАЕИІОУЮЯЄЇ');
 const RUSSIAN = /[ыэъёЫЭЪЁ]/gu;
 // A word: letters and combining marks, joined by apostrophe variants.
 const WORD = /[\p{L}\p{M}]+(?:['ʼ’][\p{L}\p{M}]+)*/gu;
+const SPACED_EN_DASH = /(?<=\p{Script=Cyrillic}\p{M}*) – (?=\p{Script=Cyrillic})/gu;
 const BAD_APOSTROPHE = /(?<=\p{Script=Cyrillic}\p{M}*)['ʼ](?=\p{Script=Cyrillic})/gu;
 const hex = (ch) => 'U+' + ch.codePointAt(0).toString(16).toUpperCase().padStart(4, '0');
 const show = (ch) => `${ch} (${hex(ch)})`;
@@ -161,7 +168,7 @@ function ukMask(text, bodyStart, skip) {
           const k = stack.map((e) => e.name).lastIndexOf(tag.name);
           if (k !== -1) stack.length = k;
         } else {
-          if (uk || inUk()) fill(mask, i, tag.end);
+          if (uk || inUk() || tag.name === 'ExampleList') fill(mask, i, tag.end);
           // Void HTML elements never close.
           if (!tag.selfClosing && !/^(br|hr|img|input|meta|link|wbr)$/i.test(tag.name)) stack.push({ name: tag.name, uk });
         }
@@ -171,6 +178,10 @@ function ukMask(text, bodyStart, skip) {
     }
     if (inUk()) mask[i] = true;
     i++;
+  }
+  // Markdown headings: the site wraps Cyrillic in headings with lang="uk" (Heading component).
+  for (const m of text.slice(bodyStart).matchAll(/^ {0,3}#{1,6}(?:\s[^\n]*)?$/gm)) {
+    if (!skip[bodyStart + m.index]) fill(mask, bodyStart + m.index, bodyStart + m.index + m[0].length);
   }
   // Markdown table rows.
   for (const m of text.slice(bodyStart).matchAll(/^[ \t]*\|[^\n]*$/gm)) fill(mask, bodyStart + m.index, bodyStart + m.index + m[0].length);
@@ -258,6 +269,12 @@ export function lintText(text, file) {
 
     for (const m of line.matchAll(BAD_APOSTROPHE)) {
       if (live(m.index)) report(m.index, 'apostrophe', `${show(m[0])} between Cyrillic letters; use ’ (U+2019)`);
+    }
+
+    if (uk) {
+      for (const m of line.matchAll(SPACED_EN_DASH)) {
+        if (live(m.index) && uk[lineStart + m.index + 1]) report(m.index + 1, 'uk-en-dash', 'spaced en dash (–) in Ukrainian text; use a spaced em dash (—)');
+      }
     }
 
     for (const m of line.matchAll(RUSSIAN)) {

@@ -5,6 +5,8 @@
  * smaller screens. The layout shows only one of them at a time (display: none
  * removes the other from the accessibility tree).
  */
+import UkText from './UkText.astro';
+
 export interface TocHeading {
   depth: number;
   slug: string;
@@ -31,7 +33,7 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
         <ul>
           {items.map((h) => (
             <li class={`toc__item--h${h.depth}`}>
-              <a href={`#${h.slug}`}>{h.text}</a>
+              <a href={`#${h.slug}`}><UkText text={h.text} /></a>
             </li>
           ))}
         </ul>
@@ -43,7 +45,7 @@ const items = headings.filter((h) => h.depth === 2 || h.depth === 3);
           <ul>
             {items.map((h) => (
               <li class={`toc__item--h${h.depth}`}>
-                <a href={`#${h.slug}`}>{h.text}</a>
+                <a href={`#${h.slug}`}><UkText text={h.text} /></a>
               </li>
             ))}
           </ul>

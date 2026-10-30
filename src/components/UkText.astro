@@ -1,0 +1,12 @@
+---
+/** Plain text with its Cyrillic runs wrapped in <span lang="uk">. */
+import { splitUk } from '../lib/uk-markup';
+
+interface Props {
+  text: string;
+}
+
+const runs = splitUk(Astro.props.text);
+---
+
+{runs.map((r) => (r.uk ? <span lang="uk">{r.text}</span> : r.text))}

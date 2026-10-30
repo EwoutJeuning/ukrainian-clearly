@@ -1,5 +1,6 @@
 ---
 import type { PageLink } from './PrevNext.astro';
+import UkText from './UkText.astro';
 
 interface Props {
   title: string;
@@ -21,7 +22,7 @@ const { title, description, sectionLabel, sectionHref, prerequisites = [] } = As
       </p>
     )
   }
-  <h1>{title}</h1>
+  <h1><UkText text={title} /></h1>
   <p class="article-header__lead">{description}</p>
   {
     prerequisites.length > 0 && (

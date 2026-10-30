@@ -23,7 +23,10 @@ if ((await getGlossaryTerms()).length > 0) {
 }
 ---
 
-<BaseLayout description="Clear explanations of Ukrainian for English-speaking beginners: the alphabet, grammar, beginner sentences and vocabulary, with examples and translations.">
+<BaseLayout
+  ogType="website"
+  jsonLd={[{ '@type': 'WebSite', name: 'Ukrainian, Clearly', inLanguage: 'en', ...(Astro.site ? { url: Astro.site.href } : {}) }]}
+  description="Clear explanations of Ukrainian for English-speaking beginners: the alphabet, grammar, beginner sentences and vocabulary, with examples and translations.">
   <div class="container home">
     <section class="home-intro" aria-labelledby="home-title">
       <h1 id="home-title">Learn how Ukrainian works, one clear step at a time.</h1>

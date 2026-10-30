@@ -58,9 +58,22 @@ const updatedText = data.updated.toLocaleDateString('en-GB', {
   year: 'numeric',
   timeZone: 'UTC',
 });
+
+const learningResource = {
+  '@type': 'LearningResource',
+  name: data.title,
+  description: data.description,
+  inLanguage: 'en',
+  about: { '@type': 'Language', name: 'Ukrainian', alternateName: 'uk' },
+  educationalLevel: data.level,
+  dateModified: updated,
+  isAccessibleForFree: true,
+};
 ---
 
 <PageLayout
+  ogType="article"
+  jsonLd={[learningResource]}
   title={data.title}
   description={data.description}
   crumbs={crumbs}

@@ -1,0 +1,18 @@
+---
+/**
+ * Heading for MDX bodies (h2 to h4, mapped in mdx.ts via H2/H3/H4). Cyrillic
+ * runs are wrapped in <span lang="uk"> so screen readers switch voice.
+ */
+import { markUkHtml } from '../lib/uk-markup';
+
+interface Props {
+  level: 2 | 3 | 4;
+  [attr: string]: unknown;
+}
+
+const { level, ...attrs } = Astro.props;
+const Tag = `h${level}` as 'h2' | 'h3' | 'h4';
+const html = markUkHtml(await Astro.slots.render('default'));
+---
+
+<Tag {...attrs} set:html={html} />

@@ -12,12 +12,38 @@ interface Props {
   currentKey?: string;
   /** Exclude from search engines (dev-only pages). */
   noindex?: boolean;
+  /** Open Graph type: 'article' for article pages, 'website' otherwise. */
+  ogType?: 'website' | 'article';
+  /** Extra JSON-LD objects for this page (no absolute URLs; those are added here when `site` is set). */
+  jsonLd?: Record<string, unknown>[];
+  /** Breadcrumb trail (paths, not absolute URLs). Emitted as BreadcrumbList only when `site` is set. */
+  breadcrumbs?: { name: string; href?: string | undefined }[];
 }
 
 const SITE_NAME = 'Ukrainian, Clearly';
-const { title, description, currentKey, noindex = false } = Astro.props;
+const { title, description, currentKey, noindex = false, ogType = 'website', jsonLd = [], breadcrumbs = [] } = Astro.props;
 const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
-// No canonical URL or sitemap: there is no real site origin yet (plan.md A14).
+// Social/search metadata. og:locale is en_GB (the site is written in British English).
+// There is no `site` in astro.config yet (plan.md A14), so nothing here emits an absolute URL.
+// Once `site` is set, canonical, og:url and BreadcrumbList switch on automatically.
+// og:image is deliberately absent until a real image and origin exist.
+const site = Astro.site;
+const pageUrl = site ? new URL(Astro.url.pathname, site).href : undefined;
+const graph: Record<string, unknown>[] = jsonLd.map((item) => ({ '@context': 'https://schema.org', ...item }));
+if (site && pageUrl && breadcrumbs.length > 0) {
+  graph.push({
+    '@context': 'https://schema.org',
+    '@type': 'BreadcrumbList',
+    itemListElement: breadcrumbs.map((b, i) => ({
+      '@type': 'ListItem',
+      position: i + 1,
+      name: b.name,
+      item: b.href ? new URL(b.href, site).href : pageUrl,
+    })),
+  });
+}
+// "<" is escaped so page text can never close the script element.
+const ldJson = graph.map((g) => JSON.stringify(g).replace(/</g, '\u003c'));
 ---
 
 <!doctype html>
@@ -31,6 +57,15 @@ const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
     <title>{fullTitle}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
+    {pageUrl && <link rel="canonical" href={pageUrl} />}
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content={ogType} />
+    <meta property="og:locale" content="en_GB" />
+    <meta property="og:site_name" content={SITE_NAME} />
+    {pageUrl && <meta property="og:url" content={pageUrl} />}
+    <meta name="twitter:card" content="summary" />
+    {ldJson.map((json) => <script type="application/ld+json" set:html={json} />)}
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="generator" content={Astro.generator} />
     <!-- Self-hosted via the Astro fonts API. Not preloaded: unicode-range
