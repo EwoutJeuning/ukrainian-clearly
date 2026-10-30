@@ -90,9 +90,10 @@ const currentHref = Astro.url.pathname.replace(/\/?$/, '/');
         )
       }
 
-      <article class="page-grid__main">
+      <article class="page-grid__main" data-pagefind-body={noindex ? undefined : true}>
         {
           sectionNav && (
+            <div class="pagefind-ignore" data-pagefind-ignore>
             <TopicNav
               class="page-grid__nav-mobile"
               variant="disclosure"
@@ -101,6 +102,7 @@ const currentHref = Astro.url.pathname.replace(/\/?$/, '/');
               links={sectionNav.links}
               currentHref={currentHref}
             />
+            </div>
           )
         }
 
@@ -112,7 +114,9 @@ const currentHref = Astro.url.pathname.replace(/\/?$/, '/');
           prerequisites={prerequisites}
         />
 
-        <TableOfContents class="page-grid__toc-mobile" headings={headings} variant="disclosure" />
+        <div class="pagefind-ignore" data-pagefind-ignore>
+          <TableOfContents class="page-grid__toc-mobile" headings={headings} variant="disclosure" />
+        </div>
 
         <div class="page-body">
           <slot />
@@ -120,7 +124,9 @@ const currentHref = Astro.url.pathname.replace(/\/?$/, '/');
 
         <slot name="end" />
 
-        <PrevNext prev={prev} next={next} />
+        <div class="pagefind-ignore" data-pagefind-ignore>
+          <PrevNext prev={prev} next={next} />
+        </div>
       </article>
 
       <div class="page-grid__toc">
@@ -131,6 +137,11 @@ const currentHref = Astro.url.pathname.replace(/\/?$/, '/');
 </BaseLayout>
 
 <style>
+  /* Wrappers that only carry data-pagefind-ignore must not affect layout. */
+  .pagefind-ignore {
+    display: contents;
+  }
+
   .page {
     padding-top: var(--space-4);
   }

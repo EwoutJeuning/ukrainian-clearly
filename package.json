@@ -7,7 +7,7 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "astro build && node scripts/build-search.mjs",
     "preview": "astro preview",
     "astro": "astro",
     "check": "astro check",
@@ -15,6 +15,7 @@
     "check:fonts": "node scripts/check-font-glyphs.mjs",
     "lint:content": "node scripts/lint-content.mjs",
     "lint:content:self-test": "node scripts/lint-content.mjs --self-test",
+    "test:search": "node scripts/test-search.mjs",
     "verify": "npm run build && npm run check && npm run check:links && npm run check:fonts && npm run lint:content:self-test && npm run lint:content"
   },
   "dependencies": {
@@ -32,6 +33,7 @@
     "@types/node": "^24.19.2",
     "fontkit": "^2.0.4",
     "harfbuzzjs": "^1.6.4",
+    "pagefind": "^1.5.2",
     "playwright": "^1.64.1",
     "wawoff2": "^2.0.1"
   }

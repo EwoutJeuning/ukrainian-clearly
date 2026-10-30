@@ -1,0 +1,76 @@
+---
+/**
+ * Site search (plan B18), using the Pagefind index built by
+ * scripts/build-search.mjs after `astro build`. The index only exists in a
+ * production build, so in `astro dev` the page shows the fallback message.
+ */
+import PageLayout from '../layouts/PageLayout.astro';
+---
+
+<PageLayout
+  title="Search"
+  description="Search the explanations, sentence patterns and vocabulary on this site, in English or Ukrainian."
+  crumbs={[{ label: 'Home', href: '/' }, { label: 'Search' }]}
+  currentKey="search"
+  noindex
+>
+  <link rel="stylesheet" href="/pagefind/pagefind-ui.css" />
+
+  <div id="search" class="search">
+    <noscript>
+      <p>Search needs JavaScript. You can also browse from <a href="/start-here/">Start here</a> or the <a href="/glossary/">glossary</a>.</p>
+    </noscript>
+  </div>
+
+  <p class="search__tips">
+    You can search in English or Ukrainian. Type Ukrainian without stress marks. Ukrainian words change their endings,
+    so if a form finds nothing, try the dictionary form or the English meaning.
+  </p>
+
+  <script is:inline src="/pagefind/pagefind-ui.js"></script>
+  <script is:inline>
+    (function () {
+      var el = document.getElementById('search');
+      if (typeof window.PagefindUI !== 'function') {
+        el.insertAdjacentHTML('beforeend', '<p>Search is not available in this preview.</p>');
+        return;
+      }
+      new window.PagefindUI({
+        element: '#search',
+        showImages: false,
+        showSubResults: true,
+        resetStyles: false,
+        translations: { placeholder: 'Search, e.g. genitive or мова' },
+      });
+      var input = el.querySelector('input');
+      if (input) {
+        input.setAttribute('aria-label', 'Search the site');
+        var q = new URLSearchParams(location.search).get('q');
+        if (q) {
+          input.value = q;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      }
+    })();
+  </script>
+</PageLayout>
+
+<style>
+  .search {
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: var(--color-blue);
+    --pagefind-ui-text: var(--color-text);
+    --pagefind-ui-background: var(--color-bg);
+    --pagefind-ui-border: var(--color-border-strong);
+    --pagefind-ui-tag: var(--color-blue-pale);
+    --pagefind-ui-border-width: 1px;
+    --pagefind-ui-border-radius: 4px;
+    --pagefind-ui-font: inherit;
+  }
+
+  .search__tips {
+    margin-top: var(--space-6);
+    color: var(--color-text-muted);
+    font-size: var(--text-sm);
+  }
+</style>

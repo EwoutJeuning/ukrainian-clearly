@@ -161,7 +161,8 @@ export async function getNavigation(): Promise<{ primary: NavItem[]; secondary: 
     item('sentences', SECTION_INFO.sentences.label),
     item('vocabulary', SECTION_INFO.vocabulary.label),
   ];
-  const secondary = [item('alphabet', SECTION_INFO.alphabet.label), item('glossary', 'Glossary')];
+  const secondary = [item('alphabet', SECTION_INFO.alphabet.label), item('glossary', 'Glossary'), item('search', 'Search')];
+  available.add('search'); // /search/ always exists
   const keep = (i: NavItem) => available.has(i.key);
   return { primary: primary.filter(keep), secondary: secondary.filter(keep) };
 }
