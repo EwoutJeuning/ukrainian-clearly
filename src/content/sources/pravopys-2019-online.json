@@ -5,6 +5,6 @@
   "language": "uk",
   "type": "orthography",
   "accessed": "2026-10-29",
-  "usedFor": "Cross-checking the 2019 text of §7 (apostrophe), §23–§25 (у/в, і/й, з/із/зі) and §60 (capital Ви) against the 2026 standard, and confirming that U+2019 is the apostrophe in the published text. Also §25 and §44, cross-checked for grammar/negation and grammar/prepositions.",
+  "usedFor": "a searchable text of the 2019 orthography, used to cross-check the rules on the apostrophe, у/в, і/й, з/із/зі, не with verbs, and capital Ви.",
   "notes": "An independent search site, not an official publication. It reproduces the 2019 edition approved by Cabinet of Ministers Resolution No. 437 of 22 May 2019, which was revoked in March 2026. Use pravopys-2026 as the authority; this text lacks some 2026 notes (for example §23, note 1, which allows в at the start of a sentence)."
 }

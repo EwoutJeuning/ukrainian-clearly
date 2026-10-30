@@ -5,6 +5,6 @@
   "language": "uk",
   "type": "orthography",
   "accessed": "2026-10-29",
-  "usedFor": "The current official spelling norm. Used for the 33-letter alphabet (4.1), the letters Г and Ґ (§5, §6), the apostrophe rules and the apostrophe character used in the official text (§7), the у/в, і/й and з/із/зі alternations (§23–§25), and capital Ви/Ваш in letters and official documents (§60.2). Also §44 (не written separately from verbs; нена́видіти and ні- pronouns written as one word), used in grammar/negation; §23 and §25 summarised in grammar/prepositions.",
+  "usedFor": "the current official spelling standard: the 33-letter alphabet, г and ґ, the apostrophe, the alternation of у/в, і/й and з/із/зі, writing не and ні-, and capital Ви in letters and documents.",
   "notes": "Approved by Commission decision No. 47 of 1 March 2026; in force from 28 March 2026. It is the 2019 orthography with editorial and technical corrections only (see kmu-pravopys-standard-2026). Read as text extracted from the PDF. The PDF writes stressed а, е, о with precomposed Latin letters (á, é, ó) and other stressed vowels with U+0301, so Ukrainian examples must never be copied from it verbatim."
 }

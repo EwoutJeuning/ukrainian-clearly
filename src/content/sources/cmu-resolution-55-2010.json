@@ -6,6 +6,6 @@
   "language": "uk",
   "type": "legal",
   "accessed": "2026-10-29",
-  "usedFor": "The full national transliteration table: Latin equivalents for each letter, word-initial and other forms of є, ї, й, ю, я, the examples, and the notes (зг becomes zgh; ь and the apostrophe are not transliterated; names are transliterated letter by letter).",
+  "usedFor": "the official transliteration table used on the stress and transliteration page: the Latin equivalent of each letter, the special forms at the start of a word, and the rules for ь and the apostrophe.",
   "notes": "The official text is at https://zakon.rada.gov.ua/laws/show/55-2010-п, but that site did not respond from here (the TLS handshake failed). This mirror shows the version as amended by Resolution No. 185 of 13 March 2013. The table matches the independent UNGEGN record (ungegn-romanization-ukrainian). Re-check against zakon.rada.gov.ua when it is reachable."
 }

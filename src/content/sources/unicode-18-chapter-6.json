@@ -6,6 +6,6 @@
   "language": "en",
   "type": "other",
   "accessed": "2026-10-29",
-  "usedFor": "The difference between U+2019 RIGHT SINGLE QUOTATION MARK (preferred for a punctuation apostrophe) and U+02BC MODIFIER LETTER APOSTROPHE (preferred where the apostrophe is a modifier letter), and the note that U+2019 between letters does not separate words.",
+  "usedFor": "which character to use for the Ukrainian apostrophe (U+2019) and why.",
   "notes": "Does not discuss Ukrainian specifically."
 }

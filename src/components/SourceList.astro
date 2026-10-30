@@ -3,6 +3,8 @@
  * Lists references from the `sources` collection.
  * <SourceList />            all sources (for the About and sources page)
  * <SourceList ids={[…]} />  selected sources
+ *
+ * `notes` is an editorial field (research trail, caveats for writers) and is not shown.
  */
 import { getSources, type Source } from '../lib/content';
 
@@ -36,7 +38,6 @@ const formatDate = (iso: string) =>
           <p class="source-list__meta">
             {LANGUAGE[s.data.language]}. Used for: {s.data.usedFor}. Accessed {formatDate(s.data.accessed)}.
           </p>
-          {s.data.notes && <p class="source-list__meta">{s.data.notes}</p>}
         </li>
       ))}
     </ul>
