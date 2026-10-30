@@ -1,0 +1,27 @@
+{
+  "title": "Home",
+  "description": "Words for the home: rooms, furniture and the parts of a building, with gender and plural.",
+  "order": 3,
+  "sources": ["goroh-dictionary"],
+  "entries": [
+    { "uk": "дім", "en": "house; home", "pos": "noun", "gender": "m", "plural": "доми́", "notes": "The і of дім becomes о in the other forms." },
+    { "uk": "буди́нок", "en": "house, building", "pos": "noun", "gender": "m", "plural": "буди́нки" },
+    { "uk": "кварти́ра", "en": "flat, apartment", "pos": "noun", "gender": "f", "plural": "кварти́ри" },
+    { "uk": "кімна́та", "en": "room", "pos": "noun", "gender": "f", "plural": "кімна́ти" },
+    { "uk": "ку́хня", "en": "kitchen", "pos": "noun", "gender": "f", "plural": "ку́хні" },
+    { "uk": "спа́льня", "en": "bedroom", "pos": "noun", "gender": "f", "plural": "спа́льні" },
+    { "uk": "туале́т", "en": "toilet", "pos": "noun", "gender": "m", "plural": "туале́ти" },
+    { "uk": "по́верх", "en": "floor, storey", "pos": "noun", "gender": "m", "plural": "по́верхи" },
+    { "uk": "две́рі", "en": "door, doors", "pos": "noun", "notes": "Plural only: две́рі means one door or several. It has no singular, so no gender." },
+    { "uk": "вікно́", "en": "window", "pos": "noun", "gender": "n", "plural": "ві́кна", "notes": "The stress moves to the first syllable in the plural." },
+    { "uk": "стіна́", "en": "wall", "pos": "noun", "gender": "f", "plural": "сті́ни", "notes": "The stress moves to the first syllable in the plural." },
+    { "uk": "ключ", "en": "key", "pos": "noun", "gender": "m", "plural": "ключі́" },
+    { "uk": "стіл", "en": "table", "pos": "noun", "gender": "m", "plural": "столи́", "notes": "The і of стіл becomes о in the other forms." },
+    { "uk": "стіле́ць", "en": "chair", "pos": "noun", "gender": "m", "plural": "стільці́" },
+    { "uk": "дива́н", "en": "sofa", "pos": "noun", "gender": "m", "plural": "дива́ни" },
+    { "uk": "лі́жко", "en": "bed", "pos": "noun", "gender": "n", "plural": "лі́жка" },
+    { "uk": "ша́фа", "en": "wardrobe, cupboard", "pos": "noun", "gender": "f", "plural": "ша́фи" },
+    { "uk": "холоди́льник", "en": "fridge", "pos": "noun", "gender": "m", "plural": "холоди́льники" },
+    { "uk": "ла́мпа", "en": "lamp", "pos": "noun", "gender": "f", "plural": "ла́мпи" }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "title": "Time: days, months and parts of the day",
+  "description": "The days of the week, the parts of the day and the twelve months. Ukrainian writes the names of days and months with a small letter.",
+  "order": 5,
+  "sources": ["goroh-dictionary"],
+  "entries": [
+    { "uk": "понеді́лок", "en": "Monday", "pos": "noun", "gender": "m", "plural": "понеді́лки" },
+    { "uk": "вівто́рок", "en": "Tuesday", "pos": "noun", "gender": "m", "plural": "вівто́рки" },
+    { "uk": "середа́", "en": "Wednesday", "pos": "noun", "gender": "f", "plural": "се́реди", "notes": "The stress moves to the first syllable in the plural." },
+    { "uk": "четве́р", "en": "Thursday", "pos": "noun", "gender": "m", "plural": "четверги́", "notes": "The other forms add г: четверги́." },
+    { "uk": "п’я́тниця", "en": "Friday", "pos": "noun", "gender": "f", "plural": "п’я́тниці" },
+    { "uk": "субо́та", "en": "Saturday", "pos": "noun", "gender": "f", "plural": "субо́ти" },
+    { "uk": "неді́ля", "en": "Sunday", "pos": "noun", "gender": "f", "plural": "неді́лі" },
+    { "uk": "ра́нок", "en": "morning", "pos": "noun", "gender": "m", "plural": "ра́нки" },
+    { "uk": "день", "en": "day; daytime", "pos": "noun", "gender": "m", "plural": "дні", "notes": "The е drops out in the other forms." },
+    { "uk": "ве́чір", "en": "evening", "pos": "noun", "gender": "m", "plural": "вечори́", "notes": "The і becomes о in the other forms, and the stress moves to the ending in the plural." },
+    { "uk": "ніч", "en": "night", "pos": "noun", "gender": "f", "plural": "но́чі", "notes": "Feminine, although it ends in a consonant. The і becomes о in the other forms." },
+    { "uk": "сі́чень", "en": "January", "pos": "noun", "gender": "m", "plural": "сі́чні" },
+    { "uk": "лю́тий", "en": "February", "pos": "noun", "gender": "m", "plural": "лю́ті", "notes": "Has adjective endings: it is the adjective лю́тий (fierce) used as a noun." },
+    { "uk": "бе́резень", "en": "March", "pos": "noun", "gender": "m", "plural": "бе́резні" },
+    { "uk": "кві́тень", "en": "April", "pos": "noun", "gender": "m", "plural": "кві́тні" },
+    { "uk": "тра́вень", "en": "May", "pos": "noun", "gender": "m", "plural": "тра́вні" },
+    { "uk": "че́рвень", "en": "June", "pos": "noun", "gender": "m", "plural": "че́рвні" },
+    { "uk": "ли́пень", "en": "July", "pos": "noun", "gender": "m", "plural": "ли́пні" },
+    { "uk": "се́рпень", "en": "August", "pos": "noun", "gender": "m", "plural": "се́рпні" },
+    { "uk": "ве́ресень", "en": "September", "pos": "noun", "gender": "m", "plural": "ве́ресні" },
+    { "uk": "жо́втень", "en": "October", "pos": "noun", "gender": "m", "plural": "жо́втні" },
+    { "uk": "листопа́д", "en": "November", "pos": "noun", "gender": "m", "plural": "листопа́ди" },
+    { "uk": "гру́день", "en": "December", "pos": "noun", "gender": "m", "plural": "гру́дні" }
+  ]
+}

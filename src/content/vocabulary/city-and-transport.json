@@ -1,0 +1,28 @@
+{
+  "title": "The city and transport",
+  "description": "Places in town and ways of getting around, with gender and plural.",
+  "order": 4,
+  "sources": ["goroh-dictionary"],
+  "entries": [
+    { "uk": "мі́сто", "en": "town, city", "pos": "noun", "gender": "n", "plural": "міста́", "notes": "The stress moves to the ending in the plural." },
+    { "uk": "ву́лиця", "en": "street", "pos": "noun", "gender": "f", "plural": "ву́лиці" },
+    { "uk": "пло́ща", "en": "square", "pos": "noun", "gender": "f", "plural": "пло́щі" },
+    { "uk": "міст", "en": "bridge", "pos": "noun", "gender": "m", "plural": "мости́", "notes": "The і of міст becomes о in the other forms." },
+    { "uk": "магази́н", "en": "shop", "pos": "noun", "gender": "m", "plural": "магази́ни" },
+    { "uk": "ри́нок", "en": "market", "pos": "noun", "gender": "m", "plural": "ри́нки" },
+    { "uk": "апте́ка", "en": "chemist’s, pharmacy", "pos": "noun", "gender": "f", "plural": "апте́ки" },
+    { "uk": "ліка́рня", "en": "hospital", "pos": "noun", "gender": "f", "plural": "ліка́рні" },
+    { "uk": "шко́ла", "en": "school", "pos": "noun", "gender": "f", "plural": "шко́ли" },
+    { "uk": "музе́й", "en": "museum", "pos": "noun", "gender": "m", "plural": "музе́ї" },
+    { "uk": "вокза́л", "en": "railway station", "pos": "noun", "gender": "m", "plural": "вокза́ли" },
+    { "uk": "аеропо́рт", "en": "airport", "pos": "noun", "gender": "m", "plural": "аеропорти́", "notes": "The stress moves to the ending in the plural." },
+    { "uk": "зупи́нка", "en": "stop (bus, tram)", "pos": "noun", "gender": "f", "plural": "зупи́нки" },
+    { "uk": "квито́к", "en": "ticket", "pos": "noun", "gender": "m", "plural": "квитки́" },
+    { "uk": "авто́бус", "en": "bus", "pos": "noun", "gender": "m", "plural": "авто́буси" },
+    { "uk": "трамва́й", "en": "tram", "pos": "noun", "gender": "m", "plural": "трамва́ї" },
+    { "uk": "метро́", "en": "underground, metro", "pos": "noun", "gender": "n", "plural": "метро́", "notes": "Never changes: the same form in every case and in the plural." },
+    { "uk": "по́тяг", "en": "train", "pos": "noun", "gender": "m", "plural": "по́тяги" },
+    { "uk": "маши́на", "en": "car; machine", "pos": "noun", "gender": "f", "plural": "маши́ни" },
+    { "uk": "таксі́", "en": "taxi", "pos": "noun", "gender": "n", "plural": "таксі́", "notes": "Never changes: the same form in every case and in the plural." }
+  ]
+}

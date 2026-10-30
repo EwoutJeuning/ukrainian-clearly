@@ -1,0 +1,28 @@
+{
+  "title": "Food and drink",
+  "description": "Everyday food, drinks, meals and cutlery, with gender and plural.",
+  "order": 2,
+  "sources": ["goroh-dictionary", "goroh-usage"],
+  "entries": [
+    { "uk": "хліб", "en": "bread", "pos": "noun", "gender": "m", "notes": "No plural shown: it depends on the meaning (хліба́ “grain crops”, хліби́ “loaves”)." },
+    { "uk": "вода́", "en": "water", "pos": "noun", "gender": "f", "plural": "во́ди", "notes": "The stress moves to the first syllable in the plural." },
+    { "uk": "молоко́", "en": "milk", "pos": "noun", "gender": "n", "notes": "Used in the singular." },
+    { "uk": "ка́ва", "en": "coffee", "pos": "noun", "gender": "f" },
+    { "uk": "чай", "en": "tea", "pos": "noun", "gender": "m", "plural": "чаї́" },
+    { "uk": "сік", "en": "juice", "pos": "noun", "gender": "m", "plural": "соки́", "notes": "The і of сік becomes о in the other forms." },
+    { "uk": "м’я́со", "en": "meat", "pos": "noun", "gender": "n" },
+    { "uk": "ри́ба", "en": "fish", "pos": "noun", "gender": "f", "plural": "ри́би" },
+    { "uk": "сир", "en": "cheese; curd cheese", "pos": "noun", "gender": "m", "plural": "сири́" },
+    { "uk": "яйце́", "en": "egg", "pos": "noun", "gender": "n", "plural": "я́йця", "notes": "The stress moves to the first syllable in the plural." },
+    { "uk": "я́блуко", "en": "apple", "pos": "noun", "gender": "n", "plural": "я́блука" },
+    { "uk": "о́воч", "en": "vegetable", "pos": "noun", "gender": "m", "plural": "о́вочі", "notes": "Mostly met in the plural, о́вочі (vegetables)." },
+    { "uk": "карто́пля", "en": "potatoes", "pos": "noun", "gender": "f", "notes": "A collective noun: one word for potatoes in general, with no plural." },
+    { "uk": "борщ", "en": "borshch (beetroot soup)", "pos": "noun", "gender": "m", "plural": "борщі́" },
+    { "uk": "сніда́нок", "en": "breakfast", "pos": "noun", "gender": "m", "plural": "сніда́нки" },
+    { "uk": "обі́д", "en": "lunch, the midday meal", "pos": "noun", "gender": "m", "plural": "обі́ди", "notes": "Stress matters: о́бід, stressed on the first syllable, is a different word (the rim of a wheel)." },
+    { "uk": "вече́ря", "en": "dinner, supper", "pos": "noun", "gender": "f", "plural": "вече́рі" },
+    { "uk": "виде́лка", "en": "fork", "pos": "noun", "gender": "f", "plural": "виде́лки", "notes": "Usage guides advise against вилка for a table fork." },
+    { "uk": "ніж", "en": "knife", "pos": "noun", "gender": "m", "plural": "ножі́", "notes": "The і of ніж becomes о in the other forms." },
+    { "uk": "ло́жка", "en": "spoon", "pos": "noun", "gender": "f", "plural": "ложки", "notes": "Dictionaries accept the stress on either syllable of the plural, so it is not marked here." }
+  ]
+}
