@@ -10,7 +10,8 @@ const OUT = process.argv[2] ?? 'visual-review-out';
 const BASE = process.argv[3] ?? 'http://localhost:4321';
 mkdirSync(OUT, { recursive: true });
 
-const PAGES = [
+// REVIEW_PAGES (comma-separated paths) replaces the default list for the per-page checks.
+const PAGES = process.env.REVIEW_PAGES ? process.env.REVIEW_PAGES.split(',') : [
   '/',
   '/dev/components/',
   '/grammar/fixture-article/',

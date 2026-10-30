@@ -6,6 +6,7 @@
  *
  * `notes` is an editorial field (research trail, caveats for writers) and is not shown.
  */
+import UkText from './UkText.astro';
 import { getSources, type Source } from '../lib/content';
 
 interface Props {
@@ -32,11 +33,11 @@ const formatDate = (iso: string) =>
           {(s.data.author || s.data.publisher) && (
             <span class="source-list__by">
               {' '}
-              ({[s.data.author, s.data.publisher].filter(Boolean).join(', ')})
+              (<UkText text={[s.data.author, s.data.publisher].filter(Boolean).join(', ')} />)
             </span>
           )}
           <p class="source-list__meta">
-            {LANGUAGE[s.data.language]}. Used for: {s.data.usedFor}. Accessed {formatDate(s.data.accessed)}.
+            {LANGUAGE[s.data.language]}. Used for: <UkText text={s.data.usedFor} />. Accessed {formatDate(s.data.accessed)}.
           </p>
         </li>
       ))}

@@ -3,6 +3,7 @@
  * A topic preview: a gently rounded bordered card, or an editorial row.
  * The whole card is clickable, but only the title is a link (one tab stop).
  */
+import UkText from './UkText.astro';
 interface Props {
   title: string;
   description: string;
@@ -22,7 +23,7 @@ const Heading = `h${headingLevel}` as 'h2' | 'h3' | 'h4';
   <Heading class="topic-preview__title">
     <a href={href}>{title}</a>
   </Heading>
-  <p class="topic-preview__description">{description}</p>
+  <p class="topic-preview__description"><UkText text={description} /></p>
 </div>
 
 <style>

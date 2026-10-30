@@ -21,7 +21,7 @@ const { type = 'info', title } = Astro.props;
 const label = title ?? LABELS[type];
 ---
 
-<aside class:list={['note', `note--${type}`]} aria-label={label}>
+<div class:list={['note', `note--${type}`]} role="note" aria-label={label}>
   <p class="note__label">
     {
       type === 'remember' && (
@@ -52,7 +52,7 @@ const label = title ?? LABELS[type];
   <div class="note__body">
     <slot />
   </div>
-</aside>
+</div>
 
 <style>
   .note {

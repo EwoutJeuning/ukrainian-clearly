@@ -23,7 +23,7 @@ const { title, description, sectionLabel, sectionHref, prerequisites = [] } = As
     )
   }
   <h1><UkText text={title} /></h1>
-  <p class="article-header__lead">{description}</p>
+  <p class="article-header__lead"><UkText text={description} /></p>
   {
     prerequisites.length > 0 && (
       <div class="article-header__prereq">

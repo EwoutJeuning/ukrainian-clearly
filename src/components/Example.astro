@@ -8,6 +8,7 @@
  *
  * `translit` is optional, verified pronunciation support (plan.md A8).
  */
+import UkText from './UkText.astro';
 interface Props {
   uk?: string;
   en?: string;
@@ -31,8 +32,8 @@ const hasNote = Boolean(note) || Astro.slots.has('note');
       </div>
     )
   }
-  <div class="example__en">{en ?? <slot name="en" />}</div>
-  {hasNote && <div class="example__note">{note ?? <slot name="note" />}</div>}
+  <div class="example__en">{en ? <UkText text={en} /> : <slot name="en" />}</div>
+  {hasNote && <div class="example__note">{note ? <UkText text={note} /> : <slot name="note" />}</div>}
 </div>
 
 <style>

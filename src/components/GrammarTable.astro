@@ -25,6 +25,7 @@
  *
  * Styles: src/styles/tables.css (global, shared with vocabulary tables).
  */
+import UkText from './UkText.astro';
 interface Props {
   caption: string;
   headers?: string[];
@@ -62,7 +63,7 @@ const lang = (col: number) => (ukColumns.includes(col) ? 'uk' : undefined);
   {
     !hideCaption && (
       <div id={captionId} class="grammar-table__caption">
-        {caption}
+        <UkText text={caption} />
       </div>
     )
   }
@@ -74,14 +75,14 @@ const lang = (col: number) => (ukColumns.includes(col) ? 'uk' : undefined);
         <table aria-labelledby={hideCaption ? undefined : captionId}>
           {hideCaption && (
             <caption id={captionId} class="visually-hidden">
-              {caption}
+              <UkText text={caption} />
             </caption>
           )}
           {headers && (
             <thead>
               <tr>
                 {headers.map((h) => (
-                  <th scope="col">{h}</th>
+                  <th scope="col"><UkText text={h} /></th>
                 ))}
               </tr>
             </thead>
@@ -92,10 +93,10 @@ const lang = (col: number) => (ukColumns.includes(col) ? 'uk' : undefined);
                 {row.map((cell, col) =>
                   col === 0 && rowHeaders ? (
                     <th scope="row" lang={lang(col)}>
-                      {cell}
+                      {lang(col) ? cell : <UkText text={cell} />}
                     </th>
                   ) : (
-                    <td lang={lang(col)}>{cell}</td>
+                    <td lang={lang(col)}>{lang(col) ? cell : <UkText text={cell} />}</td>
                   ),
                 )}
               </tr>

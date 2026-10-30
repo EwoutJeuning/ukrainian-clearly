@@ -1,5 +1,6 @@
 ---
 /** Vocabulary theme pages: /vocabulary/<theme>/ from the `vocabulary` collection. */
+import UkText from '../../components/UkText.astro';
 import type { GetStaticPaths } from 'astro';
 import PageLayout from '../../layouts/PageLayout.astro';
 import SourceList from '../../components/SourceList.astro';
@@ -75,7 +76,7 @@ const captionId = `vocab-${theme.id}-caption`;
                   </>
                 )}
               </td>
-              <td>{e.notes}</td>
+              <td>{e.notes && <UkText text={e.notes} />}</td>
             </tr>
           ))
         }

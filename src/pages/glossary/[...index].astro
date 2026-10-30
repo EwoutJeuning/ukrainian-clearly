@@ -4,6 +4,7 @@
  * generated when at least one term exists. Each term is anchored by its id:
  * /glossary/#<id>.
  */
+import UkText from '../../components/UkText.astro';
 import type { GetStaticPaths } from 'astro';
 import { render } from 'astro:content';
 import PageLayout from '../../layouts/PageLayout.astro';
@@ -48,7 +49,7 @@ const headings = terms.map((t) => ({ depth: 2, slug: t.id, text: t.data.term }))
               Ukrainian: <span lang="uk">{term.data.ukTerm}</span>
             </p>
           )}
-          <p class="glossary-term__short">{term.data.short}</p>
+          <p class="glossary-term__short"><UkText text={term.data.short} /></p>
           <div class="prose">
             {Content ? <Content /> : paragraphs.map((p) => <p>{p}</p>)}
           </div>
