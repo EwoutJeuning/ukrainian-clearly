@@ -2,7 +2,7 @@
 term: Aspect
 short: "The difference between an imperfective verb (a process or a repeated action) and a perfective verb (a completed action with a result)."
 ukTerm: вид дієсло́ва
-related: [grammar/past-tense, grammar/future-tense]
+related: [grammar/aspect, grammar/past-tense, grammar/future-tense]
 seeAlso: [infinitive, conjugation]
 ---
 
