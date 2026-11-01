@@ -3,6 +3,7 @@ import { glob } from 'astro/loaders';
 import { z } from 'astro/zod';
 import { SECTIONS } from './lib/sections';
 import { stripStress } from './lib/text';
+import { exerciseSet } from './lib/exercises/schema';
 
 /**
  * Content collections (Astro 7 Content Layer).
@@ -95,4 +96,10 @@ const sources = defineCollection({
   }),
 });
 
-export const collections = { articles, vocabulary, glossary, sources };
+/** Practice sets: `src/content/exercises/<slug>.yaml`. Schema and rules: `src/lib/exercises/schema.ts`. */
+const exercises = defineCollection({
+  loader: glob({ base: './src/content/exercises', pattern: '**/*.{yaml,yml}' }),
+  schema: exerciseSet,
+});
+
+export const collections = { articles, vocabulary, glossary, sources, exercises };
