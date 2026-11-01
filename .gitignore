@@ -40,3 +40,4 @@ docs/conventions.md
 
 # Illustration candidates (only chosen images go into src/assets/illustrations/)
 images/candidates/
+.claude/settings.local.json

@@ -1,5 +1,5 @@
 // Visual and accessibility review against a running dev server (plan B4/B19/B20).
-// Usage: node scripts/visual-review.mjs [outDir] [baseUrl]
+// Usage: node scripts/visual-review.mjs [outDir] [baseUrl]   (REVIEW_DEPLOYED=1 for a deployed site)
 // Screenshots and results.json go to outDir (keep it outside the repo).
 import { chromium } from 'playwright';
 import { AxeBuilder } from '@axe-core/playwright';
@@ -21,6 +21,14 @@ const PAGES = process.env.REVIEW_PAGES ? process.env.REVIEW_PAGES.split(',') : [
   '/grammar/',
   '/vocabulary/',
 ];
+// REVIEW_DEPLOYED=1 runs against a deployed site: the dev-only fixture pages are not built,
+// so the shared checks use real pages instead.
+const DEPLOYED = Boolean(process.env.REVIEW_DEPLOYED);
+const ARTICLE = DEPLOYED ? '/grammar/aspect/' : '/grammar/fixture-article/';
+const SHOWCASE = DEPLOYED ? '/start-here/' : '/dev/components/';
+const TABLE_PAGES = DEPLOYED
+  ? ['/grammar/adjective-cases/', '/grammar/aspect/', '/vocabulary/food-and-drink/', '/glossary/']
+  : ['/dev/components/', '/grammar/fixture-article/', '/vocabulary/_fixture-theme/', '/glossary/'];
 const CONFIGS = [
   { name: '360', width: 360, height: 800, dpr: 1 },
   { name: '768', width: 768, height: 1024, dpr: 1 },
@@ -152,7 +160,8 @@ for (const path of PAGES) {
 }
 
 // ---------- fonts via CDP ----------
-{
+// Needs the dev-only /dev/components/ page; skipped on a deployed site.
+if (!DEPLOYED) {
   const { context, page } = await newPage(CONFIGS[2]);
   await load(page, '/dev/components/');
   const cdp = await context.newCDPSession(page);
@@ -193,7 +202,7 @@ for (const path of PAGES) {
 // ---------- keyboard ----------
 for (const cfg of [CONFIGS[0], CONFIGS[2]]) {
   const { context, page } = await newPage(cfg);
-  await load(page, '/grammar/fixture-article/');
+  await load(page, ARTICLE);
   const k = { order: [] };
   const describeFocus = () =>
     page.evaluate(() => {
@@ -218,7 +227,7 @@ for (const cfg of [CONFIGS[0], CONFIGS[2]]) {
       k.afterSkip = await page.evaluate(() => ({ active: document.activeElement.id || document.activeElement.tagName, hash: location.hash }));
       k.afterSkipNextTab = (await page.keyboard.press('Tab'), await describeFocus());
       // Restart from the top for the header order.
-      await load(page, '/grammar/fixture-article/');
+      await load(page, ARTICLE);
       await page.keyboard.press('Tab');
     }
     const clip = (r) => ({ x: Math.max(0, r[0] - 12), y: Math.max(0, r[1] - 12), width: Math.min(r[2] + 24, cfg.width), height: r[3] + 24 });
@@ -227,7 +236,7 @@ for (const cfg of [CONFIGS[0], CONFIGS[2]]) {
     }
   }
   // A button: menu toggle on mobile; the .button in the showcase on desktop.
-  await load(page, '/dev/components/');
+  await load(page, SHOWCASE);
   const btn = page.locator('main .button, main button').first();
   if (await btn.count()) {
     await btn.focus();
@@ -246,7 +255,7 @@ for (const cfg of [CONFIGS[0], CONFIGS[2]]) {
 // ---------- mobile menu ----------
 for (const cfg of [CONFIGS[0], CONFIGS[1], CONFIGS[3]]) {
   const { context, page } = await newPage(cfg);
-  await load(page, '/grammar/fixture-article/');
+  await load(page, ARTICLE);
   const toggle = page.locator('.menu-toggle');
   const m = {};
   m.toggleVisible = await toggle.isVisible();
@@ -300,7 +309,7 @@ for (const cfg of [CONFIGS[0], CONFIGS[1], CONFIGS[3]]) {
 // ---------- TOC anchors / sticky ----------
 for (const cfg of [CONFIGS[0], CONFIGS[2]]) {
   const { context, page } = await newPage(cfg);
-  await load(page, '/grammar/fixture-article/');
+  await load(page, ARTICLE);
   const t = { links: [] };
   const details = page.locator('details.toc--disclosure');
   if (await details.isVisible()) {
@@ -310,12 +319,18 @@ for (const cfg of [CONFIGS[0], CONFIGS[2]]) {
   const sel = t.variant === 'disclosure' ? 'details.toc--disclosure a' : 'nav.toc a';
   const n = await page.locator(sel).count();
   for (let i = 0; i < n; i++) {
-    await load(page, '/grammar/fixture-article/');
+    await load(page, ARTICLE);
     if (t.variant === 'disclosure') await page.locator('details.toc--disclosure summary').click();
     const a = page.locator(sel).nth(i);
     const href = await a.getAttribute('href');
     await a.click();
-    await page.waitForTimeout(800);
+    // Smooth scrolling on a long page can take well over a second; wait until it settles.
+    for (let y = -1, tries = 0; tries < 30; tries++) {
+      await page.waitForTimeout(300);
+      const now = await page.evaluate(() => scrollY);
+      if (now === y) break;
+      y = now;
+    }
     const r = await page.evaluate((id) => {
       const h = document.getElementById(decodeURIComponent(id.slice(1)));
       if (!h) return { missing: true };
@@ -337,7 +352,7 @@ for (const cfg of [CONFIGS[0], CONFIGS[2]]) {
 // ---------- reduced motion ----------
 for (const rm of ['no-preference', 'reduce']) {
   const { context, page } = await newPage(CONFIGS[2], { reducedMotion: rm });
-  await load(page, '/dev/components/');
+  await load(page, SHOWCASE);
   results.motion[rm] = await page.evaluate(() => {
     const out = { scrollBehavior: getComputedStyle(document.documentElement).scrollBehavior, elements: {}, nonZero: [] };
     for (const el of document.querySelectorAll('body *')) {
@@ -355,7 +370,7 @@ for (const rm of ['no-preference', 'reduce']) {
 }
 
 // ---------- tables ----------
-for (const path of ['/dev/components/', '/grammar/fixture-article/', '/vocabulary/_fixture-theme/', '/glossary/']) {
+for (const path of TABLE_PAGES) {
   const { context, page } = await newPage(CONFIGS[0]);
   await load(page, path);
   const cdp = await context.newCDPSession(page);
