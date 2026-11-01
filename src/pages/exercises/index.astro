@@ -1,0 +1,83 @@
+---
+/** Practice hub: /exercises/ (plan.md E6). Lists published (verified) sets. */
+import PageLayout from '../../layouts/PageLayout.astro';
+import UkText from '../../components/UkText.astro';
+import { exerciseUrl, getExerciseSets } from '../../lib/content';
+import { levelLabel, questionTypeLabels } from '../../lib/exercises/pages';
+
+const sets = await getExerciseSets();
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Practice' }];
+---
+
+<PageLayout
+  title="Practice"
+  description="Short Ukrainian practice sets for beginners: greetings and other everyday topics, with answers checked in your browser and an explanation for every question."
+  crumbs={crumbs}
+  currentKey="exercises"
+>
+  <div class="prose">
+    <p>
+      Each set has a few short questions on one topic from the lessons. Choose an answer, check it, and read why it is right.
+      There is no time limit and no score to share: the results stay private to you, and any saved progress stays in this
+      browser.
+    </p>
+    <p>
+      Every set says which lesson to read first. The answers are checked in your browser against answers we wrote and checked
+      against dictionaries and the site's lessons, so they are not a test or a certificate.
+    </p>
+  </div>
+
+  {
+    sets.length > 0 ? (
+      <ul class="set-list">
+        {sets.map((set) => (
+          <li class="set">
+            <h2 class="set__title">
+              <a href={exerciseUrl(set)}>{set.data.topic}</a>
+            </h2>
+            <p class="set__meta">
+              {levelLabel(set.data.level)} · {set.data.questions.length} questions · {questionTypeLabels(set.data.questions)}
+              {set.data.status !== 'verified' && ' · Draft (development only)'}
+            </p>
+            <p class="set__objective">
+              <UkText text={set.data.objective} />
+            </p>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No practice sets are published yet.</p>
+    )
+  }
+</PageLayout>
+
+<style>
+  .set-list {
+    margin: var(--space-8) 0 0;
+    padding: 0;
+    list-style: none;
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .set {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-block: var(--space-6);
+    border-top: 1px solid var(--color-border);
+  }
+
+  .set__title {
+    font-size: var(--text-h3);
+  }
+
+  .set__meta {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+  }
+
+  .set__objective {
+    margin: 0;
+  }
+</style>

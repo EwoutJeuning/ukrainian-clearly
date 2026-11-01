@@ -6,7 +6,7 @@
  */
 import BaseLayout from '../layouts/BaseLayout.astro';
 import TopicPreview from '../components/TopicPreview.astro';
-import { getAvailableSections, getGlossaryTerms } from '../lib/content';
+import { getAvailableSections, getExerciseSets, getGlossaryTerms } from '../lib/content';
 import { SECTION_INFO, sectionPath } from '../lib/sections';
 
 const sections = await getAvailableSections();
@@ -19,6 +19,13 @@ if ((await getGlossaryTerms()).length > 0) {
     title: 'Glossary',
     description: 'Plain-English explanations of the grammar terms used on this site.',
     href: '/glossary/',
+  });
+}
+if ((await getExerciseSets()).length > 0) {
+  previews.push({
+    title: 'Practice',
+    description: 'Short practice sets on beginner topics, with an explanation for every answer.',
+    href: '/exercises/',
   });
 }
 ---

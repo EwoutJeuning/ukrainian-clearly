@@ -16,7 +16,9 @@
     "lint:content": "node scripts/lint-content.mjs",
     "lint:content:self-test": "node scripts/lint-content.mjs --self-test",
     "test:search": "node scripts/test-search.mjs",
-    "verify": "npm run build && npm run check && npm run check:links && npm run check:fonts && npm run lint:content:self-test && npm run lint:content"
+    "test:exercises": "node --test \"tests/exercises/*.test.ts\"",
+    "test:exercises:e2e": "node scripts/test-exercises.mjs",
+    "verify": "npm run build && npm run check && npm run check:links && npm run check:fonts && npm run lint:content:self-test && npm run lint:content && npm run test:exercises"
   },
   "dependencies": {
     "@astrojs/check": "^0.9.12",
@@ -35,6 +37,7 @@
     "harfbuzzjs": "^1.6.4",
     "pagefind": "^1.5.2",
     "playwright": "^1.64.1",
-    "wawoff2": "^2.0.1"
+    "wawoff2": "^2.0.1",
+    "yaml": "^2.9.1"
   }
 }

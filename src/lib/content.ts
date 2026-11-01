@@ -130,6 +130,21 @@ export async function resolveSources(refs: Ref<'sources'>[]): Promise<Source[]> 
   return refs.map((ref) => byId.get(ref.id)).filter((s): s is Source => Boolean(s));
 }
 
+export type ExerciseSetEntry = CollectionEntry<'exercises'>;
+
+/**
+ * Practice sets with public pages: `status: verified` only (plan.md E1).
+ * Drafts are shown in `astro dev` (marked as drafts, noindex) so editors can
+ * try them; production builds never include them.
+ */
+export const getExerciseSets = buildCached(async (): Promise<ExerciseSetEntry[]> =>
+  (await getCollection('exercises'))
+    .filter((s) => import.meta.env.DEV || s.data.status === 'verified')
+    .sort(byOrderThenTitle),
+);
+
+export const exerciseUrl = (set: Pick<ExerciseSetEntry, 'id'>) => `/exercises/${set.id}/`;
+
 /** Sections that will have an index page in this build. */
 export async function getAvailableSections(): Promise<SectionId[]> {
   const articles = await getArticles();
@@ -154,12 +169,14 @@ export interface NavItem {
 export async function getNavigation(): Promise<{ primary: NavItem[]; secondary: NavItem[] }> {
   const available = new Set<string>(await getAvailableSections());
   if ((await getGlossaryTerms()).length > 0) available.add('glossary');
+  if ((await getExerciseSets()).length > 0) available.add('exercises');
   const item = (key: string, label: string): NavItem => ({ key, label, href: `/${key}/` });
   const primary = [
     item('start-here', SECTION_INFO['start-here'].label),
     item('grammar', SECTION_INFO.grammar.label),
     item('sentences', SECTION_INFO.sentences.label),
     item('vocabulary', SECTION_INFO.vocabulary.label),
+    item('exercises', 'Practice'),
   ];
   const secondary = [item('alphabet', SECTION_INFO.alphabet.label), item('glossary', 'Glossary'), item('search', 'Search')];
   available.add('search'); // /search/ always exists

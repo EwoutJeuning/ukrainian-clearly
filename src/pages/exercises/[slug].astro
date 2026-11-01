@@ -1,0 +1,182 @@
+---
+/**
+ * One practice set: /exercises/<slug>/ (plan.md E4, E6). Static: title,
+ * objective, prerequisites, a no-JavaScript message, related lessons and
+ * sources. The Svelte island gets only this set's questions.
+ */
+import type { GetStaticPaths } from 'astro';
+import PageLayout from '../../layouts/PageLayout.astro';
+import ExerciseSet from '../../components/exercises/ExerciseSet.svelte';
+import Note from '../../components/Note.astro';
+import SourceList from '../../components/SourceList.astro';
+import TopicPreview from '../../components/TopicPreview.astro';
+import UkText from '../../components/UkText.astro';
+import { exerciseSitePaths, levelLabel, questionTypeLabels } from '../../lib/exercises/pages';
+import {
+  articleUrl,
+  getArticles,
+  getExerciseSets,
+  resolveArticles,
+  resolveSources,
+  type ExerciseSetEntry,
+} from '../../lib/content';
+import { SECTION_INFO } from '../../lib/sections';
+
+export const getStaticPaths = (async () =>
+  (await getExerciseSets()).map((set) => ({ params: { slug: set.id }, props: { set } }))) satisfies GetStaticPaths;
+
+const { set } = Astro.props as { set: ExerciseSetEntry };
+const { data } = set;
+
+// Every reference must resolve to a published page; fail the build otherwise.
+const prereqArticles = await resolveArticles(data.prerequisites);
+const related = await resolveArticles(data.related);
+const missing = [...data.prerequisites, ...data.related].filter(
+  (ref) => ![...prereqArticles, ...related].some((a) => a.id === ref.id),
+);
+if (missing.length) {
+  throw new Error(`Exercise set "${set.id}" links to ${missing.map((r) => r.id).join(', ')}: a draft or missing article.`);
+}
+const sources = await resolveSources(data.sources);
+const known = await exerciseSitePaths();
+const lessonTitles: Record<string, string> = {};
+for (const q of data.questions) {
+  if (!q.lesson) continue;
+  const page = q.lesson.replace(/#.*$/, '');
+  if (!known.has(page)) throw new Error(`Exercise "${set.id}/${q.id}": lesson ${q.lesson} is not a page on this site.`);
+  const article = (await getArticles()).find((a) => articleUrl(a) === page);
+  if (article) lessonTitles[page] = article.data.title;
+}
+
+const prerequisites = prereqArticles.map((a) => ({ title: a.data.title, href: articleUrl(a) }));
+const lessons = [...new Map([...prereqArticles, ...related].map((a) => [a.id, a])).values()];
+const isDraft = data.status !== 'verified';
+const types = questionTypeLabels(data.questions);
+const crumbs = [{ label: 'Home', href: '/' }, { label: 'Practice', href: '/exercises/' }, { label: data.topic }];
+---
+
+<PageLayout
+  title={data.title}
+  description={data.description}
+  crumbs={crumbs}
+  currentKey="exercises"
+  sectionLabel="Practice"
+  sectionHref="/exercises/"
+  prerequisites={prerequisites}
+  noindex={isDraft}
+>
+  {
+    isDraft && (
+      <Note type="info" title="Draft">
+        <p>This set is a draft. It is shown only in development and is not published.</p>
+      </Note>
+    )
+  }
+
+  <section class="intro" aria-labelledby="objective">
+    <h2 id="objective">What you will practise</h2>
+    <p><UkText text={data.objective} /></p>
+    <p class="intro__meta">
+      {levelLabel(data.level)} · {data.questions.length} questions · {types}
+    </p>
+    <p>
+      Check each answer, read the explanation, and continue. Hints and “Show answer” are there when you need them. Stress
+      marks are optional when you type.
+    </p>
+  </section>
+
+  <noscript>
+    <Note type="info" title="JavaScript needed">
+      <p>
+        These exercises need JavaScript to check your answers. The lessons listed under “Related lessons” and “Read first”
+        explain the same material.
+      </p>
+    </Note>
+  </noscript>
+
+  <div class="island" data-pagefind-ignore>
+    <ExerciseSet client:load setId={set.id} questions={data.questions} lessonTitles={lessonTitles} />
+  </div>
+
+  <div slot="end" class="end-matter">
+    {
+      lessons.length > 0 && (
+        <section class="end-section" aria-labelledby="related-lessons">
+          <h2 id="related-lessons">Related lessons</h2>
+          <div class="related-list">
+            {lessons.map((a) => (
+              <TopicPreview
+                variant="row"
+                title={a.data.title}
+                description={a.data.description}
+                href={articleUrl(a)}
+                label={SECTION_INFO[a.data.section].label}
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
+    {
+      sources.length > 0 && (
+        <section class="end-section" aria-labelledby="sources">
+          <h2 id="sources">Sources</h2>
+          <p class="end-note">
+            The Ukrainian in this set was checked against these references and the site's lessons. It has not been reviewed
+            by a native speaker or teacher.
+          </p>
+          <SourceList sources={sources} />
+        </section>
+      )
+    }
+  </div>
+</PageLayout>
+
+<style>
+  .island {
+    margin-top: var(--space-6);
+  }
+
+  .intro {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+  }
+
+  .intro h2 {
+    font-size: var(--text-h3);
+  }
+
+  .intro p {
+    margin: 0;
+  }
+
+  .intro__meta {
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-text-muted);
+  }
+
+  .end-matter {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+    margin-top: var(--space-8);
+    padding-top: var(--space-12);
+    border-top: 2px solid var(--color-border);
+  }
+
+  .end-section h2 {
+    margin-bottom: var(--space-4);
+    font-size: var(--text-h2);
+  }
+
+  .end-note {
+    margin: 0 0 var(--space-4);
+    color: var(--color-text-muted);
+  }
+
+  .related-list > :global(:last-child) {
+    border-bottom: 1px solid var(--color-border);
+  }
+</style>

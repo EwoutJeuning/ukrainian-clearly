@@ -1,0 +1,153 @@
+# Practice set: Greetings. Schema: src/lib/exercises/schema.ts.
+# Every Ukrainian form below appears on /sentences/greetings/ with the same stress.
+title: 'Practice: greetings'
+description: Practise Ukrainian greetings and goodbyes, asking how someone is, and choosing between the ти and ви forms, with explanations for every answer.
+order: 1
+level: beginner
+topic: Greetings
+objective: Choose a greeting or goodbye that fits the time of day and the person, and ask and answer “How are you?” with the right ти or ви form.
+prerequisites: [sentences/greetings, grammar/pronouns]
+related: [sentences/introductions, sentences/politeness]
+sources: [goroh-dictionary, goroh-usage, pravopys-2026]
+status: verified
+verification:
+  date: '2026-11-01'
+  method: >-
+    Every Ukrainian form is taken from the reviewed Greetings page (/sentences/greetings/) with its stress.
+    Stress rechecked in Горох (Словозміна): приві́т, до́брий, ра́нок, ве́чір, добра́ніч, поба́чення, віта́ю (віта́ти),
+    ма́єш / ма́єте (ма́ти), бува́й / бува́йте (бува́ти), непога́но, до́бре, дя́кую, те́бе.
+    у before в (А у вас?): Pravopys 2026, §23, as cited on the Greetings page.
+    Wrong choices are explained as the page explains them (На добра́ніч is a goodbye; Приві́т and Бува́й go with ти).
+  gaps: []
+questions:
+  - id: informal-hello
+    type: choice
+    prompt: Which greeting is informal, for friends, family and other people you say ти to?
+    choiceLang: uk
+    choices:
+      - id: pryvit
+        text: Приві́т!
+      - id: dobryi-den
+        text: До́брий день!
+        feedback: До́брий день does not show ти or ви, so it suits anyone. It is not the informal one.
+      - id: vitaiu
+        text: Віта́ю!
+        feedback: Віта́ю means “I greet [you]”. Like до́брий день, it does not show ти or ви.
+      - id: dobryi-vechir
+        text: До́брий ве́чір!
+        feedback: До́брий ве́чір (good evening) suits anyone, in the evening.
+    answer: pryvit
+    hint: Three of these suit anyone. One goes only with people you say ти to.
+    explanation: Приві́т means “hi” and is informal. The greetings with до́брий and Віта́ю do not show ти or ви, so they work with everyone.
+    lesson: /sentences/greetings/#привіт-hi
+
+  - id: evening-in-a-shop
+    type: choice
+    prompt: You walk into a shop at eight in the evening. What do you say to the shop assistant?
+    choiceLang: uk
+    choices:
+      - id: na-dobranich
+        text: На добра́ніч!
+        feedback: На добра́ніч means “Good night!” and is a goodbye when someone goes to bed, not a greeting.
+      - id: dobryi-vechir
+        text: До́брий ве́чір!
+      - id: pryvit
+        text: Приві́т!
+        feedback: Приві́т is informal. You would say ви to a shop assistant you do not know.
+      - id: buvaite
+        text: Бува́йте!
+        feedback: Бува́йте is a goodbye (“Bye!”), not a greeting.
+    answer: dobryi-vechir
+    hint: You are arriving, not leaving, and you do not know this person.
+    explanation: In the evening, say hello with До́брий ве́чір! It does not show ти or ви, so it suits a stranger. На добра́ніч is only for saying goodnight.
+    lesson: /sentences/greetings/#common-mistakes-and-limits
+
+  - id: greeting-meanings
+    type: match
+    prompt: Match each Ukrainian phrase with its meaning.
+    leftLang: uk
+    rightLang: en
+    pairs:
+      - id: morning
+        left: До́брий ра́нок!
+        right: Good morning!
+      - id: day
+        left: До́брий день!
+        right: Hello! / Good afternoon!
+      - id: evening
+        left: До́брий ве́чір!
+        right: Good evening!
+      - id: night
+        left: На добра́ніч!
+        right: Good night! (going to bed)
+      - id: goodbye
+        left: До поба́чення!
+        right: Goodbye!
+    rightOrder: [evening, goodbye, morning, night, day]
+    hint: ра́нок is the morning and ве́чір the evening. Two of the phrases are goodbyes.
+    explanation: The greetings are до́брий + a time of day (ра́нок, день, ве́чір). До поба́чення is “until seeing [each other again]”, a goodbye that suits anyone. На добра́ніч is said when someone goes to bed.
+    lesson: /sentences/greetings/#добрий--time-of-day
+
+  - id: how-are-you-vy
+    type: fill
+    prompt: Your neighbour says ви to you, and you say ви to her. Complete the question with the right form of ма́ти (to have).
+    text: До́брий ра́нок! Як ся ___?
+    translation: Good morning! How are you?
+    cue: (ма́ти)
+    answers: [ма́єте]
+    misses:
+      - answer: ма́єш
+        feedback: ма́єш is the ти form. With someone you say ви to, the verb ends in -те.
+      - answer: ма́ти
+        feedback: ма́ти is the dictionary form (to have). The question needs the ви form of the verb.
+    hint: The ви form of ма́ти ends in -те.
+    explanation: Як ся ма́єте? is the ви form, for one person you say ви to or for several people. To someone you say ти to, it is Як ся ма́єш?
+    lesson: /sentences/greetings/#як-ся-маєш
+
+  - id: reply-not-bad
+    type: order
+    prompt: A friend asks Як спра́ви? Put the words in order to say “Not bad” and ask back.
+    translation: Not bad. And you?
+    tokens:
+      - id: tebe
+        text: те́бе?
+      - id: nepohano
+        text: Непога́но.
+      - id: v
+        text: в
+      - id: a
+        text: А
+    answers:
+      - [nepohano, a, v, tebe]
+    hint: Start with the answer, then ask back with А (and).
+    explanation: Непога́но. А в те́бе? is the informal reply on the Greetings page. А в те́бе? literally means “And with you?”; в comes after a vowel and before a consonant.
+    lesson: /sentences/greetings/#answering
+
+  - id: ask-back-u-vas
+    type: fill
+    prompt: Reply to someone you say ви to, and ask back. Type the missing small word, у or в.
+    text: Дя́кую, до́бре. А ___ вас?
+    translation: Fine, thank you. And you?
+    answers: [у]
+    misses:
+      - answer: в
+        feedback: Before a word that starts with в, Ukrainian uses у, so you do not get two в sounds together.
+    hint: Look at the first letter of the next word.
+    explanation: The small word changes between у and в for easier pronunciation. Before в it is у, so А у вас? (compare А в те́бе?).
+    lesson: /sentences/greetings/#answering
+
+  - id: goodbye-vy
+    type: fill
+    prompt: You are leaving your neighbours, whom you call ви. Complete the goodbye with the ви form of Бува́й.
+    text: Теж до́бре, дя́кую. Ну, ___!
+    translation: Fine too, thanks. Well, bye!
+    cue: (Бува́й)
+    answers: [Бува́йте]
+    misses:
+      - answer: Бува́й
+        feedback: Бува́й is said to one person you say ти to. Here you need the ви form.
+      - answer: До поба́чення
+        feedback: До поба́чення is a good goodbye here too, but the task asks for the ви form of Бува́й.
+    hint: Add the ви ending -те.
+    explanation: Бува́йте is the ви form, for one person you say ви to or for several people. Бува́й is for one person you say ти to.
+    lesson: /sentences/greetings/#goodbye-до--until-when
