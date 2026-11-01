@@ -1,0 +1,148 @@
+title: Pronouns and the present tense
+description: "Practise Ukrainian personal pronouns with present-tense verbs: чита́ти, зна́ти, писа́ти, говори́ти, ба́чити and жи́ти, with ти and ви."
+order: 4
+level: beginner
+topic: Pronouns and present tense
+objective: Choose the present-tense ending that matches the subject, and use ти or ви as the situation requires.
+prerequisites: [grammar/pronouns, grammar/present-tense]
+related: [grammar/sentence-structure]
+sources: [goroh-dictionary, ukma-ukrainian-foreign-language]
+status: verified
+verification:
+  date: "2026-11-01"
+  method: "stress: every stress-marked form (113 distinct across the five sets) checked by script against Горох Словозміна paradigms; homograph pages (мене́/ме́не, тебе́/те́бе, обі́д/о́бід, сім’я́/сі́м’я, робо́та/ро́бот) resolved by reading the paradigm slot used; every answer is a present-tense form in the Горох paradigm of its verb and on grammar/present-tense; ти/ви register and plural agreement from grammar/pronouns"
+  gaps: []
+questions:
+  - id: speak-ty
+    type: fill
+    prompt: Put the verb into the present tense.
+    text: Ти ___ украї́нською?
+    translation: Do you speak Ukrainian? (informal, ти)
+    cue: (говори́ти)
+    answers: [гово́риш]
+    misses:
+      - answer: говореш
+        feedback: "Говори́ти is a second-group verb, so the ти ending has и, not е: -иш."
+      - answer: говорить
+        feedback: "Гово́рить is the *he/she/it* form. With ти the ending is -иш."
+    explanation: "Говори́ти is in the second group. Its ти form ends in -иш: ти гово́риш. The stress moves to -во́- in every form except the *I* form говорю́."
+    hint: Second-group verbs have и in the endings.
+    lesson: /grammar/present-tense/#second-group-to-speak
+
+  - id: know-vy
+    type: fill
+    prompt: Put the verb into the present tense.
+    text: Ви ___?
+    translation: Do you know? (formal or plural, ви)
+    cue: (зна́ти)
+    answers: [зна́єте]
+    misses:
+      - answer: знаєш
+        feedback: "Зна́єш is the ти form. Ви always takes the plural ending, even when it means one person."
+      - answer: знаємо
+        feedback: "Зна́ємо is the *we* form, for ми."
+    explanation: "Зна́ти is a first-group verb like чита́ти. Ви takes -єте after a vowel: ви зна́єте. It is the same form for one person addressed politely and for several people."
+    hint: The ви ending of the first group is -ете or -єте.
+    lesson: /grammar/pronouns/#two-words-for-you
+
+  - id: mum-reads
+    type: fill
+    prompt: Put the verb into the present tense.
+    text: Ма́ма ___ кни́гу.
+    translation: Mum is reading a book.
+    cue: (чита́ти)
+    answers: [чита́є]
+    misses:
+      - answer: читаєть
+        feedback: "First-group verbs have no т in the *he/she* form. The ending is just -є: чита́є. The т belongs to the second group (гово́рить)."
+      - answer: читаю
+        feedback: "Чита́ю is the *I* form. Ма́ма is *she*, so you need the *he/she/it* form."
+    explanation: "Ма́ма is a *she* subject. Чита́ти is a first-group verb, so the *he/she/it* form is чита́є, with no т. One present tense covers both “reads” and “is reading”."
+    hint: First-group verbs end in -е or -є in the *he/she/it* form.
+    lesson: /grammar/present-tense/#first-group-to-read
+
+  - id: brother-writes
+    type: fill
+    prompt: Put the verb into the present tense.
+    text: Мій брат ___ кни́гу.
+    translation: My brother is writing a book.
+    cue: (писа́ти)
+    answers: [пи́ше]
+    misses:
+      - answer: писає
+        feedback: "Писа́ти changes its stem in the present tense: с becomes ш in every form. It is not like чита́ти."
+      - answer: пишеть
+        feedback: "Писа́ти is a first-group verb, so the *he/she/it* form has no т."
+    explanation: "In the present tense, the с of писа́ти becomes ш: пиш-. Add the first-group *he* ending -е: пи́ше. The stress moves to the first syllable in every form except пишу́."
+    hint: The stem changes one consonant in the present tense.
+    lesson: /grammar/present-tense/#first-group-with-a-change-to-write
+
+  - id: they-see
+    type: fill
+    prompt: Put the verb into the present tense.
+    text: Вони́ ___ мо́ре.
+    translation: They can see the sea.
+    cue: (ба́чити)
+    answers: [ба́чать]
+    misses:
+      - answer: бачуть
+        feedback: "-уть is the *they* ending of the first group. Ба́чити is in the second group, which has -ать or -ять."
+      - answer: бачите
+        feedback: "Ба́чите is the ви form. Вони́ (they) needs the *they* ending."
+    explanation: "Ба́чити is a second-group verb with fixed stress. Its *they* ending is -ать: вони́ ба́чать. English often says “can see” where Ukrainian uses the plain present."
+    hint: Second-group *they* forms end in -ать or -ять.
+    lesson: /grammar/present-tense/#second-group-to-speak
+
+  - id: i-live
+    type: fill
+    prompt: Put the verb into the present tense.
+    text: Я ___ в Ки́єві.
+    translation: I live in Kyiv.
+    cue: (жи́ти)
+    answers: [живу́]
+    misses:
+      - answer: жию
+        feedback: "Жи́ти has the present stem жив-: the в appears in every present-tense form. Add the *I* ending -у."
+    explanation: "Жи́ти is a first-group verb with the present stem жив-. The *I* ending is -у: я живу́. The stress falls on the ending in every form: живе́ш, живу́ть."
+    hint: The present stem has a consonant that the infinitive does not show.
+    lesson: /grammar/present-tense/#where-the-stress-goes
+
+  - id: pronoun-for-chytaiemo
+    type: choice
+    prompt: Which pronoun goes with this verb form?
+    context: ___ чита́ємо.
+    choiceLang: uk
+    choices:
+      - id: my
+        text: Ми
+      - id: vy
+        text: Ви
+        feedback: "Ви takes -єте: ви чита́єте."
+      - id: vony
+        text: Вони́
+        feedback: "Вони́ takes -ють: вони́ чита́ють."
+      - id: ya
+        text: Я
+        feedback: "Я takes -ю: я чита́ю."
+    answer: my
+    explanation: "-ємо is the *we* ending of the first group after a vowel (пи́шемо shows the other spelling, -емо), so чита́ємо goes with ми: Ми чита́ємо. It means “we read” or “we are reading”."
+    hint: Which person ends in -мо?
+    lesson: /grammar/present-tense/#first-group-to-read
+
+  - id: ty-or-vy-teacher
+    type: choice
+    prompt: You want to ask your teacher whether she knows something. Which question fits?
+    choiceLang: uk
+    choices:
+      - id: vy-znaiete
+        text: Ви зна́єте?
+      - id: ty-znaiesh
+        text: Ти зна́єш?
+        feedback: "Ти is for friends, family and children. To a teacher it can sound rude or overfamiliar."
+      - id: vy-znaiesh
+        text: Ви зна́єш?
+        feedback: "Ви always takes the plural verb ending, even for one person: ви зна́єте."
+    answer: vy-znaiete
+    explanation: "Speak to a teacher with ви, the polite form for one person. Ви always takes the plural ending, so the verb is зна́єте: Ви зна́єте? (formal, one person)."
+    hint: Two things must match, the polite word for *you* and the ending that goes with it.
+    lesson: /grammar/pronouns/#two-words-for-you

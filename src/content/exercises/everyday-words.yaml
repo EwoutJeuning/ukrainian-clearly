@@ -1,0 +1,217 @@
+title: Everyday words
+description: "Match everyday Ukrainian words for food and drink, family, the home and the city with their English meanings, and tell apart look-alike words such as сім’я́ and ім’я́."
+order: 3
+level: beginner
+topic: Everyday vocabulary
+objective: Recognise common words for food, family, the home and the city, and tell apart words that look or sound alike.
+prerequisites: []
+related: [grammar/nouns-and-gender]
+sources: [goroh-dictionary, goroh-usage]
+status: verified
+verification:
+  date: "2026-11-01"
+  method: "stress: every stress-marked form (113 distinct across the five sets) checked by script against Горох Словозміна paradigms; homograph pages (мене́/ме́не, тебе́/те́бе, обі́д/о́бід, сім’я́/сі́м’я, робо́та/ро́бот) resolved by reading the paradigm slot used; words and glosses from the site’s vocabulary themes, each English gloss confirmed on its Горох Переклад page; ви́лка/виде́лка from goroh-usage as recorded in docs/conventions.md; distractor glosses checked so that none is a valid meaning of the target word (обі́д can be “dinner”, so the distractor says “supper, the evening meal”)"
+  gaps: []
+questions:
+  - id: match-food
+    type: match
+    prompt: Match each word with its meaning.
+    leftLang: uk
+    rightLang: en
+    pairs:
+      - id: khlib
+        left: хліб
+        right: bread
+      - id: voda
+        left: вода́
+        right: water
+      - id: moloko
+        left: молоко́
+        right: milk
+      - id: kava
+        left: ка́ва
+        right: coffee
+      - id: syr
+        left: сир
+        right: cheese
+      - id: miaso
+        left: м’я́со
+        right: meat
+    rightOrder: [kava, miaso, khlib, syr, voda, moloko]
+    explanation: "хліб bread, вода́ water, молоко́ milk, ка́ва coffee, сир cheese (also curd cheese), м’я́со meat."
+    hint: Start with the words you can guess from English, such as ка́ва.
+    lesson: /vocabulary/food-and-drink/
+
+  - id: match-family
+    type: match
+    prompt: Match each family word with its meaning.
+    leftLang: uk
+    rightLang: en
+    pairs:
+      - id: mama
+        left: ма́ма
+        right: mum
+      - id: tato
+        left: та́то
+        right: dad
+      - id: brat
+        left: брат
+        right: brother
+      - id: sestra
+        left: сестра́
+        right: sister
+      - id: babusia
+        left: бабу́ся
+        right: grandma
+      - id: didus
+        left: діду́сь
+        right: grandpa
+    rightOrder: [sestra, didus, mama, brat, tato, babusia]
+    explanation: "ма́ма mum, та́то dad, брат brother, сестра́ sister, бабу́ся grandma, діду́сь grandpa."
+    hint: Two of these sound almost like their English meanings.
+    lesson: /vocabulary/family/
+
+  - id: match-home
+    type: match
+    prompt: Match each word for the home with its meaning.
+    leftLang: uk
+    rightLang: en
+    pairs:
+      - id: kimnata
+        left: кімна́та
+        right: room
+      - id: kukhnia
+        left: ку́хня
+        right: kitchen
+      - id: vikno
+        left: вікно́
+        right: window
+      - id: dveri
+        left: две́рі
+        right: door
+      - id: stil
+        left: стіл
+        right: table
+      - id: lizhko
+        left: лі́жко
+        right: bed
+    rightOrder: [lizhko, dveri, kimnata, stil, kukhnia, vikno]
+    explanation: "кімна́та room, ку́хня kitchen, вікно́ window, две́рі door (a plural-only noun: one door or several), стіл table, лі́жко bed."
+    hint: One of these words is always plural in Ukrainian, even for a single object.
+    lesson: /vocabulary/home/
+
+  - id: match-city
+    type: match
+    prompt: Match each place in town with its meaning.
+    leftLang: uk
+    rightLang: en
+    pairs:
+      - id: vulytsia
+        left: ву́лиця
+        right: street
+      - id: apteka
+        left: апте́ка
+        right: pharmacy
+      - id: likarnia
+        left: ліка́рня
+        right: hospital
+      - id: shkola
+        left: шко́ла
+        right: school
+      - id: vokzal
+        left: вокза́л
+        right: railway station
+      - id: zupynka
+        left: зупи́нка
+        right: bus or tram stop
+    rightOrder: [likarnia, zupynka, shkola, vulytsia, vokzal, apteka]
+    explanation: "ву́лиця street, апте́ка pharmacy (chemist's), ліка́рня hospital, шко́ла school, вокза́л railway station, зупи́нка bus or tram stop."
+    hint: Two of these places are about health.
+    lesson: /vocabulary/city-and-transport/
+
+  - id: simia-meaning
+    type: choice
+    prompt: What does this word mean?
+    context: сім’я́
+    choiceLang: en
+    choices:
+      - id: family
+        text: family
+      - id: seed
+        text: seed
+        feedback: "That is сі́м’я, spelled the same but stressed on the first syllable. Сім’я́, with the stress on the end, is the family."
+      - id: name
+        text: name
+        feedback: "That is ім’я́. It looks similar, but has no с at the start."
+      - id: seven
+        text: seven
+        feedback: "That is сім, a one-syllable word. Сім’я́ has two syllables, with the stress on я."
+    answer: family
+    explanation: "Сім’я́, stressed on the last syllable, means “family”. The stress matters: сі́м’я, stressed on the first syllable, is a different word meaning “seed”."
+    hint: Look at where the stress mark is.
+    lesson: /vocabulary/family/
+
+  - id: obid-meaning
+    type: choice
+    prompt: What does this word mean?
+    context: обі́д
+    choiceLang: en
+    choices:
+      - id: lunch
+        text: lunch, the midday meal
+      - id: breakfast
+        text: breakfast
+        feedback: "Breakfast is сніда́нок."
+      - id: dinner
+        text: supper, the evening meal
+        feedback: "The evening meal is вече́ря."
+      - id: meat
+        text: meat
+        feedback: "Meat is м’я́со."
+    answer: lunch
+    explanation: "Обі́д is lunch, the midday meal. The day's meals are сніда́нок (breakfast), обі́д (lunch) and вече́ря (dinner, supper). With the stress on the first syllable, о́бід is a different word, the rim of a wheel."
+    hint: It is one of the three meals of the day.
+    lesson: /vocabulary/food-and-drink/
+
+  - id: fork
+    type: choice
+    prompt: Which word means “fork”, the one you eat with?
+    choiceLang: uk
+    choices:
+      - id: vydelka
+        text: виде́лка
+      - id: nizh
+        text: ніж
+        feedback: "Ніж is a knife."
+      - id: lozhka
+        text: ло́жка
+        feedback: "Ло́жка is a spoon."
+      - id: vylka
+        text: ви́лка
+        feedback: "You will hear ви́лка, but usage guides advise against it for a table fork: it names a forked part of a mechanism. Say виде́лка."
+    answer: vydelka
+    explanation: "Виде́лка is a table fork. Ніж (knife) and ло́жка (spoon) complete the set. Usage guides advise against ви́лка in this meaning."
+    hint: The recommended word is longer than the one you may hear in shops.
+    lesson: /vocabulary/food-and-drink/
+
+  - id: cholovik-meaning
+    type: choice
+    prompt: What does this word mean?
+    context: чолові́к
+    choiceLang: en
+    choices:
+      - id: man
+        text: man; husband
+      - id: person
+        text: person, human being
+        feedback: "That is люди́на, a feminine noun that can refer to anyone."
+      - id: son
+        text: son
+        feedback: "Son is син."
+      - id: wife
+        text: wife
+        feedback: "Wife is дружи́на. Чолові́к is the word for the other partner."
+    answer: man
+    explanation: "Чолові́к means “man”, and also “husband”: мій чолові́к is “my husband”. The word for wife is дружи́на."
+    hint: It has two meanings; one of them is a family word.
+    lesson: /vocabulary/family/

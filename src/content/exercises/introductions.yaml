@@ -1,0 +1,170 @@
+title: Introductions
+description: "Practise introducing yourself in Ukrainian: giving and asking a name with Мене́ звуть, saying where you are from with з, and answering “nice to meet you”."
+order: 2
+level: beginner
+topic: Introductions
+objective: Give your name, ask someone else's in the right register, say where you are from and live, and answer “nice to meet you”.
+prerequisites: [sentences/introductions]
+related: [grammar/pronouns, grammar/prepositions, sentences/greetings]
+sources: [goroh-dictionary, pravopys-2026]
+status: verified
+verification:
+  date: "2026-11-01"
+  method: "stress: every stress-marked form (113 distinct across the five sets) checked by script against Горох Словозміна paradigms; homograph pages (мене́/ме́не, тебе́/те́бе, обі́д/о́бід, сім’я́/сі́м’я, робо́та/ро́бот) resolved by reading the paradigm slot used; sentences, case forms (мене́, вас, мені́, з Кана́ди, зі Льво́ва, в Ки́єві) and register from the reviewed pages sentences/introductions and grammar/pronouns; з/зі and у/в against Pravopys 2026 §23, §25 as cited on that page; word order constrained by the prompt to the page’s own dialogue sentence"
+  gaps: []
+questions:
+  - id: my-name-is-olena
+    type: choice
+    prompt: Which sentence means “My name is Olena”?
+    choiceLang: uk
+    choices:
+      - id: mene-zvut
+        text: Мене́ звуть Оле́на.
+      - id: ya-zvut
+        text: Я звуть Оле́на.
+        feedback: "Звуть is the *they* form: literally “they call”. The person who is called is the object, so it takes the case form мене́ (me), not я (I)."
+      - id: meni-zvut
+        text: Мені́ звуть Оле́на.
+        feedback: "Мені́ means “to me”, as in Мені́ теж (Me too). The person being called is мене́: “they call me”."
+      - id: imia-ye
+        text: Моє́ ім’я́ є Оле́на.
+        feedback: "Ukrainian leaves out the verb here. Say Моє́ ім’я́ — Оле́на, with a dash where English has *is*, or Мене́ звуть Оле́на."
+    answer: mene-zvut
+    explanation: "Мене́ звуть + name literally means “They call me…”. Звуть is the *they* form of зва́ти (to call), and мене́ is the case form of я for the person being called. The name stays in its dictionary form."
+    hint: Literally “they call me…”. Which form of *I* can be the person being called?
+    lesson: /sentences/introductions/#мене-звуть--name
+
+  - id: ask-name-formal
+    type: choice
+    prompt: You meet an older colleague for the first time. How do you ask their name?
+    choiceLang: uk
+    choices:
+      - id: vas
+        text: Як вас звуть?
+      - id: tebe
+        text: Як тебе́ звуть?
+        feedback: "Тебе́ is the form of ти, which is for friends, family and children. Said to a stranger or an older person you don't know well, it can sound rude or overfamiliar."
+      - id: vy
+        text: Як ви звуть?
+        feedback: "Ви is the subject form. In this pattern *you* is the person being called, so it takes the case form вас, just as я becomes мене́."
+      - id: yoho
+        text: Як його́ звуть?
+        feedback: "This asks about someone else: “What's his name?” Його́ is the form of він."
+    answer: vas
+    explanation: "With someone you have just met, or someone older, use ви. In Як … звуть? the person asked about takes a case form, so ви becomes вас: Як вас звуть? (formal or plural: ви)."
+    hint: Which word for *you* is polite, and which form of it goes in the slot of мене́?
+    lesson: /sentences/introductions/#мене-звуть--name
+
+  - id: mene-form
+    type: fill
+    prompt: Fill in the form of я that goes with звуть.
+    text: ___ звуть Тара́с.
+    translation: My name is Taras.
+    cue: (я)
+    answers: [Мене́]
+    misses:
+      - answer: я
+        feedback: "Я is the subject form. Звуть means “they call”, and you are the person being called, so you need the case form for *me*."
+      - answer: мені
+        feedback: "Мені́ means “to me”, as in Мені́ теж. With звуть, the person being called takes a different form."
+    explanation: "Мене́ is the case form of я for the person being called: Мене́ звуть Тара́с, literally “They call me Taras”."
+    hint: The sentence literally says “They call ___ Taras”.
+    lesson: /sentences/introductions/#мене-звуть--name
+
+  - id: from-canada
+    type: fill
+    prompt: Put the country into the right form after з (from).
+    text: Я з ___.
+    translation: I'm from Canada.
+    cue: (Кана́да)
+    answers: [Кана́ди]
+    misses:
+      - answer: Канада
+        feedback: "After з (from) the place name is in the genitive case, so its ending changes. The dictionary form Кана́да does not fit here."
+    explanation: "З (from) takes the genitive case. For Кана́да the genitive ending -и replaces the final -а: Я з Кана́ди."
+    hint: After з, the last vowel of Кана́да is replaced, just like А́нглія → з А́нглії.
+    lesson: /sentences/introductions/#where-you-are-from-з--country-or-city
+
+  - id: zvidky-meaning
+    type: choice
+    prompt: What does this question mean?
+    context: Зві́дки ви?
+    choiceLang: en
+    choices:
+      - id: from
+        text: Where are you from?
+      - id: live
+        text: Where do you live?
+        feedback: "That is Де ви живете́? Зві́дки asks where someone comes *from*."
+      - id: name
+        text: What's your name?
+        feedback: "That is Як вас звуть? Зві́дки is a question word about place."
+      - id: job
+        text: What do you do?
+        feedback: "That is Ким ви працю́єте? Зві́дки is a question word about place."
+    answer: from
+    explanation: "Зві́дки means “where from”, so Зві́дки ви? is “Where are you from?” (formal or plural: ви). The answer uses з + genitive: Я з Кана́ди."
+    hint: The answer to this question often starts with Я з…
+    lesson: /sentences/introductions/#where-you-are-from-з--country-or-city
+
+  - id: from-lviv-live-kyiv
+    type: order
+    prompt: Build the sentence. Keep its parts in the same order as the English.
+    translation: I'm from Lviv, but I live in Kyiv.
+    tokens:
+      - id: zhyvu
+        text: живу́
+      - id: lvova
+        text: Льво́ва,
+      - id: ya
+        text: Я
+      - id: kyievi
+        text: Ки́єві.
+      - id: ale
+        text: але́
+      - id: zi
+        text: зі
+      - id: v
+        text: в
+    answers:
+      - [ya, zi, lvova, ale, zhyvu, v, kyievi]
+    explanation: "Я зі Льво́ва, але́ живу́ в Ки́єві. Зі (from) and в (in) come before the place. The second я is left out, because живу́ already shows that the speaker is *I*. Зі is the form of з before the group льв, and в follows the vowel of живу́."
+    hint: Start with Я. Each preposition goes directly before its place name.
+    lesson: /sentences/introductions/#where-you-live-живу-в--у--place
+
+  - id: me-too
+    type: choice
+    prompt: Kate says “Nice to meet you.” Which reply means “Me too”?
+    context: — Мене́ звуть Кейт. Ду́же приє́мно.
+    choiceLang: uk
+    choices:
+      - id: meni
+        text: Мені́ теж.
+      - id: mene
+        text: Мене́ теж.
+        feedback: "Мене́ is the form in Мене́ звуть (they call me). Here you mean “to me [it is pleasant] too”, which needs мені́."
+      - id: pryvit
+        text: Приві́т.
+        feedback: "Приві́т means “hi”. It starts a conversation; it does not answer “nice to meet you”."
+    answer: meni
+    explanation: "Мені́ теж literally means “To me too [it is pleasant]”. Мені́ is the dative case of я, “to me”. Навза́єм (Likewise) is another good answer."
+    hint: Приє́мно means “[it is] pleasant”. Pleasant *to* whom?
+    lesson: /sentences/introductions/#nice-to-meet-you
+
+  - id: student-woman
+    type: choice
+    prompt: A woman tells you she is a student. What does she say?
+    choiceLang: uk
+    choices:
+      - id: studentka
+        text: Я студе́нтка.
+      - id: student
+        text: Я студе́нт.
+        feedback: "Студе́нт is the masculine form, said by a man. Many job words have a separate feminine form."
+      - id: ye
+        text: Я є студе́нтка.
+        feedback: "Ukrainian leaves out *am* in sentences like this. Я студе́нтка is the whole sentence."
+    answer: studentka
+    explanation: "Я + job, with no word for *am*. Студе́нтка is the feminine form of студе́нт, so a woman says Я студе́нтка."
+    hint: Two things to check, the form of the job word and whether Ukrainian needs a word for *am*.
+    lesson: /sentences/introductions/#я--job

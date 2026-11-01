@@ -1,0 +1,170 @@
+title: Noun gender
+description: "Practise recognising the gender of Ukrainian nouns from their ending, including the common exceptions: та́то, ім’я́, ніч, день and дити́на."
+order: 5
+level: beginner
+topic: Noun gender
+objective: Guess a noun's gender from its dictionary form, and recognise the common nouns where that guess goes wrong.
+prerequisites: [grammar/nouns-and-gender]
+related: [grammar/pronouns, grammar/case-overview]
+sources: [goroh-dictionary, ukma-ukrainian-foreign-language]
+status: verified
+verification:
+  date: "2026-11-01"
+  method: "stress: every stress-marked form (113 distinct across the five sets) checked by script against Горох Словозміна paradigms; homograph pages (мене́/ме́не, тебе́/те́бе, обі́д/о́бід, сім’я́/сі́м’я, робо́та/ро́бот) resolved by reading the paradigm slot used; gender of кни́га, вікно́, та́то, ім’я́, ніч, день, дити́на, люди́на, сіль and plural-only две́рі confirmed on Горох Словозміна; agreement forms мій/моя́/моє́/мої́ from grammar/nouns-and-gender"
+  gaps: []
+questions:
+  - id: knyha
+    type: choice
+    prompt: What gender is this noun? It means “book”.
+    context: кни́га
+    choiceLang: en
+    choices:
+      - id: m
+        text: masculine
+        feedback: "Most masculine nouns end in a consonant, like стіл (table). Кни́га ends in -а."
+      - id: f
+        text: feminine
+      - id: n
+        text: neuter
+        feedback: "Neuter nouns usually end in -о or -е, like вікно́ or мо́ре. Кни́га ends in -а."
+    answer: f
+    explanation: "Кни́га ends in -а, the usual feminine ending, and it is feminine. That is why a book is вона́: — Де кни́га? — Ось вона́."
+    hint: Look at the last letter.
+    lesson: /grammar/nouns-and-gender/#guessing-gender-from-the-ending
+
+  - id: vikno
+    type: choice
+    prompt: What gender is this noun? It means “window”.
+    context: вікно́
+    choiceLang: en
+    choices:
+      - id: m
+        text: masculine
+        feedback: "Masculine nouns usually end in a consonant. Вікно́ ends in -о."
+      - id: f
+        text: feminine
+        feedback: "Feminine nouns usually end in -а or -я. Вікно́ ends in -о."
+      - id: n
+        text: neuter
+    answer: n
+    explanation: "Вікно́ ends in -о, a typical neuter ending, and it is neuter. A window is воно́: — Де вікно́? — Ось воно́."
+    hint: Look at the last letter.
+    lesson: /grammar/nouns-and-gender/#guessing-gender-from-the-ending
+
+  - id: tato
+    type: choice
+    prompt: What gender is this noun? It means “dad”.
+    context: та́то
+    choiceLang: en
+    choices:
+      - id: m
+        text: masculine
+      - id: f
+        text: feminine
+        feedback: "Feminine nouns usually end in -а or -я, and та́то ends in -о. Gender here follows a different rule."
+      - id: n
+        text: neuter
+        feedback: "The ending -о usually means neuter, but some nouns for men in -о are masculine. We say мій та́то, not моє́ та́то."
+    answer: m
+    explanation: "Та́то ends in -о, which usually means neuter, but it is one of the masculine nouns for men that end in a vowel, like ба́тько (father). Words that agree with it are masculine: мій та́то."
+    hint: This is one of the exceptions. Think of who the word names.
+    lesson: /grammar/nouns-and-gender/#masculine-nouns-in--о--а-and--я
+
+  - id: imia
+    type: choice
+    prompt: What gender is this noun? It means “name”.
+    context: ім’я́
+    choiceLang: en
+    choices:
+      - id: m
+        text: masculine
+        feedback: "Masculine nouns usually end in a consonant. Ім’я́ ends in -я."
+      - id: f
+        text: feminine
+        feedback: "Many nouns in -я are feminine, like земля́, but not all. Ім’я́ belongs to a small group of neuter nouns in -я."
+      - id: n
+        text: neuter
+    answer: n
+    explanation: "A final -я can be feminine or neuter. Ім’я́ is neuter, like кошеня́ (kitten): it adds extra letters before most endings (plural імена́). So *my name* is моє́ ім’я́."
+    hint: A final -я can point to two genders.
+    lesson: /grammar/nouns-and-gender/#a-final--я-can-be-feminine-or-neuter
+
+  - id: nich
+    type: choice
+    prompt: What gender is this noun? It means “night”.
+    context: ніч
+    choiceLang: en
+    choices:
+      - id: m
+        text: masculine
+        feedback: "Most nouns ending in a consonant are masculine, but ніч is one of the feminine ones."
+      - id: f
+        text: feminine
+      - id: n
+        text: neuter
+        feedback: "Neuter nouns usually end in -о, -е or -я. Ніч ends in a consonant."
+    answer: f
+    explanation: "Most nouns that end in a consonant are masculine, but some are feminine. Ніч (night) and сіль (salt) are feminine, so the ending alone does not settle it. Learn these with their gender."
+    hint: This is one of the exceptions to the consonant rule.
+    lesson: /grammar/nouns-and-gender/#a-final-consonant-can-be-feminine
+
+  - id: den
+    type: choice
+    prompt: What gender is this noun? It means “day”.
+    context: день
+    choiceLang: en
+    choices:
+      - id: m
+        text: masculine
+      - id: f
+        text: feminine
+        feedback: "Some nouns in -ь are feminine, like сіль (salt), but день is not one of them."
+      - id: n
+        text: neuter
+        feedback: "Neuter nouns usually end in -о, -е or -я. День ends in a consonant followed by ь."
+    answer: m
+    explanation: "День ends in a consonant followed by ь. Most such nouns are masculine, and день is masculine, but a final ь does not settle it: сіль (salt) is feminine. Check in a dictionary when you are not sure."
+    hint: Compare it with сіль. The ending is the same kind, but the gender is not.
+    lesson: /grammar/nouns-and-gender/#a-final-consonant-can-be-feminine
+
+  - id: dytyna
+    type: choice
+    prompt: Дити́на means “child”. Your friend's child is a boy. What is the grammatical gender of the noun?
+    context: дити́на
+    choiceLang: en
+    choices:
+      - id: m
+        text: masculine
+        feedback: "The boy is male, but gender is a property of the word, not of the person meant."
+      - id: f
+        text: feminine
+      - id: n
+        text: neuter
+        feedback: "Дити́на ends in -а, which is not a neuter ending. Its gender does not change with the child either."
+    answer: f
+    explanation: "Gender belongs to the word. Дити́на is a feminine noun whether it refers to a boy or a girl, just as люди́на (person) is feminine whether it means a man or a woman."
+    hint: Does the word change when the person changes?
+    lesson: /grammar/nouns-and-gender/#grammatical-gender-and-the-person-meant
+
+  - id: match-my
+    type: match
+    prompt: Match each noun with the form of “my” that agrees with it.
+    leftLang: uk
+    rightLang: uk
+    pairs:
+      - id: brat
+        left: брат
+        right: мій
+      - id: sestra
+        left: сестра́
+        right: моя́
+      - id: imia
+        left: ім’я́
+        right: моє́
+      - id: dveri
+        left: две́рі
+        right: мої́
+    rightOrder: [imia, dveri, brat, sestra]
+    explanation: "My agrees with the noun's gender: мій брат (masculine), моя́ сестра́ (feminine), моє́ ім’я́ (neuter). Две́рі is plural only, so it takes the plural мої́."
+    hint: One noun has no singular at all.
+    lesson: /grammar/nouns-and-gender/#why-gender-matters
