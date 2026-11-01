@@ -9,7 +9,7 @@ const BASE = `http://localhost:${PORT}`;
 
 // [query, a URL path expected among the first results]
 const CASES = [
-  ['genitive', '/grammar/case-overview/'],
+  ['genitive', '/grammar/genitive/'],
   ['past tense', '/grammar/past-tense/'],
   ['prepositions', '/grammar/prepositions/'],
   ['apostrophe', '/alphabet/'],
