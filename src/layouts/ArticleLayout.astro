@@ -11,6 +11,8 @@ import TopicPreview from '../components/TopicPreview.astro';
 import SourceList from '../components/SourceList.astro';
 import {
   articleUrl,
+  exerciseUrl,
+  getExerciseSets,
   getPrevNext,
   getSectionNav,
   isSectionIndex,
@@ -39,6 +41,14 @@ const prerequisites = (await resolveArticles(data.prerequisites)).map((a) => ({
 const related = await resolveArticles(data.related);
 const sources = await resolveSources(data.sources);
 const { prev, next } = await getPrevNext(article);
+// Practice sets that build on this page: listed as a prerequisite or related
+// lesson, or linked from one of their questions.
+const articleHref = articleUrl(article);
+const practice = (await getExerciseSets()).filter(
+  (s) =>
+    [...s.data.prerequisites, ...s.data.related].some((r) => r.id === article.id) ||
+    s.data.questions.some((q) => q.lesson?.split('#')[0] === articleHref),
+);
 const link = (a?: Article) => (a ? { title: a.data.title, href: articleUrl(a) } : undefined);
 
 const crumbs: Crumb[] = isIndex
@@ -48,6 +58,7 @@ const crumbs: Crumb[] = isIndex
 const hasAfter = Astro.slots.has('after');
 const tocHeadings: TocHeading[] = [
   ...headings,
+  ...(practice.length ? [{ depth: 2, slug: 'practice', text: 'Practice' }] : []),
   ...(sources.length ? [{ depth: 2, slug: 'sources', text: 'Sources' }] : []),
   ...(related.length ? [{ depth: 2, slug: 'related-topics', text: 'Related topics' }] : []),
 ];
@@ -92,6 +103,24 @@ const learningResource = {
   {hasAfter && <slot name="after" />}
 
   <div slot="end" class="end-matter">
+    {
+      practice.length > 0 && (
+        <section class="end-section" aria-labelledby="practice">
+          <h2 id="practice">Practice</h2>
+          <div class="related-list">
+            {practice.map((s) => (
+              <TopicPreview
+                variant="row"
+                title={s.data.title}
+                description={s.data.objective}
+                href={exerciseUrl(s)}
+                label="Practice"
+              />
+            ))}
+          </div>
+        </section>
+      )
+    }
     {
       sources.length > 0 && (
         <section class="end-section" aria-labelledby="sources">
