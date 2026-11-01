@@ -175,6 +175,8 @@
 
   .placed__item {
     display: inline-flex;
+    flex-wrap: wrap;
+    max-width: 100%;
     align-items: center;
     gap: var(--space-1);
     padding: var(--space-1);

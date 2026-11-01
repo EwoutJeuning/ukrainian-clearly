@@ -129,7 +129,7 @@
     const key = responseKey(q, response);
     progress = applyCheck(progress, q.id, result, key);
     checks[q.id] = { result, key };
-    if (result.verdict === 'correct') announce('Correct.');
+    if (result.verdict === 'correct') announce('Correct. The explanation is below.');
     else if (result.verdict === 'incorrect') announce(`Not quite. ${result.feedback ?? 'Try again, or use the hint.'}`);
     else announce(result.feedback ?? 'Answer the question first.');
     keepFocus();
@@ -151,7 +151,10 @@
     checks[q.id] = undefined;
     announcement = '';
     await tick();
-    questionArea?.querySelector<HTMLElement>('input:not([type=hidden]), select, button')?.focus();
+    // The first usable control (a disabled "move earlier" button cannot take focus).
+    questionArea
+      ?.querySelector<HTMLElement>(':is(input:not([type=hidden]), select, button):not(:disabled)')
+      ?.focus();
   }
 
   function onNext() {
@@ -194,8 +197,9 @@
 </script>
 
 <section class="exercise" aria-label="Practice" data-exercise-set={setId} data-ready={mounted ? 'true' : undefined}>
-  <!-- Feedback announcements: short text only, read politely. -->
-  <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-live>{announcement}</p>
+  <!-- Feedback announcements: short text only, read politely. RichText drops the
+       *emphasis* asterisks and marks Ukrainian runs with lang="uk". -->
+  <p class="visually-hidden" aria-live="polite" aria-atomic="true" data-live><RichText text={announcement} /></p>
 
   {#if progress.view === 'question'}
     <div class="exercise__head">

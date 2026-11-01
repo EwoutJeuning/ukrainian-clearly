@@ -58,9 +58,10 @@
       spellcheck="false"
       enterkeyhint="done"
       readonly={locked}
-      aria-describedby="{idPrefix}-translation{q.cue ? ` ${idPrefix}-cue` : ''}"
+      aria-describedby="{idPrefix}-sentence {idPrefix}-translation{q.cue ? ` ${idPrefix}-cue` : ''}"
     />{parts[1]}
   </p>
+  <p class="visually-hidden" id="{idPrefix}-sentence">Sentence: <span lang="uk">{parts[0].trim()} … {parts[1].trim()}</span></p>
   <p class="meta" id="{idPrefix}-translation"><span class="meta__label">Meaning:</span> <RichText text={q.translation} /></p>
   {#if q.cue}
     <p class="meta" id="{idPrefix}-cue"><span class="meta__label">Word to use:</span> <span lang="uk">{q.cue}</span></p>

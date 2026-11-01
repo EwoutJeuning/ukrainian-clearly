@@ -31,18 +31,25 @@
     {@const mark = !locked && result?.pairs ? result.pairs[p.id] : undefined}
     <li class="pair">
       <label class="pair__left" for="{idPrefix}-{p.id}" lang={leftLang}>{p.left}</label>
-      <select id="{idPrefix}-{p.id}" class="pair__select" bind:value={response[p.id]} disabled={locked}>
+      <select
+        id="{idPrefix}-{p.id}"
+        class="pair__select"
+        bind:value={response[p.id]}
+        disabled={locked}
+        aria-invalid={mark === false ? 'true' : undefined}
+        aria-describedby={showAnswer || mark !== undefined ? `${idPrefix}-${p.id}-mark` : undefined}
+      >
         <option value="">Choose…</option>
         {#each q.rightOrder as rid (rid)}
           <option value={rid} lang={rightLang}>{byId.get(rid)?.right}</option>
         {/each}
       </select>
       {#if showAnswer}
-        <span class="mark mark--correct"><Icon name="correct" /><span>Answer: <span lang={rightLang}>{p.right}</span></span></span>
+        <span class="mark mark--correct" id="{idPrefix}-{p.id}-mark"><Icon name="correct" /><span>Answer: <span lang={rightLang}>{p.right}</span></span></span>
       {:else if mark === true}
-        <span class="mark mark--correct"><Icon name="correct" />Right</span>
+        <span class="mark mark--correct" id="{idPrefix}-{p.id}-mark"><Icon name="correct" />Right</span>
       {:else if mark === false}
-        <span class="mark"><Icon name="incorrect" />Not this one</span>
+        <span class="mark" id="{idPrefix}-{p.id}-mark"><Icon name="incorrect" />Not this one</span>
       {/if}
     </li>
   {/each}

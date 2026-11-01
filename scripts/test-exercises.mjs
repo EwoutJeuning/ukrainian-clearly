@@ -98,6 +98,15 @@ try {
     await axe(page, 'set page');
   });
 
+  await step('without JavaScript: the note shows and the inert player is hidden', async () => {
+    const nojs = await browser.newContext({ javaScriptEnabled: false });
+    const p = await nojs.newPage();
+    await p.goto(`${BASE}/exercises/greetings/`);
+    assert(await p.locator('[aria-label="JavaScript needed"]').isVisible(), 'noscript note visible');
+    assert(!(await p.locator('.island').isVisible()), 'player hidden without JavaScript');
+    await nojs.close();
+  });
+
   await step('choice: empty check is not an attempt; wrong answer gets targeted feedback; try again; correct', async () => {
     await button(page, 'Check answer').click();
     await page.locator('[data-feedback="info"]').waitFor();
@@ -177,8 +186,14 @@ try {
     await button(page, 'Next question').click();
   });
 
-  await step('order: show answer marks the question revealed', async () => {
-    await page.getByRole('button', { name: 'Add Непога́но.' }).click();
+  await step('order: wrong order, try again keeps focus in the question; show answer marks it revealed', async () => {
+    for (const w of ['А', 'в', 'те́бе?', 'Непога́но.']) await page.getByRole('button', { name: `Add ${w}` }).click();
+    await button(page, 'Check answer').click();
+    await page.locator('[data-feedback="incorrect"]').waitFor();
+    assert(!(await live(page).innerText()).includes('*'), 'announcement has no markdown asterisks');
+    await button(page, 'Try again').click();
+    assert((await focused(page)).startsWith('button'), `focus stays on a control after Try again (got ${await focused(page)})`);
+    for (const w of ['А', 'в', 'те́бе?']) await page.getByRole('button', { name: `Remove ${w}` }).click();
     await button(page, 'Show answer').click();
     await page.locator('[data-feedback="revealed"]').waitFor();
     assert((await page.locator('[data-feedback="revealed"]').innerText()).includes('Непога́но. А в те́бе?'), 'answer shown');
