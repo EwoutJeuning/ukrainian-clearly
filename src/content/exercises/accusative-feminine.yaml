@@ -1,0 +1,125 @@
+title: "The accusative: feminine nouns in -а and -я"
+description: "A first case pattern: practise the accusative of feminine nouns in -а and -я as the direct object, as in Я чита́ю кни́гу and Ма́ма п’є ка́ву."
+order: 6
+level: beginner
+topic: First case pattern
+objective: "Change a feminine noun in -а or -я to its accusative form (-у or -ю) when it is the direct object of a verb."
+prerequisites: [grammar/case-overview]
+related: [grammar/accusative, grammar/nouns-and-gender, grammar/present-tense]
+sources: [pravopys-2026, goroh-dictionary]
+status: verified
+verification:
+  date: "2026-11-01"
+  method: "stress: every stress-marked form (113 distinct across the five sets) checked by script against Горох Словозміна paradigms; homograph pages (мене́/ме́не, тебе́/те́бе, обі́д/о́бід, сім’я́/сі́м’я, робо́та/ро́бот) resolved by reading the paradigm slot used; accusative -у/-ю of feminine nouns in -а/-я against Pravopys 2026 §71 and grammar/accusative; each answer is the знахідний однини form in its Горох paradigm; sentences from grammar/accusative and grammar/present-tense"
+  gaps: []
+questions:
+  - id: read-book
+    type: fill
+    prompt: Put the noun into the accusative.
+    text: Я чита́ю ___.
+    translation: I'm reading a book.
+    cue: (кни́га)
+    answers: [кни́гу]
+    misses:
+      - answer: книга
+        feedback: "Кни́га is the dictionary form (nominative), used for the subject. Here the book is the direct object, so the ending changes."
+    explanation: "The book is what is being read, the direct object, so it is in the accusative. Feminine nouns in -а change -а to -у: кни́га → кни́гу."
+    hint: Feminine nouns in -а always change in this slot.
+    lesson: /grammar/accusative/#singular-endings
+
+  - id: drink-coffee
+    type: fill
+    prompt: Put the noun into the accusative.
+    text: Ма́ма п’є ___.
+    translation: Mum is drinking coffee.
+    cue: (ка́ва)
+    answers: [ка́ву]
+    misses:
+      - answer: кава
+        feedback: "Ка́ва is the dictionary form. The coffee is the direct object of п’є (is drinking), so it needs the accusative ending."
+    explanation: "Пи́ти (to drink) takes a direct object in the accusative. Ка́ва is feminine in -а, so -а becomes -у: ка́ву."
+    hint: What is being drunk? That word changes its ending.
+    lesson: /grammar/accusative/#after-verbs
+
+  - id: have-sister
+    type: fill
+    prompt: Put the noun into the accusative.
+    text: Я ма́ю ___.
+    translation: I have a sister.
+    cue: (сестра́)
+    answers: [сестру́]
+    misses:
+      - answer: сестра
+        feedback: "Сестра́ is the dictionary form. After ма́ти (to have) the sister is the direct object, so the ending changes."
+    explanation: "Ма́ти (to have) takes the accusative. Сестра́ is feminine in -а: сестра́ → сестру́. A sister is a person, but for feminine nouns in -а that makes no difference: they always take -у."
+    hint: The rule is the same for people and things when the noun is feminine in -а.
+    lesson: /grammar/case-overview/#accusative-the-direct-object
+
+  - id: love-song
+    type: fill
+    prompt: Put the noun into the accusative.
+    text: Ма́ма лю́бить цю ___.
+    translation: Mum loves this song.
+    cue: (пі́сня)
+    answers: [пі́сню]
+    misses:
+      - answer: пісня
+        feedback: "Пі́сня is the dictionary form. The song is the direct object of лю́бить (loves), so it needs the accusative."
+      - answer: пісну
+        feedback: "The ending is the soft partner of -у. After -я, the accusative ending is spelled -ю."
+    explanation: "Feminine nouns in -я change -я to -ю: пі́сня → пі́сню. It is the same ending as -у, spelled to match the soft stem. The word for *this* changes too: ця → цю."
+    hint: Nouns in -я take the soft spelling of the ending.
+    lesson: /grammar/accusative/#singular-endings
+
+  - id: read-newspaper
+    type: fill
+    prompt: Put the noun into the accusative.
+    text: Він чита́є ___.
+    translation: He's reading a newspaper.
+    cue: (газе́та)
+    answers: [газе́ту]
+    misses:
+      - answer: газета
+        feedback: "Газе́та is the dictionary form. Here it is the direct object of чита́є, so -а changes."
+    explanation: "Газе́та is feminine in -а and is the direct object of чита́є (is reading), so it takes -у: газе́ту."
+    hint: Same pattern as кни́га → кни́гу.
+    lesson: /grammar/accusative/#after-verbs
+
+  - id: look-for-job
+    type: choice
+    prompt: Which sentence means “I'm looking for a job”?
+    choiceLang: uk
+    choices:
+      - id: robotu
+        text: Я шука́ю робо́ту.
+      - id: robota
+        text: Я шука́ю робо́та.
+        feedback: "Робо́та is the dictionary form. As the direct object, it needs the accusative: робо́ту."
+      - id: za-robotu
+        text: Я шука́ю за робо́ту.
+        feedback: "English says *look for*, but шука́ти takes its object directly, with no preposition."
+    answer: robotu
+    explanation: "Шука́ти (to look for) takes a direct object in the accusative, with no preposition, although English needs *for*. Робо́та → робо́ту."
+    hint: Does Ukrainian need a word for *for* here?
+    lesson: /grammar/accusative/#after-verbs
+
+  - id: which-unchanged
+    type: choice
+    prompt: In which sentence does the object look exactly like its dictionary form?
+    choiceLang: uk
+    choices:
+      - id: more
+        text: Я ба́чу мо́ре.
+      - id: kavu
+        text: Я п’ю ка́ву.
+        feedback: "Ка́ва is feminine in -а, so it changes: ка́ва → ка́ву."
+      - id: knyhu
+        text: Я чита́ю кни́гу.
+        feedback: "Кни́га is feminine in -а, so it changes: кни́га → кни́гу."
+      - id: pisniu
+        text: Ми слу́хаємо пі́сню.
+        feedback: "Пі́сня is feminine in -я, so it changes: пі́сня → пі́сню."
+    answer: more
+    explanation: "Only some nouns change in the accusative singular. Feminine nouns in -а and -я always change; neuter nouns such as мо́ре (sea) never do. So in Я ба́чу мо́ре the object is the same as the dictionary form."
+    hint: Which of the four nouns is not feminine?
+    lesson: /grammar/accusative/#singular-endings
