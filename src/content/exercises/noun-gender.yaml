@@ -123,8 +123,8 @@ questions:
         text: neuter
         feedback: "Neuter nouns usually end in -о, -е or -я. День ends in a consonant followed by ь."
     answer: m
-    explanation: "День ends in a consonant followed by ь. Most such nouns are masculine, and день is masculine, but a final ь does not settle it: сіль (salt) is feminine. Check in a dictionary when you are not sure."
-    hint: Compare it with сіль. The ending is the same kind, but the gender is not.
+    explanation: "День ends in a consonant followed by ь. Nouns with this ending can be masculine or feminine: день is masculine, but сіль (salt) is feminine. Learn the gender with the noun, or check it in a dictionary."
+    hint: A final ь can belong to more than one gender.
     lesson: /grammar/nouns-and-gender/#a-final-consonant-can-be-feminine
 
   - id: dytyna
@@ -140,7 +140,7 @@ questions:
         text: feminine
       - id: n
         text: neuter
-        feedback: "Дити́на ends in -а, which is not a neuter ending. Its gender does not change with the child either."
+        feedback: "Дити́на is not neuter. It ends in -а like most feminine nouns, and it is feminine whichever child it names."
     answer: f
     explanation: "Gender belongs to the word. Дити́на is a feminine noun whether it refers to a boy or a girl, just as люди́на (person) is feminine whether it means a man or a woman."
     hint: Does the word change when the person changes?

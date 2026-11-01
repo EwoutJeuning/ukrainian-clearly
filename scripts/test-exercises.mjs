@@ -164,6 +164,8 @@ try {
     await input.press('Enter');
     await input.fill('');
     await page.getByRole('button', { name: 'Insert є' }).waitFor();
+    const keys = await page.locator('.helper__keys [lang="uk"]').allInnerTexts();
+    assert(keys.join('') === 'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя’', `letter panel has all 33 letters and the apostrophe (got ${keys.join('')})`);
     await input.pressSequentially('ма');
     await page.getByRole('button', { name: 'Insert є' }).click();
     await input.pressSequentially('те');

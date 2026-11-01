@@ -1,8 +1,8 @@
 <!--
   Fill in the blank: one labelled text input inside the Ukrainian sentence.
   Enter checks the answer (the form's submit); the page never navigates.
-  A small helper inserts і ї є ґ and the apostrophe for people without a
-  Ukrainian keyboard layout.
+  An on-screen panel inserts any of the 33 letters of the Ukrainian alphabet
+  and the apostrophe, for people without a Ukrainian keyboard layout.
 -->
 <script lang="ts">
   import { tick } from 'svelte';
@@ -21,7 +21,8 @@
 
   const parts = $derived(q.text.split('___'));
   const size = $derived(Math.max(4, ...q.answers.map((a) => [...a].length + 2)));
-  const LETTERS = ['і', 'ї', 'є', 'ґ', '’'];
+  // The 33 letters in alphabetical order (Pravopys §4), then the apostrophe.
+  const LETTERS = [...'абвгґдеєжзиіїйклмнопрстуфхцчшщьюя', '’'];
   let input = $state<HTMLInputElement>();
 
   async function insert(ch: string) {
@@ -67,10 +68,9 @@
 </form>
 
 {#if !locked}
-  <div class="helper">
-    <p class="helper__note" id="{idPrefix}-helper">
-      Stress marks are optional. No Ukrainian keyboard? Insert a letter:
-    </p>
+  <p class="helper__note">Stress marks are optional.</p>
+  <details class="helper" open>
+    <summary id="{idPrefix}-helper">Ukrainian letters (no Ukrainian keyboard?)</summary>
     <div class="helper__keys" role="group" aria-labelledby="{idPrefix}-helper">
       {#each LETTERS as ch (ch)}
         <button type="button" class="key" onclick={() => insert(ch)}>
@@ -78,7 +78,7 @@
         </button>
       {/each}
     </div>
-  </div>
+  </details>
 {/if}
 
 <style>
@@ -128,26 +128,38 @@
     font-weight: var(--weight-semibold);
   }
 
-  .helper {
-    margin-top: var(--space-4);
-  }
-
   .helper__note {
-    margin: 0 0 var(--space-2);
+    margin: var(--space-4) 0 0;
     font-size: var(--text-sm);
     color: var(--color-text-muted);
   }
 
-  .helper__keys {
+  .helper {
+    margin-top: var(--space-2);
+  }
+
+  .helper summary {
+    min-height: var(--touch-target);
     display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-2);
+    align-items: center;
+    font-size: var(--text-sm);
+    font-weight: var(--weight-semibold);
+    color: var(--color-blue);
+    cursor: pointer;
+  }
+
+  .helper__keys {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(var(--touch-target), 1fr));
+    gap: var(--space-1);
+    max-width: 40rem;
+    margin-top: var(--space-2);
   }
 
   .key {
     min-width: var(--touch-target);
     min-height: var(--touch-target);
-    padding: var(--space-1) var(--space-3);
+    padding: var(--space-1);
     border: 1px solid var(--color-border-strong);
     border-radius: var(--radius-sm);
     background: var(--color-bg);

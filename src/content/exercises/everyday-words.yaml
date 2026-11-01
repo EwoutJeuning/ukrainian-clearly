@@ -68,7 +68,7 @@ questions:
         right: grandpa
     rightOrder: [sestra, didus, mama, brat, tato, babusia]
     explanation: "ма́ма mum, та́то dad, брат brother, сестра́ sister, бабу́ся grandma, діду́сь grandpa."
-    hint: Two of these sound almost like their English meanings.
+    hint: Some of these sound like their English meanings, such as ма́ма.
     lesson: /vocabulary/family/
 
   - id: match-home
@@ -202,9 +202,9 @@ questions:
     choices:
       - id: man
         text: man; husband
-      - id: person
-        text: person, human being
-        feedback: "That is люди́на, a feminine noun that can refer to anyone."
+      - id: boy
+        text: boy
+        feedback: "A boy is хло́пчик. Чолові́к is a grown man."
       - id: son
         text: son
         feedback: "Son is син."

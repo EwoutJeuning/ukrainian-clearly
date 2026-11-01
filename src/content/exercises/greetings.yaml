@@ -141,8 +141,8 @@ questions:
     prompt: You are leaving your neighbours, whom you call ви. Complete the goodbye with the ви form of Бува́й.
     text: Теж до́бре, дя́кую. Ну, ___!
     translation: Fine too, thanks. Well, bye!
-    cue: (Бува́й)
-    answers: [Бува́йте]
+    cue: (бува́й)
+    answers: [бува́йте]
     misses:
       - answer: Бува́й
         feedback: Бува́й is said to one person you say ти to. Here you need the ви form.
